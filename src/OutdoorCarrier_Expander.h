@@ -20,7 +20,6 @@
 #pragma once
 
 #include <Arduino.h>
-#include <Wire.h>
 
 #include "lib/ioexpander/TCA6424A.h"
 
@@ -62,8 +61,10 @@ public:
     bool begin();
 
     bool pinMode(pin_size_t pin, PinMode direction);
+    
     bool digitalWrite(pin_size_t pin, PinStatus status);
     bool digitalWrite(pin_size_t pin, int status) { return digitalWrite(pin, (PinStatus)status); };
+
     PinStatus digitalRead(pin_size_t pin);
 
 private:
