@@ -22,9 +22,6 @@
 
 bool OutdoorCarrier_IOExpanderClass::begin()
 {
-    Wire.begin();
-    delay(400);
-
     _tca.initialize();
     return _tca.testConnection();
 }
