@@ -22,3 +22,4 @@
 #include "OutdoorCarrier_Power.h"
 #include "OutdoorCarrier_Expander.h"
 #include "OutdoorCarrier_LiquidCrystal.h"
+#include "OutdoorCarrier_Watermarks.h"
