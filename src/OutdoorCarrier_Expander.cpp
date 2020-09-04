@@ -26,6 +26,11 @@ bool OutdoorCarrier_IOExpanderClass::begin()
     return _tca.testConnection();
 }
 
+OutdoorCarrier_IOExpanderClass::operator bool()
+{
+    return _tca.testConnection();
+}
+
 bool OutdoorCarrier_IOExpanderClass::pinMode(pin_size_t pin, PinMode direction)
 {
     if (direction > OUTPUT)

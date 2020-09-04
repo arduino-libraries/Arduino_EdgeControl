@@ -60,6 +60,8 @@ public:
 
     bool begin();
 
+    operator bool();
+
     bool pinMode(pin_size_t pin, PinMode direction);
     
     bool digitalWrite(pin_size_t pin, PinStatus status);
