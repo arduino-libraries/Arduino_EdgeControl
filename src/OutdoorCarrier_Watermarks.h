@@ -22,6 +22,25 @@
 #include <Arduino.h>
 #include "OutdoorCarrier_Expander.h"
 
+enum : pin_size_t {
+    WATERMARKS_CH01 = 0,
+    WATERMARKS_CH02,
+    WATERMARKS_CH03,
+    WATERMARKS_CH04,
+    WATERMARKS_CH05,
+    WATERMARKS_CH06,
+    WATERMARKS_CH07,
+    WATERMARKS_CH08,
+    WATERMARKS_CH09,
+    WATERMARKS_CH10,
+    WATERMARKS_CH11,
+    WATERMARKS_CH12,
+    WATERMARKS_CH13,
+    WATERMARKS_CH14,
+    WATERMARKS_CH15,
+    WATERMARKS_CH16,
+};
+
 class OutdoorCarrier_WatermarksClass {
 public:
     OutdoorCarrier_WatermarksClass() = default;
@@ -43,8 +62,6 @@ public:
 
     PinStatus digitalRead(pin_size_t sensor);
     int analogRead(pin_size_t sensor);
-
-    void pinMode(PinMode mode);
 
 private:    
     bool selectSensor(pin_size_t channel);

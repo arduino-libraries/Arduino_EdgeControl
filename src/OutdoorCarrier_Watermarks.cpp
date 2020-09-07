@@ -35,6 +35,7 @@ void OutdoorCarrier_WatermarksClass::begin()
 
 void OutdoorCarrier_WatermarksClass::enable()
 {
+    Expander.digitalWrite(EXP_05V_INPUT_EN, HIGH);
     Expander.digitalWrite(EXP_WATERMARK_EN, LOW);
 }
 
@@ -98,7 +99,7 @@ void OutdoorCarrier_WatermarksClass::setHighPrecision(bool precision)
 
 bool OutdoorCarrier_WatermarksClass::selectSensor(pin_size_t channel)
 {
-    if (1 > channel > 16)
+    if (0 > channel > 15)
         return false;
 
     if (_channel == channel)
@@ -106,17 +107,15 @@ bool OutdoorCarrier_WatermarksClass::selectSensor(pin_size_t channel)
 
     _channel = channel;
 
-    const auto val { channel - 1 };
-
     Expander.pinMode(EXP_DEMUX_SEL0, OUTPUT);
     Expander.pinMode(EXP_DEMUX_SEL1, OUTPUT);
     Expander.pinMode(EXP_DEMUX_SEL2, OUTPUT);
     Expander.pinMode(EXP_DEMUX_SEL3, OUTPUT);
 
-    Expander.digitalWrite(EXP_DEMUX_SEL0, (val >> 0) & 1 ? HIGH : LOW);
-    Expander.digitalWrite(EXP_DEMUX_SEL1, (val >> 1) & 1 ? HIGH : LOW);
-    Expander.digitalWrite(EXP_DEMUX_SEL2, (val >> 2) & 1 ? HIGH : LOW);
-    Expander.digitalWrite(EXP_DEMUX_SEL3, (val >> 3) & 1 ? HIGH : LOW);
+    Expander.digitalWrite(EXP_DEMUX_SEL0, (_channel >> 0) & 1 ? HIGH : LOW);
+    Expander.digitalWrite(EXP_DEMUX_SEL1, (_channel >> 1) & 1 ? HIGH : LOW);
+    Expander.digitalWrite(EXP_DEMUX_SEL2, (_channel >> 2) & 1 ? HIGH : LOW);
+    Expander.digitalWrite(EXP_DEMUX_SEL3, (_channel >> 3) & 1 ? HIGH : LOW);
 
     return true;
 }
