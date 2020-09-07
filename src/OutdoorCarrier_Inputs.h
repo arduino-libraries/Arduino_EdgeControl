@@ -19,8 +19,40 @@
 
 #pragma once
 
-#include "OutdoorCarrier_Power.h"
-#include "OutdoorCarrier_Expander.h"
-#include "OutdoorCarrier_LiquidCrystal.h"
-#include "OutdoorCarrier_Inputs.h"
-#include "OutdoorCarrier_Watermarks.h"
+#include <Arduino.h>
+
+enum : pin_size_t {
+    INPUTS_05V_CH01 = 0,
+    INPUTS_05V_CH02,
+    INPUTS_05V_CH03,
+    INPUTS_05V_CH04,
+    INPUTS_05V_CH05,
+    INPUTS_05V_CH06,
+    INPUTS_05V_CH07,
+    INPUTS_05V_CH08,
+
+    INPUTS_420mA_CH01 = 8,
+    INPUTS_420mA_CH02,
+    INPUTS_420mA_CH03,
+    INPUTS_420mA_CH04,
+
+    INPUTS_19V_REF = 15,
+};
+
+class OutdoorCarrier_InputsClass {
+public:
+    OutdoorCarrier_InputsClass() = default;
+    ~OutdoorCarrier_InputsClass() = default;
+
+    void begin();
+
+    PinStatus digitalRead(pin_size_t sensor);
+    int analogRead(pin_size_t sensor);
+
+private:
+    bool selectSensor(pin_size_t channel);
+
+    pin_size_t _channel { 0 };
+};
+
+extern OutdoorCarrier_InputsClass Inputs();
