@@ -30,7 +30,13 @@ void OutdoorCarrier_WatermarksClass::begin()
     ::pinMode(SENSOR_CAPTURE, INPUT);
     ::pinMode(SENSOR_CAPTURE_A, INPUT);
 
+    Expander.pinMode(EXP_05V_INPUT_EN, OUTPUT);
     Expander.pinMode(EXP_WATERMARK_EN, OUTPUT);
+
+    Expander.pinMode(EXP_DEMUX_SEL0, OUTPUT);
+    Expander.pinMode(EXP_DEMUX_SEL1, OUTPUT);
+    Expander.pinMode(EXP_DEMUX_SEL2, OUTPUT);
+    Expander.pinMode(EXP_DEMUX_SEL3, OUTPUT);    
 }
 
 void OutdoorCarrier_WatermarksClass::enable()
@@ -106,11 +112,6 @@ bool OutdoorCarrier_WatermarksClass::selectSensor(pin_size_t channel)
         return true;
 
     _channel = channel;
-
-    Expander.pinMode(EXP_DEMUX_SEL0, OUTPUT);
-    Expander.pinMode(EXP_DEMUX_SEL1, OUTPUT);
-    Expander.pinMode(EXP_DEMUX_SEL2, OUTPUT);
-    Expander.pinMode(EXP_DEMUX_SEL3, OUTPUT);
 
     Expander.digitalWrite(EXP_DEMUX_SEL0, (_channel >> 0) & 1 ? HIGH : LOW);
     Expander.digitalWrite(EXP_DEMUX_SEL1, (_channel >> 1) & 1 ? HIGH : LOW);

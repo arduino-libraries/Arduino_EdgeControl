@@ -24,6 +24,12 @@ void OutdoorCarrier_InputsClass::begin()
     ::pinMode(SENSOR_INPUT_ADC, INPUT);
 
     Expander.pinMode(EXP_05V_INPUT_EN, OUTPUT);
+    Expander.pinMode(EXP_WATERMARK_EN, OUTPUT);
+
+    Expander.pinMode(EXP_DEMUX_SEL0, OUTPUT);
+    Expander.pinMode(EXP_DEMUX_SEL1, OUTPUT);
+    Expander.pinMode(EXP_DEMUX_SEL2, OUTPUT);
+    Expander.pinMode(EXP_DEMUX_SEL3, OUTPUT);
 }
 
 void OutdoorCarrier_InputsClass::enable()
@@ -47,11 +53,6 @@ bool OutdoorCarrier_InputsClass::selectSensor(pin_size_t channel)
 
     _channel = channel;
 
-    Expander.pinMode(EXP_DEMUX_SEL0, OUTPUT);
-    Expander.pinMode(EXP_DEMUX_SEL1, OUTPUT);
-    Expander.pinMode(EXP_DEMUX_SEL2, OUTPUT);
-    Expander.pinMode(EXP_DEMUX_SEL3, OUTPUT);
-
     Expander.digitalWrite(EXP_DEMUX_SEL0, (_channel >> 0) & 1 ? HIGH : LOW);
     Expander.digitalWrite(EXP_DEMUX_SEL1, (_channel >> 1) & 1 ? HIGH : LOW);
     Expander.digitalWrite(EXP_DEMUX_SEL2, (_channel >> 2) & 1 ? HIGH : LOW);
@@ -73,3 +74,5 @@ int OutdoorCarrier_InputsClass::analogRead(pin_size_t pin)
 
     return ::analogRead(SENSOR_INPUT_ADC);
 }
+
+OutdoorCarrier_InputsClass Inputs {};

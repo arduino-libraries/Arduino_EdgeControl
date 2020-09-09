@@ -20,6 +20,7 @@
 #pragma once
 
 #include <Arduino.h>
+#include "OutdoorCarrier_Expander.h"
 
 enum : pin_size_t {
     INPUTS_05V_CH01 = 0,
@@ -46,6 +47,9 @@ public:
 
     void begin();
 
+    void enable();
+    void disable();
+
     PinStatus digitalRead(pin_size_t sensor);
     int analogRead(pin_size_t sensor);
 
@@ -55,4 +59,4 @@ private:
     pin_size_t _channel { 0 };
 };
 
-extern OutdoorCarrier_InputsClass Inputs();
+extern OutdoorCarrier_InputsClass Inputs;
