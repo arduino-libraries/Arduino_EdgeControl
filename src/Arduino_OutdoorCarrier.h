@@ -24,3 +24,4 @@
 #include "OutdoorCarrier_LiquidCrystal.h"
 #include "OutdoorCarrier_Inputs.h"
 #include "OutdoorCarrier_Watermarks.h"
+#include "OutdoorCarrier_Latching.h"
