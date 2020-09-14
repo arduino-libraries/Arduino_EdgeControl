@@ -22,19 +22,34 @@
 #include "OutdoorCarrier_Expander.h"
 #include "lib/solidstaterelay/TS13102.h"
 #include <Arduino.h>
+#include <SPI.h>
+
+enum : pin_size_t {
+    RELAY_CH01 = 0,
+    RELAY_CH02 = 4,
+    RELAY_CH03 = 1,
+    RELAY_CH04 = 5,
+};
 
 class OutdoorCarrier_SolidStateRelayClass {
 public:
-    OutdoorCarrier_SolidStateRelayClass() = default;
-    ~OutdoorCarrier_SolidStateRelayClass() = default;
+    OutdoorCarrier_SolidStateRelayClass();
 
-    bool begin();
+    void begin();
 
-    void on();
-    void off();
+    bool on(pin_size_t channel);
+    bool off(pin_size_t channel);
+    bool poll(pin_size_t channel);
 
 private:
-    TS13102Packet _pck {};
-}
+    TS13102Packet _relayPkt;
+
+    // Use a fake SPI to communicate with the Solid State Relays
+    // We need just MOSI. Point MISO and CLK to unused pins
+    MbedSPI _relaySPI;
+
+    bool doRelayCommand(pin_size_t address, TS13102_COMMANDS command);
+    void doSPITransfer();
+};
 
 extern OutdoorCarrier_SolidStateRelayClass Relay;

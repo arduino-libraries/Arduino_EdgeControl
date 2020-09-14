@@ -25,3 +25,4 @@
 #include "OutdoorCarrier_Inputs.h"
 #include "OutdoorCarrier_Watermarks.h"
 #include "OutdoorCarrier_Latching.h"
+#include "OutdoorCarrier_SolidStateRelay.h"
