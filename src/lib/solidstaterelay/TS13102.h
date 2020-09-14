@@ -21,16 +21,30 @@
 
 #include <Arduino.h>
 
+enum TS13102_COMMANDS : uint8_t {
+    TS13102_COMMAND_FIRST = 1,
+    TS13102_COMMAND_OFF_IMMEDIATE = 1,
+    TS13102_COMMAND_OFF_ZERO_CROSSING = 2,
+    TS13102_COMMAND_ON_IMMEDIATE = 3,
+    TS13102_COMMAND_ON_ZERO_CROSSING = 4,
+    TS13102_COMMAND_ON_IMMEDIATE_DITHERING = 5,
+    TS13102_COMMAND_ON_ZERO_CROSSING_DITHERING = 6,
+    TS13102_COMMAND_HEARTBEAT = 7,
+    TS13102_COMMAND_POLL = 15,
+    TS13102_COMMAND_LAST
+};
+
 class TS13102Packet {
 public:
-    TS13102Packet() = default;
-    ~TS13102Packet() = default;
+    TS13102Packet();
 
     bool setAddress(const uint8_t address);
-    bool setCommand(const TS13102_COMMANDS command);
+    bool setCommand(const uint8_t command);
 
     size_t getBytes(uint8_t* out);
+    size_t getWords(uint16_t* out);
     size_t length();
+    size_t lengthWords();
 
 private:
     const uint16_t _reset[3];
@@ -41,4 +55,4 @@ private:
     const uint16_t _any[1];
 
     void toTSBits(const uint8_t n, uint16_t* out, const size_t len) const;
-}
+};

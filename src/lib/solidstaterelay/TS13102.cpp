@@ -19,23 +19,10 @@
 
 #include "TS13102.h"
 
-enum : uint16_t {
+enum TS13102_BITS : uint16_t {
     TS13102_RESET = 0x0000,
-    TS13102_ZERO = 0x0050,
+    TS13102_ZERO = 0x0005,
     TS13102_ONE = 0x0055
-}
-
-enum TS13102_COMMANDS : uint8_t {
-    TS13102_COMMAND_OFF_FIRST = 1,
-    TS13102_COMMAND_OFF_IMMEDIATE = 1,
-    TS13102_COMMAND_OFF_ZERO_CROSSING = 2,
-    TS13102_COMMAND_ON_IMMEDIATE = 3,
-    TS13102_COMMAND_ON_ZERO_CROSSING = 4,
-    TS13102_COMMAND_ON_IMMEDIATE_DITHERING = 5,
-    TS13102_COMMAND_ON_ZERO_CROSSING_DITHERING = 6,
-    TS13102_COMMAND_HEARTBEAT = 7,
-    TS13102_COMMAND_POLL = 15,
-    TS13102_COMMAND_LAST
 };
 
 TS13102Packet::TS13102Packet()
@@ -116,7 +103,44 @@ size_t TS13102Packet::getBytes(uint8_t* out)
     return out - _start;
 }
 
+size_t TS13102Packet::getWords(uint16_t* out)
+{
+    const uint16_t* _start = out;
+    size_t _len;
+
+    _len = sizeof(_reset);
+    memcpy(out, _reset, _len);
+    out += _len / 2;
+
+    _len = sizeof(_preamble);
+    memcpy(out, _preamble, _len);
+    out += _len / 2;
+
+    _len = sizeof(_address);
+    memcpy(out, _address, _len);
+    out += _len / 2;
+
+    _len = sizeof(_command);
+    memcpy(out, _command, _len);
+    out += _len / 2;
+
+    _len = sizeof(_clock);
+    memcpy(out, _clock, _len);
+    out += _len / 2;
+
+    _len = sizeof(_any);
+    memcpy(out, _any, _len);
+    out += _len / 2;
+
+    return out - _start;
+}
+
 size_t TS13102Packet::length()
 {
     return sizeof(TS13102Packet);
+}
+
+size_t TS13102Packet::lengthWords()
+{
+    return sizeof(TS13102Packet) / 2;
 }
