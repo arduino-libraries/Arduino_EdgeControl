@@ -29,23 +29,35 @@ public:
 
     void begin();
 
-    void enable5V();
-    bool status5V();
-    void disable5V();
+    void enableVBat();
+    bool statusVBat();
+    void disableVBat();
+    bool setVBat(bool status) { status ? enableVBat(): disableVBat(); return statusVBat(); };
+    float getVBat(const int adcResolution) const ;
+    float getVBat() const { return getVBat(10); };
 
+    void enable5V() { enableVBat(); };
+    bool status5V() { return statusVBat(); };
+    void disable5V() { disableVBat();  };
+    bool set5V(bool status) { return setVBat(status); };
+
+    void enable12V() { enableVBat(); };
+    bool status12V() { return statusVBat(); };
+    void disable12V() { disableVBat(); };
+    bool set12V(bool status) { return setVBat(status); };
+    
     void enable3V3();
     bool status3V3();
     void disable3V3();
+    bool set3V3(bool status) { status ? enable3V3(): disable3V3(); return status3V3(); };
 
     void enable19V();
     bool status19V();
     void disable19V();
-
-    float getVBat(const int adcResolution) const ;
-    float getVBat() const { return getVBat(10); };
+    bool set19V(bool status) { status ? enable19V(): disable19V(); return status19V(); };
 
 private:
-    bool _status5V;    
+    bool _statusVBat;    
     bool _status3V3;    
     bool _status19V;    
     bool _status12V;    

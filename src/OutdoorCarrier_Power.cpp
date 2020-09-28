@@ -24,25 +24,26 @@ void OutdoorCarrier_PowerClass::begin()
     pinMode(GATED_VBAT_ENABLE, OUTPUT);
     pinMode(GATED_3V3_ENABLE_N, OUTPUT);
     pinMode(GATED_19V_ENABLE, OUTPUT);
+    pinMode(VBAT_PROBE, INPUT);
 }
 
-void OutdoorCarrier_PowerClass::enable5V()
+void OutdoorCarrier_PowerClass::enableVBat()
 {
     digitalWrite(GATED_VBAT_ENABLE, HIGH);
     
-    _status5V = true;
+    _statusVBat = true;
 }
 
-bool OutdoorCarrier_PowerClass::status5V()
+bool OutdoorCarrier_PowerClass::statusVBat()
 {
-    return _status5V;
+    return _statusVBat;
 }
 
-void OutdoorCarrier_PowerClass::disable5V()
+void OutdoorCarrier_PowerClass::disableVBat()
 {
     digitalWrite(GATED_VBAT_ENABLE, LOW);
     
-    _status5V = false;
+    _statusVBat = false;
 }
 
 void OutdoorCarrier_PowerClass::enable3V3()
@@ -66,6 +67,9 @@ void OutdoorCarrier_PowerClass::disable3V3()
 
 void OutdoorCarrier_PowerClass::enable19V()
 {
+    if (!statusVBat())
+        enableVBat();
+        
     digitalWrite(GATED_19V_ENABLE, HIGH);
 
     _status19V = true;
@@ -95,8 +99,8 @@ float OutdoorCarrier_PowerClass::getVBat(const int adcResolution) const
         delay(10);
     }
 
-    float vbat = val * valToV / count / 1.2f / vbatVD;
-    // auto vbat = (float { val / count } * valToV) / vbatVD;    
+    // float vbat = val * valToV / count / 1.2f / vbatVD;
+    auto vbat = (float { val / count } * valToV) / vbatVD;    
 
     return vbat;
 }
