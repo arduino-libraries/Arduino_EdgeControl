@@ -21,6 +21,15 @@
 
 #include <Arduino.h>
 
+enum PowerRail: pin_size_t {
+  PWR_VBAT = 0,
+  PWR_3V3 = 1,
+  PWR_19V = 2,
+  PWR_MKR1 = 3,
+  PWR_MKR2 = 4,
+  PWR_RAILS_SIZE
+};
+
 class OutdoorCarrier_PowerClass {
 
 public:
@@ -29,38 +38,50 @@ public:
 
     void begin();
 
-    void enableVBat();
-    bool statusVBat();
-    void disableVBat();
-    bool setVBat(bool status) { status ? enableVBat(): disableVBat(); return statusVBat(); };
+    void set(const PowerRail rail, const bool status);
+    void set(const pin_size_t rail, const bool status) { set((PowerRail)rail, status); };
+    bool status(PowerRail rail) { return _statuses[rail]; };
+    bool status(pin_size_t rail) { return _statuses[(PowerRail)rail]; };
+    void on(PowerRail rail) { set(rail, true); };
+    void on(pin_size_t rail) { set((PowerRail)rail, true); };
+    void off(PowerRail rail) { set(rail, false); };
+    void off(pin_size_t rail) { set((PowerRail)rail, false); };
+    
     float getVBat(const int adcResolution) const ;
     float getVBat() const { return getVBat(10); };
 
-    void enable5V() { enableVBat(); };
-    bool status5V() { return statusVBat(); };
-    void disable5V() { disableVBat();  };
-    bool set5V(bool status) { return setVBat(status); };
+    [[deprecated]] inline void enableVBat() { on(PWR_VBAT); };
+    [[deprecated]] inline bool statusVBat() { return status(PWR_VBAT); };
+    [[deprecated]] inline void disableVBat() { off(PWR_VBAT); };
+    [[deprecated]] inline bool setVBat(bool st) { set(PWR_VBAT, st); return status(PWR_VBAT); };
 
-    void enable12V() { enableVBat(); };
-    bool status12V() { return statusVBat(); };
-    void disable12V() { disableVBat(); };
-    bool set12V(bool status) { return setVBat(status); };
-    
-    void enable3V3();
-    bool status3V3();
-    void disable3V3();
-    bool set3V3(bool status) { status ? enable3V3(): disable3V3(); return status3V3(); };
+    [[deprecated]] inline void enable5V() { enableVBat(); };
+    [[deprecated]] inline bool status5V() { return statusVBat(); };
+    [[deprecated]] inline void disable5V() { disableVBat();  };
+    [[deprecated]] inline bool set5V(bool st) { return setVBat(st); };
 
-    void enable19V();
-    bool status19V();
-    void disable19V();
-    bool set19V(bool status) { status ? enable19V(): disable19V(); return status19V(); };
+    [[deprecated]] inline void enable12V() { enableVBat(); };
+    [[deprecated]] inline bool status12V() { return statusVBat(); };
+    [[deprecated]] inline void disable12V() { disableVBat(); };
+    [[deprecated]] inline bool set12V(bool st) { return setVBat(st); };
+
+    [[deprecated]] inline void enable3V3() { on(PWR_3V3); };
+    [[deprecated]] inline bool status3V3() { return status(PWR_3V3); };
+    [[deprecated]] inline void disable3V3() { off(PWR_3V3); };
+    [[deprecated]] inline bool set3V3(bool st) { set(PWR_3V3, st); return status(PWR_3V3); };
+
+    [[deprecated]] inline void enable19V() { on(PWR_19V); };
+    [[deprecated]] inline bool status19V() { return status(PWR_19V); };
+    [[deprecated]] inline void disable19V() { off(PWR_19V);  };
+    [[deprecated]] inline bool set19V(bool st) { set(PWR_19V, st); return status(PWR_19V); };
 
 private:
-    bool _statusVBat;    
-    bool _status3V3;    
-    bool _status19V;    
-    bool _status12V;    
+    bool _statusVBat;
+    bool _status3V3;
+    bool _status19V;
+    bool _statusMkr1;
+    bool _statusMkr2;
+    bool _statuses[PWR_RAILS_SIZE];
 };
 
 extern OutdoorCarrier_PowerClass Power;
