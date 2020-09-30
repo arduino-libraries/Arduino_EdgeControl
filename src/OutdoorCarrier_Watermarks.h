@@ -64,6 +64,9 @@ public:
     PinStatus digitalRead(pin_size_t sensor);
     int analogRead(pin_size_t sensor);
 
+    void digitalWrite(pin_size_t sensor, PinStatus status);
+    void analogWrite(pin_size_t sensor, int val);
+
 private:    
     bool selectSensor(pin_size_t channel);
 

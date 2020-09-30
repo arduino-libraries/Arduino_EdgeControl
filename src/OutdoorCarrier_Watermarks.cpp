@@ -142,4 +142,24 @@ int OutdoorCarrier_WatermarksClass::analogRead(pin_size_t pin)
     return ::analogRead(SENSOR_CAPTURE_A);
 }
 
+void OutdoorCarrier_WatermarksClass::digitalWrite(pin_size_t pin, PinStatus status)
+{
+    ::pinMode(SENSOR_CAPTURE, OUTPUT);
+
+    selectSensor(pin);
+
+    ::digitalWrite(SENSOR_CAPTURE, status);
+    ::pinMode(SENSOR_CAPTURE, INPUT);
+}
+
+void OutdoorCarrier_WatermarksClass::analogWrite(pin_size_t pin, int val)
+{
+    ::pinMode(SENSOR_CAPTURE_A, OUTPUT);
+
+    selectSensor(pin);
+
+    ::analogWrite(SENSOR_CAPTURE_A, val);
+    ::pinMode(SENSOR_CAPTURE_A, INPUT);
+}
+
 OutdoorCarrier_WatermarksClass Watermarks {};
