@@ -19,44 +19,49 @@
 
 #include "OutdoorCarrier_SolidStateRelay.h"
 
-OutdoorCarrier_SolidStateRelayClass::OutdoorCarrier_SolidStateRelayClass()
+OutdoorCarrier_SolidStateRelaysClass::OutdoorCarrier_SolidStateRelaysClass()
     : _relaySPI(P1_4, digitalPinToPinName(CMD_TRIAC_1), P1_5)
     , _relayPkt()
 {
 }
 
-void OutdoorCarrier_SolidStateRelayClass::begin()
+void OutdoorCarrier_SolidStateRelaysClass::begin()
 {
     _relaySPI.begin();
 
-    pin_size_t channels[] { RELAY_CH01, RELAY_CH02, RELAY_CH03, RELAY_CH04 };
+    pin_size_t channels[] { RELAYS_CH01, RELAYS_CH02, RELAYS_CH03, RELAYS_CH04 };
 
     for (auto ch : channels)
         off(ch);
 }
 
-bool OutdoorCarrier_SolidStateRelayClass::on(pin_size_t address)
+void OutdoorCarrier_SolidStateRelaysClass::end()
+{
+    _relaySPI.end();
+}
+
+bool OutdoorCarrier_SolidStateRelaysClass::on(pin_size_t address)
 {
     return doRelayCommand(address, TS13102_COMMAND_ON_IMMEDIATE_DITHERING);
 }
 
-bool OutdoorCarrier_SolidStateRelayClass::off(pin_size_t address)
+bool OutdoorCarrier_SolidStateRelaysClass::off(pin_size_t address)
 {
     return doRelayCommand(address, TS13102_COMMAND_OFF_IMMEDIATE);
 }
 
-bool OutdoorCarrier_SolidStateRelayClass::poll(pin_size_t address)
+bool OutdoorCarrier_SolidStateRelaysClass::poll(pin_size_t address)
 {
     return doRelayCommand(address, TS13102_COMMAND_POLL);
 }
 
-bool OutdoorCarrier_SolidStateRelayClass::doRelayCommand(pin_size_t address, TS13102_COMMANDS command)
+bool OutdoorCarrier_SolidStateRelaysClass::doRelayCommand(pin_size_t address, TS13102_COMMANDS command)
 {
     switch (address) {
-    case RELAY_CH01:
-    case RELAY_CH02:
-    case RELAY_CH03:
-    case RELAY_CH04:
+    case RELAYS_CH01:
+    case RELAYS_CH02:
+    case RELAYS_CH03:
+    case RELAYS_CH04:
         _relayPkt.setAddress(address);
         _relayPkt.setCommand(command);
         doSPITransfer();
@@ -68,7 +73,7 @@ bool OutdoorCarrier_SolidStateRelayClass::doRelayCommand(pin_size_t address, TS1
     return true;
 }
 
-void OutdoorCarrier_SolidStateRelayClass::doSPITransfer()
+void OutdoorCarrier_SolidStateRelaysClass::doSPITransfer()
 {
     uint8_t data[sizeof(TS13102Packet)] { 0 };
     auto len = _relayPkt.getBytes(data);
@@ -78,4 +83,4 @@ void OutdoorCarrier_SolidStateRelayClass::doSPITransfer()
     _relaySPI.endTransaction();
 }
 
-OutdoorCarrier_SolidStateRelayClass Relay {};
+OutdoorCarrier_SolidStateRelaysClass Relays {};

@@ -25,17 +25,18 @@
 #include <SPI.h>
 
 enum : pin_size_t {
-    RELAY_CH01 = 0,
-    RELAY_CH02 = 4,
-    RELAY_CH03 = 1,
-    RELAY_CH04 = 5,
+    RELAYS_CH01 = 0,
+    RELAYS_CH02 = 4,
+    RELAYS_CH03 = 1,
+    RELAYS_CH04 = 5,
 };
 
-class OutdoorCarrier_SolidStateRelayClass {
+class OutdoorCarrier_SolidStateRelaysClass {
 public:
-    OutdoorCarrier_SolidStateRelayClass();
+    OutdoorCarrier_SolidStateRelaysClass();
 
     void begin();
+    void end();
 
     bool on(pin_size_t channel);
     bool off(pin_size_t channel);
@@ -52,4 +53,4 @@ private:
     void doSPITransfer();
 };
 
-extern OutdoorCarrier_SolidStateRelayClass Relay;
+extern OutdoorCarrier_SolidStateRelaysClass Relays;
