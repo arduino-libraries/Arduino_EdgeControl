@@ -26,6 +26,12 @@ void OutdoorCarrier_PowerClass::begin()
     pinMode(GATED_19V_ENABLE, OUTPUT);
     pinMode(ON_MKR1, OUTPUT);
     pinMode(ON_MKR2, OUTPUT);
+    
+    digitalWrite(GATED_VBAT_ENABLE, LOW);
+    digitalWrite(GATED_3V3_ENABLE_N, HIGH);
+    digitalWrite(GATED_19V_ENABLE, LOW);
+    digitalWrite(ON_MKR1, LOW);
+    digitalWrite(ON_MKR2, LOW);
 
     pinMode(VBAT_PROBE, INPUT);
 
