@@ -36,7 +36,14 @@ void OutdoorCarrier_WatermarksClass::begin()
     Expander.pinMode(EXP_DEMUX_SEL0, OUTPUT);
     Expander.pinMode(EXP_DEMUX_SEL1, OUTPUT);
     Expander.pinMode(EXP_DEMUX_SEL2, OUTPUT);
-    Expander.pinMode(EXP_DEMUX_SEL3, OUTPUT);    
+    Expander.pinMode(EXP_DEMUX_SEL3, OUTPUT);
+
+    _channel = 16;
+}
+
+void OutdoorCarrier_WatermarksClass::end()
+{
+    _channel = 16;
 }
 
 void OutdoorCarrier_WatermarksClass::enable()

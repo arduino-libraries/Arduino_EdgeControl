@@ -53,6 +53,7 @@ public:
     ~OutdoorCarrier_LatchingClass() = default;
 
     void begin();
+    void end();
 
     void enable();
     void disable();
@@ -64,7 +65,7 @@ public:
 private:
     bool selectSensor(pin_size_t channel);
 
-    pin_size_t _channel { 0 };
+    pin_size_t _channel;
 };
 
 extern OutdoorCarrier_LatchingClass Latching;

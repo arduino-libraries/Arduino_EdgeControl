@@ -28,6 +28,13 @@ void OutdoorCarrier_LatchingClass::begin()
     Expander.pinMode(EXP_PULSE_CNTL1, OUTPUT);
     Expander.pinMode(EXP_PULSE_CNTL2, OUTPUT);
     Expander.pinMode(EXP_PULSE_CNTL3, OUTPUT);
+
+    _channel = 16;
+}
+
+void OutdoorCarrier_LatchingClass::end()
+{
+    _channel = 16;
 }
 
 void OutdoorCarrier_LatchingClass::enable()
@@ -46,7 +53,6 @@ void OutdoorCarrier_LatchingClass::strobe(unsigned int duration)
     delay(duration);
     disable();
 }
-
 
 bool OutdoorCarrier_LatchingClass::selectSensor(pin_size_t channel)
 {
@@ -77,10 +83,15 @@ void OutdoorCarrier_LatchingClass::pulse(pin_size_t channel, PulseDirection dire
 {
     PinStatus status;
 
-    switch(direction) {
-        case POSITIVE: status = LOW; break;
-        case NEGATIVE: status = HIGH; break;
-        default: break;
+    switch (direction) {
+    case POSITIVE:
+        status = LOW;
+        break;
+    case NEGATIVE:
+        status = HIGH;
+        break;
+    default:
+        break;
     }
 
     digitalWrite(channel, status);

@@ -30,7 +30,15 @@ void OutdoorCarrier_InputsClass::begin()
     Expander.pinMode(EXP_DEMUX_SEL1, OUTPUT);
     Expander.pinMode(EXP_DEMUX_SEL2, OUTPUT);
     Expander.pinMode(EXP_DEMUX_SEL3, OUTPUT);
+
+    _channel = 16;
 }
+
+void OutdoorCarrier_InputsClass::end()
+{
+    _channel = 16;
+}
+
 
 void OutdoorCarrier_InputsClass::enable()
 {

@@ -47,6 +47,7 @@ public:
     ~OutdoorCarrier_WatermarksClass() = default;
 
     void begin();
+    void end();
 
     void enable();
     void disable();
@@ -73,7 +74,7 @@ private:
     void fastDischargeMode(PinMode mode);
 
     bool _highPrecision { false } ;
-    pin_size_t _channel { 0 } ;
+    pin_size_t _channel;
 };
 
 extern OutdoorCarrier_WatermarksClass Watermarks;
