@@ -19,38 +19,45 @@
 
 #pragma once
 
-#include "OutdoorCarrier_Expander.h"
-#include "lib/solidstaterelay/TS13102.h"
 #include <Arduino.h>
-#include <SPI.h>
+#include "EdgeControl_Expander.h"
 
 enum : pin_size_t {
-    RELAYS_CH01 = 0,
-    RELAYS_CH02 = 4,
-    RELAYS_CH03 = 1,
-    RELAYS_CH04 = 5,
+    INPUTS_05V_CH01 = 0,
+    INPUTS_05V_CH02,
+    INPUTS_05V_CH03,
+    INPUTS_05V_CH04,
+    INPUTS_05V_CH05,
+    INPUTS_05V_CH06,
+    INPUTS_05V_CH07,
+    INPUTS_05V_CH08,
+
+    INPUTS_420mA_CH01 = 8,
+    INPUTS_420mA_CH02,
+    INPUTS_420mA_CH03,
+    INPUTS_420mA_CH04,
+
+    INPUTS_19V_REF = 15,
 };
 
-class OutdoorCarrier_SolidStateRelaysClass {
+class EdgeControl_InputsClass {
 public:
-    OutdoorCarrier_SolidStateRelaysClass();
+    EdgeControl_InputsClass() = default;
+    ~EdgeControl_InputsClass() = default;
 
     void begin();
     void end();
 
-    bool on(pin_size_t channel);
-    bool off(pin_size_t channel);
-    bool poll(pin_size_t channel);
+    void enable();
+    void disable();
+
+    PinStatus digitalRead(pin_size_t sensor);
+    int analogRead(pin_size_t sensor);
 
 private:
-    TS13102Packet _relayPkt;
+    bool selectSensor(pin_size_t channel);
 
-    // Use a fake SPI to communicate with the Solid State Relays
-    // We need just MOSI. Point MISO and CLK to unused pins
-    MbedSPI _relaySPI;
-
-    bool doRelayCommand(pin_size_t address, TS13102_COMMANDS command);
-    void doSPITransfer();
+    pin_size_t _channel;
 };
 
-extern OutdoorCarrier_SolidStateRelaysClass Relays;
+extern EdgeControl_InputsClass Inputs;

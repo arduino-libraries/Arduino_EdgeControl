@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <mbed.h>
 
-#include <Arduino_OutdoorCarrier.h>
+#include <Arduino_EdgeControl.h>
 #include <RunningMedian.h>
 
 constexpr unsigned int adcResolution { 12 };

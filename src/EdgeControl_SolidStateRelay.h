@@ -19,10 +19,38 @@
 
 #pragma once
 
-#include "OutdoorCarrier_Power.h"
-#include "OutdoorCarrier_Expander.h"
-#include "OutdoorCarrier_LiquidCrystal.h"
-#include "OutdoorCarrier_Inputs.h"
-#include "OutdoorCarrier_Watermarks.h"
-#include "OutdoorCarrier_Latching.h"
-#include "OutdoorCarrier_SolidStateRelay.h"
+#include "EdgeControl_Expander.h"
+#include "lib/solidstaterelay/TS13102.h"
+#include <Arduino.h>
+#include <SPI.h>
+
+enum : pin_size_t {
+    RELAYS_CH01 = 0,
+    RELAYS_CH02 = 4,
+    RELAYS_CH03 = 1,
+    RELAYS_CH04 = 5,
+};
+
+class EdgeControl_SolidStateRelaysClass {
+public:
+    EdgeControl_SolidStateRelaysClass();
+
+    void begin();
+    void end();
+
+    bool on(pin_size_t channel);
+    bool off(pin_size_t channel);
+    bool poll(pin_size_t channel);
+
+private:
+    TS13102Packet _relayPkt;
+
+    // Use a fake SPI to communicate with the Solid State Relays
+    // We need just MOSI. Point MISO and CLK to unused pins
+    MbedSPI _relaySPI;
+
+    bool doRelayCommand(pin_size_t address, TS13102_COMMANDS command);
+    void doSPITransfer();
+};
+
+extern EdgeControl_SolidStateRelaysClass Relays;

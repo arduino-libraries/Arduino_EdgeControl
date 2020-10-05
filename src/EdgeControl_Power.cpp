@@ -17,9 +17,9 @@
   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#include "OutdoorCarrier_Power.h"
+#include "EdgeControl_Power.h"
 
-void OutdoorCarrier_PowerClass::begin()
+void EdgeControl_PowerClass::begin()
 {
     pinMode(GATED_VBAT_ENABLE, OUTPUT);
     pinMode(GATED_3V3_ENABLE_N, OUTPUT);
@@ -39,7 +39,7 @@ void OutdoorCarrier_PowerClass::begin()
         status = false;
 }
 
-void OutdoorCarrier_PowerClass::set(const PowerRail rail, const bool status)
+void EdgeControl_PowerClass::set(const PowerRail rail, const bool status)
 {
     switch (rail) {
     case PWR_VBAT: {
@@ -74,7 +74,7 @@ void OutdoorCarrier_PowerClass::set(const PowerRail rail, const bool status)
     }
 }
 
-float OutdoorCarrier_PowerClass::getVBat(const int adcResolution) const
+float EdgeControl_PowerClass::getVBat(const int adcResolution) const
 {
     constexpr float vbatVD { 100.0f / (100.0f + 475.0f) }; // Voltage Divider on VBAT_PROBE
     float valToV { 3.3f / float { (1 << adcResolution) - 1 } };
@@ -92,4 +92,4 @@ float OutdoorCarrier_PowerClass::getVBat(const int adcResolution) const
     return vbat;
 }
 
-OutdoorCarrier_PowerClass Power {};
+EdgeControl_PowerClass Power {};

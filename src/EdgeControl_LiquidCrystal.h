@@ -1,10 +1,10 @@
-#ifndef OutdoorCarrier_LiquidCrystalClass_h
-#define OutdoorCarrier_LiquidCrystalClass_h
+#ifndef EdgeControl_LiquidCrystalClass_h
+#define EdgeControl_LiquidCrystalClass_h
 
 #include <inttypes.h>
 #include "Print.h"
 #include "Wire.h"
-#include "OutdoorCarrier_Expander.h"
+#include "EdgeControl_Expander.h"
 
 // commands
 #define LCD_CLEARDISPLAY 0x01
@@ -44,9 +44,9 @@
 #define LCD_5x10DOTS 0x04
 #define LCD_5x8DOTS 0x00
 
-class OutdoorCarrier_LiquidCrystalClass : public Print {
+class EdgeControl_LiquidCrystalClass : public Print {
 public:
-  OutdoorCarrier_LiquidCrystalClass(int8_t pwr, uint8_t rs, uint8_t rw, uint8_t enable,
+  EdgeControl_LiquidCrystalClass(int8_t pwr, uint8_t rs, uint8_t rw, uint8_t enable,
 		uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3);
 
   void init(uint8_t fourbitmode, int8_t pwr, uint8_t rs, uint8_t rw, uint8_t enable,
@@ -107,6 +107,6 @@ private:
   uint8_t _row_offsets[4];
 };
 
-extern OutdoorCarrier_LiquidCrystalClass LCD;
+extern EdgeControl_LiquidCrystalClass LCD;
 
 #endif

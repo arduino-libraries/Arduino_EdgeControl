@@ -52,11 +52,11 @@ enum {
     EXP_LCD_RW =            TCA6424A_P27
 };
 
-class OutdoorCarrier_IOExpanderClass {
+class EdgeControl_IOExpanderClass {
 
 public:
-    OutdoorCarrier_IOExpanderClass() = default;
-    ~OutdoorCarrier_IOExpanderClass() = default;
+    EdgeControl_IOExpanderClass() = default;
+    ~EdgeControl_IOExpanderClass() = default;
 
     bool begin();
 
@@ -73,4 +73,4 @@ private:
     TCA6424A _tca {};
 };
 
-extern OutdoorCarrier_IOExpanderClass Expander;
+extern EdgeControl_IOExpanderClass Expander;

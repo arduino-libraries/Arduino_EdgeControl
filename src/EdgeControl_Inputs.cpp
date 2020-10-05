@@ -17,9 +17,9 @@
   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#include "OutdoorCarrier_Inputs.h"
+#include "EdgeControl_Inputs.h"
 
-void OutdoorCarrier_InputsClass::begin()
+void EdgeControl_InputsClass::begin()
 {
     ::pinMode(SENSOR_INPUT_ADC, INPUT);
 
@@ -34,24 +34,24 @@ void OutdoorCarrier_InputsClass::begin()
     _channel = 16;
 }
 
-void OutdoorCarrier_InputsClass::end()
+void EdgeControl_InputsClass::end()
 {
     _channel = 16;
 }
 
 
-void OutdoorCarrier_InputsClass::enable()
+void EdgeControl_InputsClass::enable()
 {
     Expander.digitalWrite(EXP_WATERMARK_EN, HIGH);
     Expander.digitalWrite(EXP_05V_INPUT_EN, LOW);
 }
 
-void OutdoorCarrier_InputsClass::disable()
+void EdgeControl_InputsClass::disable()
 {
     Expander.digitalWrite(EXP_05V_INPUT_EN, HIGH);
 }
 
-bool OutdoorCarrier_InputsClass::selectSensor(pin_size_t channel)
+bool EdgeControl_InputsClass::selectSensor(pin_size_t channel)
 {
     if (0 > channel > 15)
         return false;
@@ -69,18 +69,18 @@ bool OutdoorCarrier_InputsClass::selectSensor(pin_size_t channel)
     return true;
 }
 
-PinStatus OutdoorCarrier_InputsClass::digitalRead(pin_size_t pin)
+PinStatus EdgeControl_InputsClass::digitalRead(pin_size_t pin)
 {
     selectSensor(pin);
 
     return ::digitalRead(SENSOR_INPUT_ADC);
 }
 
-int OutdoorCarrier_InputsClass::analogRead(pin_size_t pin)
+int EdgeControl_InputsClass::analogRead(pin_size_t pin)
 {
     selectSensor(pin);
 
     return ::analogRead(SENSOR_INPUT_ADC);
 }
 
-OutdoorCarrier_InputsClass Inputs {};
+EdgeControl_InputsClass Inputs {};

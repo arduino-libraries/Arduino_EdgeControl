@@ -17,9 +17,9 @@
   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#include "OutdoorCarrier_Latching.h"
+#include "EdgeControl_Latching.h"
 
-void OutdoorCarrier_LatchingClass::begin()
+void EdgeControl_LatchingClass::begin()
 {
     ::pinMode(PULSE_DIRECTION, OUTPUT);
     ::pinMode(PULSE_STROBE, OUTPUT);
@@ -32,29 +32,29 @@ void OutdoorCarrier_LatchingClass::begin()
     _channel = 16;
 }
 
-void OutdoorCarrier_LatchingClass::end()
+void EdgeControl_LatchingClass::end()
 {
     _channel = 16;
 }
 
-void OutdoorCarrier_LatchingClass::enable()
+void EdgeControl_LatchingClass::enable()
 {
     ::digitalWrite(PULSE_STROBE, HIGH);
 }
 
-void OutdoorCarrier_LatchingClass::disable()
+void EdgeControl_LatchingClass::disable()
 {
     ::digitalWrite(PULSE_STROBE, LOW);
 }
 
-void OutdoorCarrier_LatchingClass::strobe(unsigned int duration)
+void EdgeControl_LatchingClass::strobe(unsigned int duration)
 {
     enable();
     delay(duration);
     disable();
 }
 
-bool OutdoorCarrier_LatchingClass::selectSensor(pin_size_t channel)
+bool EdgeControl_LatchingClass::selectSensor(pin_size_t channel)
 {
     if (0 > channel > 15)
         return false;
@@ -72,14 +72,14 @@ bool OutdoorCarrier_LatchingClass::selectSensor(pin_size_t channel)
     return true;
 }
 
-void OutdoorCarrier_LatchingClass::digitalWrite(pin_size_t pin, PinStatus val)
+void EdgeControl_LatchingClass::digitalWrite(pin_size_t pin, PinStatus val)
 {
     selectSensor(pin);
 
     ::digitalWrite(PULSE_DIRECTION, val);
 }
 
-void OutdoorCarrier_LatchingClass::pulse(pin_size_t channel, PulseDirection direction)
+void EdgeControl_LatchingClass::pulse(pin_size_t channel, PulseDirection direction)
 {
     PinStatus status;
 
@@ -97,4 +97,4 @@ void OutdoorCarrier_LatchingClass::pulse(pin_size_t channel, PulseDirection dire
     digitalWrite(channel, status);
 }
 
-OutdoorCarrier_LatchingClass Latching {};
+EdgeControl_LatchingClass Latching {};

@@ -1,4 +1,4 @@
-#include "Arduino_OutdoorCarrier.h"
+#include "Arduino_EdgeControl.h"
 
 #define SSR_POLL
 

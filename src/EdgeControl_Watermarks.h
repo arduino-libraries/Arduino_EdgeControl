@@ -20,7 +20,7 @@
 #pragma once
 
 #include <Arduino.h>
-#include "OutdoorCarrier_Expander.h"
+#include "EdgeControl_Expander.h"
 
 enum : pin_size_t {
     WATERMARKS_CH01 = 0,
@@ -41,10 +41,10 @@ enum : pin_size_t {
     WATERMARKS_CH16,
 };
 
-class OutdoorCarrier_WatermarksClass {
+class EdgeControl_WatermarksClass {
 public:
-    OutdoorCarrier_WatermarksClass() = default;
-    ~OutdoorCarrier_WatermarksClass() = default;
+    EdgeControl_WatermarksClass() = default;
+    ~EdgeControl_WatermarksClass() = default;
 
     void begin();
     void end();
@@ -80,4 +80,4 @@ private:
     pin_size_t _channel;
 };
 
-extern OutdoorCarrier_WatermarksClass Watermarks;
+extern EdgeControl_WatermarksClass Watermarks;

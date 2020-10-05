@@ -1,4 +1,4 @@
-#include "OutdoorCarrier_LiquidCrystal.h"
+#include "EdgeControl_LiquidCrystal.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -23,15 +23,15 @@
 //
 // Note, however, that resetting the Arduino doesn't reset the LCD, so we
 // can't assume that its in that state when a sketch starts (and the
-// OutdoorCarrier_LiquidCrystalClass constructor is called).
+// EdgeControl_LiquidCrystalClass constructor is called).
 
-OutdoorCarrier_LiquidCrystalClass::OutdoorCarrier_LiquidCrystalClass(int8_t pwr, uint8_t rs, uint8_t rw, uint8_t enable,
+EdgeControl_LiquidCrystalClass::EdgeControl_LiquidCrystalClass(int8_t pwr, uint8_t rs, uint8_t rw, uint8_t enable,
 			     uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3)
 {
   init(1, pwr, rs, rw, enable, d0, d1, d2, d3, 0, 0, 0, 0);
 }
 
-void OutdoorCarrier_LiquidCrystalClass::init(uint8_t fourbitmode, int8_t pwr, uint8_t rs, uint8_t rw, uint8_t enable,
+void EdgeControl_LiquidCrystalClass::init(uint8_t fourbitmode, int8_t pwr, uint8_t rs, uint8_t rw, uint8_t enable,
 			 uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3,
 			 uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7)
 {
@@ -56,7 +56,7 @@ void OutdoorCarrier_LiquidCrystalClass::init(uint8_t fourbitmode, int8_t pwr, ui
 
 }
 
-void OutdoorCarrier_LiquidCrystalClass::begin(uint8_t cols, uint8_t lines, uint8_t dotsize) {
+void EdgeControl_LiquidCrystalClass::begin(uint8_t cols, uint8_t lines, uint8_t dotsize) {
   if (lines > 1) {
     _displayfunction |= LCD_2LINE;
   }
@@ -149,7 +149,7 @@ void OutdoorCarrier_LiquidCrystalClass::begin(uint8_t cols, uint8_t lines, uint8
   command(LCD_ENTRYMODESET | _displaymode);
 }
 
-void OutdoorCarrier_LiquidCrystalClass::setRowOffsets(int row0, int row1, int row2, int row3)
+void EdgeControl_LiquidCrystalClass::setRowOffsets(int row0, int row1, int row2, int row3)
 {
   _row_offsets[0] = row0;
   _row_offsets[1] = row1;
@@ -158,19 +158,19 @@ void OutdoorCarrier_LiquidCrystalClass::setRowOffsets(int row0, int row1, int ro
 }
 
 /********** high level commands, for the user! */
-void OutdoorCarrier_LiquidCrystalClass::clear()
+void EdgeControl_LiquidCrystalClass::clear()
 {
   command(LCD_CLEARDISPLAY);  // clear display, set cursor position to zero
   delayMicroseconds(2000);  // this command takes a long time!
 }
 
-void OutdoorCarrier_LiquidCrystalClass::home()
+void EdgeControl_LiquidCrystalClass::home()
 {
   command(LCD_RETURNHOME);  // set cursor position to zero
   delayMicroseconds(2000);  // this command takes a long time!
 }
 
-void OutdoorCarrier_LiquidCrystalClass::setCursor(uint8_t col, uint8_t row)
+void EdgeControl_LiquidCrystalClass::setCursor(uint8_t col, uint8_t row)
 {
   const size_t max_lines = sizeof(_row_offsets) / sizeof(*_row_offsets);
   if ( row >= max_lines ) {
@@ -184,70 +184,70 @@ void OutdoorCarrier_LiquidCrystalClass::setCursor(uint8_t col, uint8_t row)
 }
 
 // Turn the display on/off (quickly)
-void OutdoorCarrier_LiquidCrystalClass::noDisplay() {
+void EdgeControl_LiquidCrystalClass::noDisplay() {
   _displaycontrol &= ~LCD_DISPLAYON;
   command(LCD_DISPLAYCONTROL | _displaycontrol);
 }
-void OutdoorCarrier_LiquidCrystalClass::display() {
+void EdgeControl_LiquidCrystalClass::display() {
   _displaycontrol |= LCD_DISPLAYON;
   command(LCD_DISPLAYCONTROL | _displaycontrol);
 }
 
 // Turns the underline cursor on/off
-void OutdoorCarrier_LiquidCrystalClass::noCursor() {
+void EdgeControl_LiquidCrystalClass::noCursor() {
   _displaycontrol &= ~LCD_CURSORON;
   command(LCD_DISPLAYCONTROL | _displaycontrol);
 }
-void OutdoorCarrier_LiquidCrystalClass::cursor() {
+void EdgeControl_LiquidCrystalClass::cursor() {
   _displaycontrol |= LCD_CURSORON;
   command(LCD_DISPLAYCONTROL | _displaycontrol);
 }
 
 // Turn on and off the blinking cursor
-void OutdoorCarrier_LiquidCrystalClass::noBlink() {
+void EdgeControl_LiquidCrystalClass::noBlink() {
   _displaycontrol &= ~LCD_BLINKON;
   command(LCD_DISPLAYCONTROL | _displaycontrol);
 }
-void OutdoorCarrier_LiquidCrystalClass::blink() {
+void EdgeControl_LiquidCrystalClass::blink() {
   _displaycontrol |= LCD_BLINKON;
   command(LCD_DISPLAYCONTROL | _displaycontrol);
 }
 
 // These commands scroll the display without changing the RAM
-void OutdoorCarrier_LiquidCrystalClass::scrollDisplayLeft(void) {
+void EdgeControl_LiquidCrystalClass::scrollDisplayLeft(void) {
   command(LCD_CURSORSHIFT | LCD_DISPLAYMOVE | LCD_MOVELEFT);
 }
-void OutdoorCarrier_LiquidCrystalClass::scrollDisplayRight(void) {
+void EdgeControl_LiquidCrystalClass::scrollDisplayRight(void) {
   command(LCD_CURSORSHIFT | LCD_DISPLAYMOVE | LCD_MOVERIGHT);
 }
 
 // This is for text that flows Left to Right
-void OutdoorCarrier_LiquidCrystalClass::leftToRight(void) {
+void EdgeControl_LiquidCrystalClass::leftToRight(void) {
   _displaymode |= LCD_ENTRYLEFT;
   command(LCD_ENTRYMODESET | _displaymode);
 }
 
 // This is for text that flows Right to Left
-void OutdoorCarrier_LiquidCrystalClass::rightToLeft(void) {
+void EdgeControl_LiquidCrystalClass::rightToLeft(void) {
   _displaymode &= ~LCD_ENTRYLEFT;
   command(LCD_ENTRYMODESET | _displaymode);
 }
 
 // This will 'right justify' text from the cursor
-void OutdoorCarrier_LiquidCrystalClass::autoscroll(void) {
+void EdgeControl_LiquidCrystalClass::autoscroll(void) {
   _displaymode |= LCD_ENTRYSHIFTINCREMENT;
   command(LCD_ENTRYMODESET | _displaymode);
 }
 
 // This will 'left justify' text from the cursor
-void OutdoorCarrier_LiquidCrystalClass::noAutoscroll(void) {
+void EdgeControl_LiquidCrystalClass::noAutoscroll(void) {
   _displaymode &= ~LCD_ENTRYSHIFTINCREMENT;
   command(LCD_ENTRYMODESET | _displaymode);
 }
 
 // Allows us to fill the first 8 CGRAM locations
 // with custom characters
-void OutdoorCarrier_LiquidCrystalClass::createChar(uint8_t location, uint8_t charmap[]) {
+void EdgeControl_LiquidCrystalClass::createChar(uint8_t location, uint8_t charmap[]) {
   location &= 0x7; // we only have 8 locations 0-7
   command(LCD_SETCGRAMADDR | (location << 3));
   for (int i=0; i<8; i++) {
@@ -257,11 +257,11 @@ void OutdoorCarrier_LiquidCrystalClass::createChar(uint8_t location, uint8_t cha
 
 /*********** mid level commands, for sending data/cmds */
 
-inline void OutdoorCarrier_LiquidCrystalClass::command(uint8_t value) {
+inline void EdgeControl_LiquidCrystalClass::command(uint8_t value) {
   send(value, LOW);
 }
 
-inline size_t OutdoorCarrier_LiquidCrystalClass::write(uint8_t value) {
+inline size_t EdgeControl_LiquidCrystalClass::write(uint8_t value) {
   send(value, HIGH);
   return 1; // assume sucess
 }
@@ -269,7 +269,7 @@ inline size_t OutdoorCarrier_LiquidCrystalClass::write(uint8_t value) {
 /************ low level data pushing commands **********/
 
 // write either command or data, with automatic 4/8-bit selection
-void OutdoorCarrier_LiquidCrystalClass::send(uint8_t value, uint8_t mode) {
+void EdgeControl_LiquidCrystalClass::send(uint8_t value, uint8_t mode) {
   Expander.digitalWrite(_rs_pin, mode);
 
   // if there is a RW pin indicated, set it low to Write
@@ -285,7 +285,7 @@ void OutdoorCarrier_LiquidCrystalClass::send(uint8_t value, uint8_t mode) {
   }
 }
 
-void OutdoorCarrier_LiquidCrystalClass::pulseEnable(void) {
+void EdgeControl_LiquidCrystalClass::pulseEnable(void) {
   Expander.digitalWrite(_enable_pin, LOW);
   delayMicroseconds(1);    
   Expander.digitalWrite(_enable_pin, HIGH);
@@ -294,7 +294,7 @@ void OutdoorCarrier_LiquidCrystalClass::pulseEnable(void) {
   delayMicroseconds(100);   // commands need > 37us to settle
 }
 
-void OutdoorCarrier_LiquidCrystalClass::write4bits(uint8_t value) {
+void EdgeControl_LiquidCrystalClass::write4bits(uint8_t value) {
   for (int i = 0; i < 4; i++) {
     Expander.digitalWrite(_data_pins[i], (value >> i) & 0x01);
   }
@@ -302,7 +302,7 @@ void OutdoorCarrier_LiquidCrystalClass::write4bits(uint8_t value) {
   pulseEnable();
 }
 
-void OutdoorCarrier_LiquidCrystalClass::write8bits(uint8_t value) {
+void EdgeControl_LiquidCrystalClass::write8bits(uint8_t value) {
   for (int i = 0; i < 8; i++) {
     Expander.digitalWrite(_data_pins[i], (value >> i) & 0x01);
   }
@@ -310,16 +310,16 @@ void OutdoorCarrier_LiquidCrystalClass::write8bits(uint8_t value) {
   pulseEnable();
 }
 
-void OutdoorCarrier_LiquidCrystalClass::backlight()
+void EdgeControl_LiquidCrystalClass::backlight()
 {
   Expander.pinMode(EXP_LCD_BACKLIGHT, OUTPUT);
   Expander.digitalWrite(EXP_LCD_BACKLIGHT, HIGH);
 }
 
-void OutdoorCarrier_LiquidCrystalClass::noBacklight()
+void EdgeControl_LiquidCrystalClass::noBacklight()
 {
   Expander.pinMode(EXP_LCD_BACKLIGHT, OUTPUT);
   Expander.digitalWrite(EXP_LCD_BACKLIGHT, LOW);
 }
 
-OutdoorCarrier_LiquidCrystalClass LCD(EXP_ON_LCD, EXP_LCD_RS, EXP_LCD_RW, EXP_LCD_EN, EXP_LCD_D4, EXP_LCD_D5, EXP_LCD_D6, EXP_LCD_D7);
+EdgeControl_LiquidCrystalClass LCD(EXP_ON_LCD, EXP_LCD_RS, EXP_LCD_RW, EXP_LCD_EN, EXP_LCD_D4, EXP_LCD_D5, EXP_LCD_D6, EXP_LCD_D7);

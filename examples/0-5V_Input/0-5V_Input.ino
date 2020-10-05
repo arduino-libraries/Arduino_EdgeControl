@@ -2,7 +2,7 @@
   Testing strategy: connect each 5V ANALOG-IN input pin alternatively to +5V on the same connector.
 */
 
-#include <Arduino_OutdoorCarrier.h>
+#include <Arduino_EdgeControl.h>
 
 constexpr unsigned int adcResolution { 12 };
 

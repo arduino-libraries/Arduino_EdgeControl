@@ -17,15 +17,15 @@
   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#include "OutdoorCarrier_SolidStateRelay.h"
+#include "EdgeControl_SolidStateRelay.h"
 
-OutdoorCarrier_SolidStateRelaysClass::OutdoorCarrier_SolidStateRelaysClass()
+EdgeControl_SolidStateRelaysClass::EdgeControl_SolidStateRelaysClass()
     : _relaySPI(P1_4, digitalPinToPinName(CMD_TRIAC_1), P1_5)
     , _relayPkt()
 {
 }
 
-void OutdoorCarrier_SolidStateRelaysClass::begin()
+void EdgeControl_SolidStateRelaysClass::begin()
 {
     _relaySPI.begin();
 
@@ -35,27 +35,27 @@ void OutdoorCarrier_SolidStateRelaysClass::begin()
         off(ch);
 }
 
-void OutdoorCarrier_SolidStateRelaysClass::end()
+void EdgeControl_SolidStateRelaysClass::end()
 {
     _relaySPI.end();
 }
 
-bool OutdoorCarrier_SolidStateRelaysClass::on(pin_size_t address)
+bool EdgeControl_SolidStateRelaysClass::on(pin_size_t address)
 {
     return doRelayCommand(address, TS13102_COMMAND_ON_IMMEDIATE_DITHERING);
 }
 
-bool OutdoorCarrier_SolidStateRelaysClass::off(pin_size_t address)
+bool EdgeControl_SolidStateRelaysClass::off(pin_size_t address)
 {
     return doRelayCommand(address, TS13102_COMMAND_OFF_IMMEDIATE);
 }
 
-bool OutdoorCarrier_SolidStateRelaysClass::poll(pin_size_t address)
+bool EdgeControl_SolidStateRelaysClass::poll(pin_size_t address)
 {
     return doRelayCommand(address, TS13102_COMMAND_POLL);
 }
 
-bool OutdoorCarrier_SolidStateRelaysClass::doRelayCommand(pin_size_t address, TS13102_COMMANDS command)
+bool EdgeControl_SolidStateRelaysClass::doRelayCommand(pin_size_t address, TS13102_COMMANDS command)
 {
     switch (address) {
     case RELAYS_CH01:
@@ -73,7 +73,7 @@ bool OutdoorCarrier_SolidStateRelaysClass::doRelayCommand(pin_size_t address, TS
     return true;
 }
 
-void OutdoorCarrier_SolidStateRelaysClass::doSPITransfer()
+void EdgeControl_SolidStateRelaysClass::doSPITransfer()
 {
     uint8_t data[sizeof(TS13102Packet)] { 0 };
     auto len = _relayPkt.getBytes(data);
@@ -83,4 +83,4 @@ void OutdoorCarrier_SolidStateRelaysClass::doSPITransfer()
     _relaySPI.endTransaction();
 }
 
-OutdoorCarrier_SolidStateRelaysClass Relays {};
+EdgeControl_SolidStateRelaysClass Relays {};

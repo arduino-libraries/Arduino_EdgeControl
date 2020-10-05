@@ -5,7 +5,7 @@
   - Range the potentiometer
 */
 
-#include <Arduino_OutdoorCarrier.h>
+#include <Arduino_EdgeControl.h>
 
 constexpr unsigned int adcResolution { 12 };
 

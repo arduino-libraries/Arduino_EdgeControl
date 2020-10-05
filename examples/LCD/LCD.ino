@@ -7,7 +7,7 @@
 
 */
 
-#include <Arduino_OutdoorCarrier.h>
+#include <Arduino_EdgeControl.h>
 #include <Wire.h>
 
 byte smiley[8] = {

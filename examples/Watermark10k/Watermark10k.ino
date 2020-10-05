@@ -1,4 +1,4 @@
-#include <Arduino_OutdoorCarrier.h>
+#include <Arduino_EdgeControl.h>
 
 constexpr unsigned int calibResistor { 7870 };
 

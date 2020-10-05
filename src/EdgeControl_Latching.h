@@ -20,7 +20,7 @@
 #pragma once
 
 #include <Arduino.h>
-#include "OutdoorCarrier_Expander.h"
+#include "EdgeControl_Expander.h"
 
 enum : pin_size_t {
     LATCHING_OUT_1 = 0,
@@ -47,10 +47,10 @@ enum PulseDirection {
     NEGATIVE
 };
 
-class OutdoorCarrier_LatchingClass {
+class EdgeControl_LatchingClass {
 public:
-    OutdoorCarrier_LatchingClass() = default;
-    ~OutdoorCarrier_LatchingClass() = default;
+    EdgeControl_LatchingClass() = default;
+    ~EdgeControl_LatchingClass() = default;
 
     void begin();
     void end();
@@ -68,4 +68,4 @@ private:
     pin_size_t _channel;
 };
 
-extern OutdoorCarrier_LatchingClass Latching;
+extern EdgeControl_LatchingClass Latching;

@@ -1,4 +1,4 @@
-# Arduino_OutdoorCarrier
+# Arduino_EdgeControl
 Board support package for Arduino Outdoor Carrier
 
 ## License 

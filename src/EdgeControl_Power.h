@@ -30,11 +30,11 @@ enum PowerRail: pin_size_t {
   PWR_RAILS_SIZE
 };
 
-class OutdoorCarrier_PowerClass {
+class EdgeControl_PowerClass {
 
 public:
-    OutdoorCarrier_PowerClass() = default;
-    ~OutdoorCarrier_PowerClass() = default;
+    EdgeControl_PowerClass() = default;
+    ~EdgeControl_PowerClass() = default;
 
     void begin();
 
@@ -84,4 +84,4 @@ private:
     bool _statuses[PWR_RAILS_SIZE];
 };
 
-extern OutdoorCarrier_PowerClass Power;
+extern EdgeControl_PowerClass Power;

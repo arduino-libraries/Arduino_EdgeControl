@@ -19,45 +19,10 @@
 
 #pragma once
 
-#include <Arduino.h>
-#include "OutdoorCarrier_Expander.h"
-
-enum : pin_size_t {
-    INPUTS_05V_CH01 = 0,
-    INPUTS_05V_CH02,
-    INPUTS_05V_CH03,
-    INPUTS_05V_CH04,
-    INPUTS_05V_CH05,
-    INPUTS_05V_CH06,
-    INPUTS_05V_CH07,
-    INPUTS_05V_CH08,
-
-    INPUTS_420mA_CH01 = 8,
-    INPUTS_420mA_CH02,
-    INPUTS_420mA_CH03,
-    INPUTS_420mA_CH04,
-
-    INPUTS_19V_REF = 15,
-};
-
-class OutdoorCarrier_InputsClass {
-public:
-    OutdoorCarrier_InputsClass() = default;
-    ~OutdoorCarrier_InputsClass() = default;
-
-    void begin();
-    void end();
-
-    void enable();
-    void disable();
-
-    PinStatus digitalRead(pin_size_t sensor);
-    int analogRead(pin_size_t sensor);
-
-private:
-    bool selectSensor(pin_size_t channel);
-
-    pin_size_t _channel;
-};
-
-extern OutdoorCarrier_InputsClass Inputs;
+#include "EdgeControl_Power.h"
+#include "EdgeControl_Expander.h"
+#include "EdgeControl_LiquidCrystal.h"
+#include "EdgeControl_Inputs.h"
+#include "EdgeControl_Watermarks.h"
+#include "EdgeControl_Latching.h"
+#include "EdgeControl_SolidStateRelay.h"

@@ -17,9 +17,9 @@
   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#include <OutdoorCarrier_Watermarks.h>
+#include <EdgeControl_Watermarks.h>
 
-void OutdoorCarrier_WatermarksClass::begin()
+void EdgeControl_WatermarksClass::begin()
 {
     highPrecisionMode(OUTPUT);
     highPrecisionWrite(LOW);
@@ -41,76 +41,76 @@ void OutdoorCarrier_WatermarksClass::begin()
     _channel = 16;
 }
 
-void OutdoorCarrier_WatermarksClass::end()
+void EdgeControl_WatermarksClass::end()
 {
     _channel = 16;
 }
 
-void OutdoorCarrier_WatermarksClass::enable()
+void EdgeControl_WatermarksClass::enable()
 {
     Expander.digitalWrite(EXP_05V_INPUT_EN, HIGH);
     Expander.digitalWrite(EXP_WATERMARK_EN, LOW);
 }
 
-void OutdoorCarrier_WatermarksClass::disable()
+void EdgeControl_WatermarksClass::disable()
 {
     Expander.digitalWrite(EXP_WATERMARK_EN, HIGH);
 }
 
-void OutdoorCarrier_WatermarksClass::commonWrite(PinStatus status)
+void EdgeControl_WatermarksClass::commonWrite(PinStatus status)
 {
     ::digitalWrite(SENSOR_COMMON, status);
 }
 
-void OutdoorCarrier_WatermarksClass::commonMode(PinMode mode)
+void EdgeControl_WatermarksClass::commonMode(PinMode mode)
 {
     ::pinMode(SENSOR_COMMON, mode);
 }
 
-void OutdoorCarrier_WatermarksClass::calibrationWrite(PinStatus status)
+void EdgeControl_WatermarksClass::calibrationWrite(PinStatus status)
 {
     ::digitalWrite(SENSOR_CALIB, status);
 }
 
-void OutdoorCarrier_WatermarksClass::calibrationMode(PinMode mode)
+void EdgeControl_WatermarksClass::calibrationMode(PinMode mode)
 {
     ::pinMode(SENSOR_CALIB, mode);
 }
 
-void OutdoorCarrier_WatermarksClass::highPrecisionWrite(PinStatus status)
+void EdgeControl_WatermarksClass::highPrecisionWrite(PinStatus status)
 {
     Expander.digitalWrite(EXP_SENSOR_HIGH_P, status);
 }
 
-void OutdoorCarrier_WatermarksClass::highPrecisionMode(PinMode mode)
+void EdgeControl_WatermarksClass::highPrecisionMode(PinMode mode)
 {
     Expander.pinMode(EXP_SENSOR_HIGH_P, mode);
 }
 
-void OutdoorCarrier_WatermarksClass::fastDischargeWrite(PinStatus status)
+void EdgeControl_WatermarksClass::fastDischargeWrite(PinStatus status)
 {
     Expander.digitalWrite(EXP_SENSOR_DISCHARGE, status);
 }
 
-void OutdoorCarrier_WatermarksClass::fastDischargeMode(PinMode mode)
+void EdgeControl_WatermarksClass::fastDischargeMode(PinMode mode)
 {
     Expander.pinMode(EXP_SENSOR_DISCHARGE, mode);
 }
 
-void OutdoorCarrier_WatermarksClass::fastDischarge(size_t duration)
+void EdgeControl_WatermarksClass::fastDischarge(size_t duration)
 {
     fastDischargeWrite(HIGH);
     delay(_highPrecision ? duration * 2 : duration);
     fastDischargeWrite(LOW);
 }
 
-void OutdoorCarrier_WatermarksClass::setHighPrecision(bool precision)
+void EdgeControl_WatermarksClass::setHighPrecision(bool precision)
 {
     highPrecisionWrite(precision ? HIGH : LOW);
     _highPrecision = precision;
 }
 
-bool OutdoorCarrier_WatermarksClass::selectSensor(pin_size_t channel)
+bool EdgeControl_WatermarksClass::selectSensor(pin_size_t channel)
 {
     if (0 > channel > 15)
         return false;
@@ -128,21 +128,21 @@ bool OutdoorCarrier_WatermarksClass::selectSensor(pin_size_t channel)
     return true;
 }
 
-PinStatus OutdoorCarrier_WatermarksClass::digitalRead(pin_size_t pin)
+PinStatus EdgeControl_WatermarksClass::digitalRead(pin_size_t pin)
 {
     selectSensor(pin);
 
     return ::digitalRead(SENSOR_CAPTURE);
 }
 
-int OutdoorCarrier_WatermarksClass::analogRead(pin_size_t pin)
+int EdgeControl_WatermarksClass::analogRead(pin_size_t pin)
 {
     selectSensor(pin);
 
     return ::analogRead(SENSOR_CAPTURE_A);
 }
 
-void OutdoorCarrier_WatermarksClass::digitalWrite(pin_size_t pin, PinStatus status)
+void EdgeControl_WatermarksClass::digitalWrite(pin_size_t pin, PinStatus status)
 {
     ::pinMode(SENSOR_CAPTURE, OUTPUT);
 
@@ -152,7 +152,7 @@ void OutdoorCarrier_WatermarksClass::digitalWrite(pin_size_t pin, PinStatus stat
     ::pinMode(SENSOR_CAPTURE, INPUT);
 }
 
-void OutdoorCarrier_WatermarksClass::analogWrite(pin_size_t pin, int val)
+void EdgeControl_WatermarksClass::analogWrite(pin_size_t pin, int val)
 {
     ::pinMode(SENSOR_CAPTURE_A, OUTPUT);
 
@@ -162,4 +162,4 @@ void OutdoorCarrier_WatermarksClass::analogWrite(pin_size_t pin, int val)
     ::pinMode(SENSOR_CAPTURE_A, INPUT);
 }
 
-OutdoorCarrier_WatermarksClass Watermarks {};
+EdgeControl_WatermarksClass Watermarks {};

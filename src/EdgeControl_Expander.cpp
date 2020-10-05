@@ -17,21 +17,21 @@
   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#include "OutdoorCarrier_Expander.h"
-#include "OutdoorCarrier_Power.h"
+#include "EdgeControl_Expander.h"
+#include "EdgeControl_Power.h"
 
-bool OutdoorCarrier_IOExpanderClass::begin()
+bool EdgeControl_IOExpanderClass::begin()
 {
     _tca.initialize();
     return _tca.testConnection();
 }
 
-OutdoorCarrier_IOExpanderClass::operator bool()
+EdgeControl_IOExpanderClass::operator bool()
 {
     return _tca.testConnection();
 }
 
-bool OutdoorCarrier_IOExpanderClass::pinMode(pin_size_t pin, PinMode direction)
+bool EdgeControl_IOExpanderClass::pinMode(pin_size_t pin, PinMode direction)
 {
     if (direction > OUTPUT)
         return false;
@@ -40,7 +40,7 @@ bool OutdoorCarrier_IOExpanderClass::pinMode(pin_size_t pin, PinMode direction)
     return true;
 }
 
-bool OutdoorCarrier_IOExpanderClass::digitalWrite(pin_size_t pin, PinStatus status)
+bool EdgeControl_IOExpanderClass::digitalWrite(pin_size_t pin, PinStatus status)
 {
     if (status > HIGH)
         return false;
@@ -49,9 +49,9 @@ bool OutdoorCarrier_IOExpanderClass::digitalWrite(pin_size_t pin, PinStatus stat
     return true;
 }
 
-PinStatus OutdoorCarrier_IOExpanderClass::digitalRead(pin_size_t pin)
+PinStatus EdgeControl_IOExpanderClass::digitalRead(pin_size_t pin)
 {
     return _tca.readPin(pin) == true ? HIGH : LOW;
 }
 
-OutdoorCarrier_IOExpanderClass Expander {};
+EdgeControl_IOExpanderClass Expander {};
