@@ -20,7 +20,7 @@
 #include "EdgeControl_SolidStateRelay.h"
 
 EdgeControl_SolidStateRelaysClass::EdgeControl_SolidStateRelaysClass()
-    : _relaySPI(P1_4, digitalPinToPinName(CMD_TRIAC_1), P1_5)
+    : _relaySPI(digitalPinToPinName(CMD_TRIAC_DATA), digitalPinToPinName(CMD_TRIAC_CLK), P1_5)
     , _relayPkt()
 {
 }
@@ -81,6 +81,13 @@ void EdgeControl_SolidStateRelaysClass::doSPITransfer()
     _relaySPI.beginTransaction(SPISettings(2000000, MSBFIRST, SPI_MODE0));
     _relaySPI.transfer((void*)data, len);
     _relaySPI.endTransaction();
+
+    Serial.print("Data: ");
+    for (auto i = 0; i < len; i++){
+        if (data[i] < 16) Serial.print(0);
+        Serial.print(data[i], HEX);
+    }
+    Serial.println();
 }
 
 EdgeControl_SolidStateRelaysClass Relays {};
