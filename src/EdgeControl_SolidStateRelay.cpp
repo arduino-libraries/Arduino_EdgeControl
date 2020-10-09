@@ -75,19 +75,13 @@ bool EdgeControl_SolidStateRelaysClass::doRelayCommand(pin_size_t address, TS131
 
 void EdgeControl_SolidStateRelaysClass::doSPITransfer()
 {
-    uint8_t data[sizeof(TS13102Packet)] { 0 };
+    constexpr size_t dataLen { sizeof(TS13102Packet) };
+    uint8_t data[dataLen] { 0 };
     auto len = _relayPkt.getBytes(data);
 
     _relaySPI.beginTransaction(SPISettings(2000000, MSBFIRST, SPI_MODE0));
     _relaySPI.transfer((void*)data, len);
     _relaySPI.endTransaction();
-
-    Serial.print("Data: ");
-    for (auto i = 0; i < len; i++){
-        if (data[i] < 16) Serial.print(0);
-        Serial.print(data[i], HEX);
-    }
-    Serial.println();
 }
 
 EdgeControl_SolidStateRelaysClass Relays {};
