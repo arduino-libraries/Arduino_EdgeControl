@@ -59,6 +59,7 @@ public:
     ~EdgeControl_IOExpanderClass() = default;
 
     bool begin();
+    void end();
 
     operator bool();
 

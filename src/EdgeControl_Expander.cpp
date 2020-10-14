@@ -23,13 +23,24 @@
 bool EdgeControl_IOExpanderClass::begin()
 {
     _tca.initialize();
-    return _tca.testConnection();
+    _tca.setAllDirection(TCA6424A_INPUT, TCA6424A_INPUT, TCA6424A_INPUT);    
+    auto status = _tca.testConnection();
+    if (status)
+        _tca.setAllDirection(TCA6424A_INPUT, TCA6424A_INPUT, TCA6424A_INPUT);
+    
+    return status;
 }
 
 EdgeControl_IOExpanderClass::operator bool()
 {
     return _tca.testConnection();
 }
+
+void EdgeControl_IOExpanderClass::end()
+{
+    _tca.setAllDirection(TCA6424A_INPUT, TCA6424A_INPUT, TCA6424A_INPUT);
+}
+
 
 bool EdgeControl_IOExpanderClass::pinMode(pin_size_t pin, PinMode direction)
 {
