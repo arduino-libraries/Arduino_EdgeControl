@@ -19,11 +19,12 @@
 
 #pragma once
 
-#include "EdgeControl.h"
-#include "EdgeControl_Power.h"
-#include "EdgeControl_Expander.h"
-#include "EdgeControl_LiquidCrystal.h"
-#include "EdgeControl_Inputs.h"
-#include "EdgeControl_Watermarks.h"
-#include "EdgeControl_Latching.h"
-#include "EdgeControl_SolidStateRelay.h"
+class EdgeControlClass {
+public:
+    EdgeControlClass() = default;
+    ~EdgeControlClass() = default;
+
+    void begin();
+};
+
+extern EdgeControlClass EdgeControl;

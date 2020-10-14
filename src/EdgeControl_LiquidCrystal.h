@@ -86,11 +86,6 @@ private:
   void write8bits(uint8_t);
   void pulseEnable();
 
-  // void pinModeTCA(uint16_t pin, bool direction);
-  // void digitalWriteTCA(uint16_t pin, bool polarity);
-
-  // TCA6424A _tca{};
-
   uint8_t _pwr_pin; // Power up LCD
   uint8_t _rs_pin; // LOW: command.  HIGH: character.
   uint8_t _rw_pin; // LOW: write to LCD.  HIGH: read from LCD.

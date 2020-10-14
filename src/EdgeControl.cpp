@@ -17,13 +17,13 @@
   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#pragma once
 
 #include "EdgeControl.h"
 #include "EdgeControl_Power.h"
-#include "EdgeControl_Expander.h"
-#include "EdgeControl_LiquidCrystal.h"
-#include "EdgeControl_Inputs.h"
-#include "EdgeControl_Watermarks.h"
-#include "EdgeControl_Latching.h"
-#include "EdgeControl_SolidStateRelay.h"
+
+void EdgeControlClass::begin()
+{
+    Power.begin();
+}
+
+EdgeControlClass EdgeControl;
