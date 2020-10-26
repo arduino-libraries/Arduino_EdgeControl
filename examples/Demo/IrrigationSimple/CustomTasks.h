@@ -3,14 +3,16 @@
 #include <Arduino.h>
 #include <TimeLib.h>
 #include <TimeAlarms.h>
+#include <SD.h>
 #include <Arduino_EdgeControl.h>
 
 #include <map>
 #include <list>
 
 #include "TimeHelpers.h"
+#include "Helpers.h"
+#include "SensorsData.h"
 
-void backlightOff(bool powerDown);
 void openValve();
 void closeValve();
 void displayClock();

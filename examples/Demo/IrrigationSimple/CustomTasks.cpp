@@ -1,12 +1,5 @@
 #include "CustomTasks.h"
 
-void backlightOff(bool powerDown)
-{
-    LCD.noBacklight();
-    if (powerDown)
-        LCD.clear();
-}
-
 void openValve()
 {
     Serial.println("Alarm: - Opening Valve");
@@ -79,20 +72,21 @@ void blinkLed()
 
 void getSensors()
 {
-    String msg = "Getting Sensors:";
-    Serial.println(msg);
-    LCD.clear();
-    LCD.backlight();
-    LCD.setCursor(16,0);
-    LCD.autoscroll();
-    LCD.print(msg);
-    for (auto rem = 16 - msg.length(); rem > 0; rem--)
-        LCD.write(' ');
-    LCD.noAutoscroll();
-    
+    extern std::list<DataPoint> dataPoints;
+
+    String msg = "Moisture: ";
+    Serial.print(msg);
+
+    auto value = getAverageInputsRead(INPUTS_05V_CH01);
+    auto perc = getMoisturePerc(INPUTS_05V_CH01);
+
+    DataPoint d{value, perc};
+
+    Serial.println(d);
+    dataPoints.push_back(d);
+
     Alarm.timerOnce(5, [] { backlightOff(true); });
 }
-
 
 void saveData()
 {
@@ -100,12 +94,20 @@ void saveData()
     Serial.println(msg);
     LCD.clear();
     LCD.backlight();
-    LCD.setCursor(16,0);
-    LCD.autoscroll();
+    LCD.home();
     LCD.print(msg);
     for (auto rem = 16 - msg.length(); rem > 0; rem--)
         LCD.write(' ');
-    LCD.noAutoscroll();
+
+    LCD.home();
+    LCD.setCursor(0, 1);
+    auto ret = saveSensorsData();
+    if (ret <= 0)
+        LCD.print("ERROR:");
+    else
+        LCD.print("Saved:");
+
+    LCD.print(ret);
 
     Alarm.timerOnce(5, [] { backlightOff(true); });
 }

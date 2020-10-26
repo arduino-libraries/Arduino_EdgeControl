@@ -17,9 +17,12 @@
 #include <Arduino_EdgeControl.h>
 
 #include "AlarmTasks.h"
-#include "Helpers.h"
+#include "SensorsData.h"
 #include "TimeHelpers.h"
+#include "TasksHelpers.h"
+#include "Helpers.h"
 
+/** UI Management **/
 // Button statuses
 enum ButtonStatus : byte {
     ZERO_TAP,
@@ -52,6 +55,8 @@ std::list<AlarmID_t> alarmTabIDs;
  * sketch.
  */
 std::list<AlarmID_t> alarmSketchIDs;
+
+std::list<DataPoint> dataPoints;
 
 void setup()
 {
@@ -95,8 +100,12 @@ void setup()
     pinMode(POWER_ON, INPUT);
     attachInterrupt(POWER_ON, buttonPress, RISING);
 
-    auto id = Alarm.timerRepeat(60, getSensors);
+    auto id = Alarm.timerRepeat(10, getSensors);
     alarmSketchIDs.push_back(id);
+
+    // Init the sensors inputs
+    Inputs.begin();
+
 }
 
 void loop()
