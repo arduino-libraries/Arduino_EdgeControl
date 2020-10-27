@@ -13,8 +13,8 @@
 #include "Helpers.h"
 #include "SensorsData.h"
 
-void openValve();
-void closeValve();
+void openLatchingValve();
+void closeLatchingValve();
 void displayClock();
 void blinkLed();
 void getSensors();
@@ -25,8 +25,8 @@ void saveData();
  * The key of the map is the name to be used in the alarmtab file.
  */
 static std::map<String, OnTick_t> commandMap {
-    { "OpenValve", openValve },
-    { "CloseValve", closeValve },
+    { "OpenValve", openLatchingValve },
+    { "CloseValve", closeLatchingValve },
     { "DisplayClock", displayClock },
     { "BlinkLed", blinkLed },
     { "GetSensors", getSensors },

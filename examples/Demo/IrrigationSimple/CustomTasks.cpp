@@ -1,6 +1,6 @@
 #include "CustomTasks.h"
 
-void openValve()
+void openLatchingValve()
 {
     Serial.println("Alarm: - Opening Valve");
 
@@ -14,6 +14,10 @@ void openValve()
     Expander.pinMode(EXP_LED1, OUTPUT);
     Expander.digitalWrite(EXP_LED1, LOW);
 
+    // Polarize the opening pin of the 3-wires valve
+    Latching.channelDirection(LATCHING_OUT_1, POSITIVE);
+    Latching.strobe(5000);
+
     LCD.setCursor(0, 1);
     LCD.print("Valve Open      ");
 
@@ -21,7 +25,7 @@ void openValve()
     Alarm.timerOnce(5, [] { backlightOff(false); });
 }
 
-void closeValve()
+void closeLatchingValve()
 {
     Serial.println("Alarm: - Closing Valve");
 
@@ -34,6 +38,10 @@ void closeValve()
     // Power off the on-board LED (active low)
     Expander.pinMode(EXP_LED1, OUTPUT);
     Expander.digitalWrite(EXP_LED1, HIGH);
+
+    // Polarize the closing pin of the 3-wires valve
+    Latching.channelDirection(LATCHING_OUT_1, NEGATIVE);
+    Latching.strobe(5000);
 
     LCD.setCursor(0, 1);
     LCD.print("Valve Closed    ");

@@ -56,13 +56,21 @@ std::list<AlarmID_t> alarmTabIDs;
  */
 std::list<AlarmID_t> alarmSketchIDs;
 
+/**
+ * Used to keep track of the measurements points
+ */
 std::list<DataPoint> dataPoints;
 
 void setup()
 {
     Serial.begin(9600);
-    while (!Serial) // wait for Arduino Serial Monitor
+    constexpr unsigned long timeout { 2500 };
+
+    // Wait for Serial Monitor for timeout ms
+    auto startNow = millis() + timeout;
+    while (!Serial && millis() < startNow )
         ;
+
     delay(1000);
 
     // Set System and Alarm clock
@@ -78,11 +86,13 @@ void setup()
     Power.on(PWR_3V3);
     Power.on(PWR_VBAT);
 
-    // Init the IO Expander for LCD and
-    // I/O operations (sensors and actuators).
-    Wire.begin();
-    while (!Expander.begin())
-        ;
+    // Init the sensors inputs.
+    // If needed, will also take care of enabling the
+    // 3V3 and 12V power rails and to initialize the IO Expander.
+    Inputs.begin();
+
+    Latching.begin();
+    Relays.begin();
 
     // Init the LCD display
     LCD.begin(16, 2);
@@ -96,15 +106,12 @@ void setup()
     // Use the LCD button for houskeeping stuff:
     // Single Tap: Show status
     // Double Tap: Reload alarm tasks from SD
-    // Triple Tap: Force saving data to SD (TODO)
+    // Triple Tap: Force saving data to SD
     pinMode(POWER_ON, INPUT);
     attachInterrupt(POWER_ON, buttonPress, RISING);
 
     auto id = Alarm.timerRepeat(10, getSensors);
     alarmSketchIDs.push_back(id);
-
-    // Init the sensors inputs
-    Inputs.begin();
 
 }
 
@@ -145,7 +152,7 @@ void loop()
 void buttonPress()
 {
     const auto now = millis();
-    // Poor man debouncing
+    // Poor-man debouncing
     if (now - previousPress > 100)
         taps++;
 
