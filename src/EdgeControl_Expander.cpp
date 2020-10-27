@@ -22,11 +22,22 @@
 
 bool EdgeControl_IOExpanderClass::begin()
 {
+    _status3V3 = Power.status3V3();
+    _statusVBAT = Power.statusVBat();
+
+    if(!_status3V3)
+        Power.enable3V3();
+
+    if(!_statusVBAT)
+        Power.enableVBat();
+
+    Wire.begin();
+
     _tca.initialize();
-    _tca.setAllDirection(TCA6424A_INPUT, TCA6424A_INPUT, TCA6424A_INPUT);    
     auto status = _tca.testConnection();
-    if (status)
-        _tca.setAllDirection(TCA6424A_INPUT, TCA6424A_INPUT, TCA6424A_INPUT);
+
+    // if (status)
+    //     _tca.setAllDirection(TCA6424A_INPUT, TCA6424A_INPUT, TCA6424A_INPUT);
     
     return status;
 }
@@ -39,6 +50,9 @@ EdgeControl_IOExpanderClass::operator bool()
 void EdgeControl_IOExpanderClass::end()
 {
     _tca.setAllDirection(TCA6424A_INPUT, TCA6424A_INPUT, TCA6424A_INPUT);
+
+    Power.set(PWR_3V3, _status3V3);
+    Power.set(PWR_VBAT, _statusVBAT);
 }
 
 

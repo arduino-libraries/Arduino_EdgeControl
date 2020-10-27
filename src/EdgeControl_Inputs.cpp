@@ -21,6 +21,10 @@
 
 void EdgeControl_InputsClass::begin()
 {
+
+    while (!Expander.begin())
+        ;
+
     ::pinMode(SENSOR_INPUT_ADC, INPUT);
 
     Expander.pinMode(EXP_05V_INPUT_EN, OUTPUT);
@@ -38,7 +42,6 @@ void EdgeControl_InputsClass::end()
 {
     _channel = 16;
 }
-
 
 void EdgeControl_InputsClass::enable()
 {

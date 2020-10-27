@@ -20,6 +20,7 @@
 #pragma once
 
 #include <Arduino.h>
+#include <I2C.h>
 
 #include "lib/ioexpander/TCA6424A.h"
 
@@ -72,6 +73,9 @@ public:
 
 private:
     TCA6424A _tca {};
+
+    bool _status3V3;
+    bool _statusVBAT;
 };
 
 extern EdgeControl_IOExpanderClass Expander;

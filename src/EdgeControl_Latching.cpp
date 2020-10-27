@@ -23,6 +23,9 @@ void EdgeControl_LatchingClass::begin()
 {
     ::pinMode(PULSE_DIRECTION, OUTPUT);
     ::pinMode(PULSE_STROBE, OUTPUT);
+    
+    while (!Expander.begin())
+        ;    
 
     Expander.pinMode(EXP_PULSE_CNTL0, OUTPUT);
     Expander.pinMode(EXP_PULSE_CNTL1, OUTPUT);
@@ -84,12 +87,14 @@ void EdgeControl_LatchingClass::pulse(pin_size_t channel, PulseDirection directi
     PinStatus status;
 
     switch (direction) {
-    case POSITIVE:
+    case POSITIVE: {
         status = LOW;
         break;
-    case NEGATIVE:
+    }
+    case NEGATIVE: {
         status = HIGH;
         break;
+    }
     default:
         break;
     }

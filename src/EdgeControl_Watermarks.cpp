@@ -30,6 +30,9 @@ void EdgeControl_WatermarksClass::begin()
     ::pinMode(SENSOR_CAPTURE, INPUT);
     ::pinMode(SENSOR_CAPTURE_A, INPUT);
 
+    while (!Expander.begin())
+        ;
+
     Expander.pinMode(EXP_05V_INPUT_EN, OUTPUT);
     Expander.pinMode(EXP_WATERMARK_EN, OUTPUT);
 
