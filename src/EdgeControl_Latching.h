@@ -55,15 +55,14 @@ public:
     void begin();
     void end();
 
-    void enable();
-    void disable();
+    void channelDirection(pin_size_t channel, PulseDirection dir);
+    void latch();
+    void release();
     void strobe(unsigned int duration);
-
-    void digitalWrite(pin_size_t pin, PinStatus val);
-    void pulse(pin_size_t channel, PulseDirection dir);
 
 private:
     bool selectSensor(pin_size_t channel);
+    void digitalWrite(pin_size_t pin, PinStatus val);
 
     pin_size_t _channel;
 };

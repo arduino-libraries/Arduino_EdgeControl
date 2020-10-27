@@ -23,9 +23,9 @@ void EdgeControl_LatchingClass::begin()
 {
     ::pinMode(PULSE_DIRECTION, OUTPUT);
     ::pinMode(PULSE_STROBE, OUTPUT);
-    
+
     while (!Expander.begin())
-        ;    
+        ;
 
     Expander.pinMode(EXP_PULSE_CNTL0, OUTPUT);
     Expander.pinMode(EXP_PULSE_CNTL1, OUTPUT);
@@ -40,21 +40,22 @@ void EdgeControl_LatchingClass::end()
     _channel = 16;
 }
 
-void EdgeControl_LatchingClass::enable()
+void EdgeControl_LatchingClass::latch()
 {
     ::digitalWrite(PULSE_STROBE, HIGH);
 }
 
-void EdgeControl_LatchingClass::disable()
+void EdgeControl_LatchingClass::release()
 {
     ::digitalWrite(PULSE_STROBE, LOW);
 }
 
 void EdgeControl_LatchingClass::strobe(unsigned int duration)
 {
-    enable();
-    delay(duration);
-    disable();
+    latch();
+    // delay(duration);
+    for (auto go = millis() + duration; millis() <= go; yield());
+    release();
 }
 
 bool EdgeControl_LatchingClass::selectSensor(pin_size_t channel)
@@ -82,7 +83,7 @@ void EdgeControl_LatchingClass::digitalWrite(pin_size_t pin, PinStatus val)
     ::digitalWrite(PULSE_DIRECTION, val);
 }
 
-void EdgeControl_LatchingClass::pulse(pin_size_t channel, PulseDirection direction)
+void EdgeControl_LatchingClass::channelDirection(pin_size_t channel, PulseDirection direction)
 {
     PinStatus status;
 
