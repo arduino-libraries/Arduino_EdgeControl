@@ -92,7 +92,16 @@ void setup()
     Inputs.begin();
 
     Latching.begin();
+    Latching.channelDirection(LATCHING_OUT_1, POSITIVE);
+    Latching.strobe(5000);
+    Latching.channelDirection(LATCHING_OUT_1, NEGATIVE);
+    Latching.strobe(5000);
+
     Relays.begin();
+    delay(1000);
+    Relays.on(RELAYS_CH01);
+    delay(5000);
+    Relays.off(RELAYS_CH01);
 
     // Init the LCD display
     LCD.begin(16, 2);
@@ -111,8 +120,7 @@ void setup()
     attachInterrupt(POWER_ON, buttonPress, RISING);
 
     auto id = Alarm.timerRepeat(10, getSensors);
-    alarmSketchIDs.push_back(id);
-
+    alarmSketchIDs.push_back(id);    
 }
 
 void loop()
@@ -164,8 +172,8 @@ void detectTaps()
     // Timeout to validate the button taps counter
     constexpr unsigned int buttonTapsTimeout { 300 };
 
-    // If button has been pressed at least once and button taps validation
-    // timeout has been reached set the button status and reset the taps counter
+    // Set the button status and reset the taps counter when button has been
+    // pressed at least once and button taps validation timeout has been reached.
     if (taps > 0 && millis() - previousPress >= buttonTapsTimeout) {
         buttonStatus = static_cast<ButtonStatus>(taps);
         taps = 0;

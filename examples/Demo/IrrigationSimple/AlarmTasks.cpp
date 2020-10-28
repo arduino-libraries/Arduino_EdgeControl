@@ -28,10 +28,10 @@
 * |  |  |  |  ┌─ second
 * |  |  |  |  |
 * |  |  |  |  |  <command to execute> 
-* AR 0 18 45  0  OpenValve
-* AR 0 18 45 30  CloseValve
-* AR 0 18 46  0  OpenValve
-* AR 0 18 46 30  CloseValve
+* AR 0 18 45  0  OpenLatchingValve
+* AR 0 18 45 30  CloseLatchingValve
+* AR 0 18 46  0  OpenLatchingValve
+* AR 0 18 46 30  CloseLatchingValve
 * TR 0  0  0 20  DisplayClock
 * TR 0  0  0 10  BlinkLed
 * TO 0  0  0 10  DisplayClockOnce

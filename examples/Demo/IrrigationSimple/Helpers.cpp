@@ -11,7 +11,7 @@ void setSystemClock(String compileDate, String compileTime)
     auto rtcTime = time(NULL);
 
     // Remeber to connect at least the CR2032 battery
-    // to keep at least the RTC running.x
+    // to keep the RTC running.
     auto actualTime = rtcTime > buildTime ? rtcTime : buildTime;
 
     // Set both system time and the alarms one
@@ -28,10 +28,7 @@ void setSystemClock(String compileDate, String compileTime)
 
 void statusLCD()
 {
-    extern std::list<AlarmID_t> alarmTabIDs;
-    extern std::list<AlarmID_t> alarmSketchIDs;
-    extern std::list<DataPoint> dataPoints;
-
+    // Small helper for waiting without delay()
     auto wait = [](size_t timeout) {
         for (auto go = millis() + timeout; millis() < go; yield())
             ;
@@ -41,30 +38,7 @@ void statusLCD()
 
     LCD.clear();
     LCD.backlight();
-    LCD.home();
-    LCD.print("Loaded Tasks...");
 
-    wait(500);
-
-    LCD.setCursor(16, 0);
-    msg = "Custom: ";
-    msg += alarmTabIDs.size();
-    LCD.print(msg);
-    LCD.autoscroll();
-    LCD.setCursor(16, 1);
-    msg = "Sketch: ";
-    msg += alarmSketchIDs.size();
-
-    while (msg.length() < 16)
-        msg += ' ';
-
-    LCD.print(msg);
-
-    LCD.noAutoscroll();
-
-    wait(1000);
-
-    LCD.clear();
     LCD.home();
     LCD.print("Measures...");
 
@@ -86,9 +60,29 @@ void statusLCD()
         msg += ' ';
 
     LCD.print(msg);
-
     LCD.noAutoscroll();
+    wait(1000);
 
+    LCD.clear();
+    LCD.home();
+    LCD.print("Loaded Tasks...");
+
+    wait(500);
+
+    LCD.setCursor(16, 0);
+    msg = "Custom: ";
+    msg += alarmTabIDs.size();
+    LCD.print(msg);
+    LCD.autoscroll();
+    LCD.setCursor(16, 1);
+    msg = "Sketch: ";
+    msg += alarmSketchIDs.size();
+
+    while (msg.length() < 16)
+        msg += ' ';
+
+    LCD.print(msg);
+    LCD.noAutoscroll();
     wait(1000);
 
     // Power off the backlight after 5 seconds
@@ -107,6 +101,8 @@ float getAverage05VRead(int pin)
 {
     constexpr size_t loops { 10 };
     constexpr float toV { 3.3f / float { (1 << ADC_RESOLUTION) - 1 } };
+
+    // Resistor divider on Inputs ports
     constexpr float rDiv { 17.4f / (10.0f + 17.4f) };
 
     int tot { 0 };
@@ -139,12 +135,13 @@ int getAverageInputsRead(int pin, const size_t loops)
 
 int getMoisturePerc(int pin)
 {
+    // Keep track ok dry/wet values. YMMV.
     static long dryValue { 2160 };
     static long wetValue { 975 };
 
     auto val = getAverageInputsRead(pin);
 
-    // update Dry/Wet range
+    // Self-update dry/wet values range.
     if (val > dryValue)
         dryValue = val;
     if (val < wetValue)
@@ -153,4 +150,31 @@ int getMoisturePerc(int pin)
     auto perc = map(val, dryValue, wetValue, 0, 100);
 
     return perc;
+}
+
+void displayMsg(const String msg, const unsigned timeout, const unsigned line, const bool clear, const bool off)
+{
+    if (clear)
+        LCD.clear();
+        
+    LCD.home();
+    LCD.backlight();
+
+    if (line == 1)
+        LCD.setCursor(0, 1);
+
+    if (msg.length() > 16)
+        LCD.autoscroll();
+
+    LCD.print(msg);
+
+    for (auto go = millis() + timeout; millis() < go; yield())
+        ;
+
+    LCD.noAutoscroll();
+
+    if (off) {
+        LCD.clear();
+        LCD.noBacklight();
+    }
 }

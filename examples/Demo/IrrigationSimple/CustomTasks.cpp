@@ -2,17 +2,13 @@
 
 void openLatchingValve()
 {
-    Serial.println("Alarm: - Opening Valve");
+    Serial.println("Alarm: Opening Latching Valve");
 
     LCD.home();
     LCD.backlight();
     LCD.print(getLocaltime());
     LCD.setCursor(0, 1);
     LCD.print("Opening Valve   ");
-
-    // Power on the on-board LED (active low)
-    Expander.pinMode(EXP_LED1, OUTPUT);
-    Expander.digitalWrite(EXP_LED1, LOW);
 
     // Polarize the opening pin of the 3-wires valve
     Latching.channelDirection(LATCHING_OUT_1, POSITIVE);
@@ -27,17 +23,13 @@ void openLatchingValve()
 
 void closeLatchingValve()
 {
-    Serial.println("Alarm: - Closing Valve");
+    Serial.println("Alarm: Closing Latching Valve");
 
     LCD.home();
     LCD.backlight();
     LCD.print(getLocaltime());
     LCD.setCursor(0, 1);
     LCD.print("Closing Valve   ");
-
-    // Power off the on-board LED (active low)
-    Expander.pinMode(EXP_LED1, OUTPUT);
-    Expander.digitalWrite(EXP_LED1, HIGH);
 
     // Polarize the closing pin of the 3-wires valve
     Latching.channelDirection(LATCHING_OUT_1, NEGATIVE);
@@ -51,20 +43,53 @@ void closeLatchingValve()
     Alarm.timerOnce(5, [] { backlightOff(true); });
 }
 
+void openSolenoidValve()
+{
+    Serial.println("Alarm: Opening Solenoid Valve");
+
+    LCD.home();
+    LCD.backlight();
+    LCD.print(getLocaltime());
+    LCD.setCursor(0, 1);
+    LCD.print("Opening Valve   ");
+
+    // Open the Solid State Relay on Channel 1
+    Relays.on(RELAYS_CH01);
+
+    LCD.setCursor(0, 1);
+    LCD.print("Valve Open      ");
+
+    // Power off the backlight after 5 seconds
+    Alarm.timerOnce(5, [] { backlightOff(false); });
+}
+
+void closeSolenoidValve()
+{
+    Serial.println("Alarm: Closing Solenoid Valve");
+
+    LCD.home();
+    LCD.backlight();
+    LCD.print(getLocaltime());
+    LCD.setCursor(0, 1);
+    LCD.print("Closing Valve   ");
+
+    // Close the Solid State Relay on Channel 1
+    Relays.off(RELAYS_CH01);
+
+    LCD.setCursor(0, 1);
+    LCD.print("Valve Closed    ");
+
+    // Power off the backlight after 5 seconds
+    // and power off everything else
+    Alarm.timerOnce(5, [] { backlightOff(true); });
+}
+
 void displayClock()
 {
-    auto printDigits = [](int digits) {
-        Serial.print(":");
-        if (digits < 10)
-            Serial.print('0');
-        Serial.print(digits);
-    };
-
-    // digital clock display of the time
-    Serial.print(hour());
-    printDigits(minute());
-    printDigits(second());
-    Serial.println();
+    String date = getLocaltime("%Y-%m-%d", true, 0);
+    String time = getLocaltime("%k:%M:%S", true, 0);
+    displayMsg(date, 0, 0, true, false);
+    displayMsg(time, 5000, 1, false, true);
 }
 
 void blinkLed()
@@ -118,4 +143,14 @@ void saveData()
     LCD.print(ret);
 
     Alarm.timerOnce(5, [] { backlightOff(true); });
+}
+
+void helloWorld()
+{
+    displayMsg("Hello, World!");
+}
+
+void hiThere()
+{
+    displayMsg("Hi, There!");
 }

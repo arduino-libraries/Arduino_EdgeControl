@@ -85,7 +85,7 @@ void loadAndSetTasks(std::list<AlarmID_t>& alarmIDs, bool reload)
     LCD.clear();
     LCD.backlight();
 
-    LCD.setCursor(16, 0);
+    LCD.setCursor(0, 0);
     if (reload) {
         Serial.println("Reloading Tasks: ");
         LCD.print("Reloading Tasks:");
@@ -99,11 +99,9 @@ void loadAndSetTasks(std::list<AlarmID_t>& alarmIDs, bool reload)
     alarmIDs = setTasks(taskList);
     printTasks(taskList);
 
-    LCD.setCursor(16, 1);
-    LCD.autoscroll();
+    LCD.setCursor(0, 1);
     LCD.print(alarmIDs.size());
-    LCD.print(" loaded        ");
-    LCD.noAutoscroll();
+    LCD.print(" loaded");
 
     // Power off the backlight after 5 seconds
     // and power off everything else
