@@ -25,6 +25,8 @@ void setup()
 
     Wire.begin();
 
+    delay(500);
+
     Serial.print("IO Expander initializazion ");
     if (!Expander.begin()) {
         Serial.println("failed.");
