@@ -19,12 +19,15 @@
 
 #pragma once
 
+#include <Arduino.h>
+
 class EdgeControlClass {
 public:
     EdgeControlClass() = default;
     ~EdgeControlClass() = default;
 
     void begin();
+    String serialNumber();
 };
 
 extern EdgeControlClass EdgeControl;
