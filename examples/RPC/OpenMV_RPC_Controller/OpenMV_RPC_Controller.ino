@@ -13,9 +13,9 @@ openmv::rpc_scratch_buffer<256> scratch_buffer; // All RPC objects share this bu
 #define RPC_OVER_SERIAL 1
 
 #if defined(RPC_OVER_SERIAL)
-openmv::rpc_hardware_serial1_uart_master interface(115200);
+openmv::rpc_hardware_serial1_uart_master rpc(115200);
 #else
-openmv::rpc_i2c1_master interface(0x12, 10000);
+openmv::rpc_i2c1_master rpc(0x12, 10000);
 #endif
 
 void setup()
@@ -29,9 +29,7 @@ void setup()
     delay(5000); // Wait for MKR2 to power-on
 
     Serial.begin(115200);
-    delay(1000);
-
-    interface.begin();
+    rpc.begin();
 }
 
 //////////////////////////////////////////////////////////////
@@ -43,7 +41,7 @@ void setup()
 void digital_read_example()
 {
     uint8_t state;
-    if (interface.call_no_args(F("digital_read"), &state, sizeof(state))) {
+    if (rpc.call_no_args("digital_read", &state, sizeof(state))) {
         Serial.print(F("Remote Digital I/O State: "));
         Serial.println(state);
     }
@@ -54,7 +52,7 @@ void digital_read_example()
 void analog_read_example()
 {
     uint16_t state;
-    if (interface.call_no_args(F("analog_read"), &state, sizeof(state))) {
+    if (rpc.call_no_args(F("analog_read"), &state, sizeof(state))) {
         Serial.print(F("Remote Analog I/O State: "));
         Serial.println(state);
     }
@@ -66,7 +64,7 @@ void digital_write_example()
 {
     static uint8_t state = 0;
 
-    auto ret = interface.call("digital_write", &state, sizeof(state), nullptr, 0, false);
+    auto ret = rpc.call("digital_write", &state, sizeof(state), nullptr, 0, false);
     if (!ret) {
         Serial.println("DigitalWrite Call Failed!");
         return;
@@ -79,9 +77,8 @@ void digital_write_example()
 void analog_write_example()
 {
     static uint8_t state = 0;
-    static uint8_t inc = 1;
 
-    auto ret = interface.call("analog_write", &state, sizeof(state), nullptr, 0, false);
+    auto ret = rpc.call("analog_write", &state, sizeof(state), nullptr, 0, false);
     if (!ret) {
         Serial.println("AnalogWrite Call Failed!");
         return;
@@ -92,8 +89,13 @@ void analog_write_example()
 
 void serial_print_example()
 {
-    char* str = "Hello World!";
-    interface.call(F("serial_print"), str, strlen(str));
+    String str = "Hello World @";
+    str += millis();
+
+    char buffer[str.length() + 1] {};
+    str.toCharArray(buffer, sizeof(buffer));
+
+    rpc.call("serial_print", buffer, sizeof(buffer));
 }
 
 void loop()
