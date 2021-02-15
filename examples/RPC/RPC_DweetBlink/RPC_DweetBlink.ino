@@ -28,7 +28,7 @@
 
     * Current status of the LED can be retrieved from Dweet at "SERIALNUMBER-status" path, eg.
         
-        curl http://dweet.io/get/latest/dweet/for/<SERIALNUMBER>-status
+        curl -i http://dweet.io/get/latest/dweet/for/<SERIALNUMBER>-status
 
     created 12 Feb 2021
     by Giampaolo Mancini  
@@ -161,7 +161,7 @@ void rpcGetLatestDweetFor(String deviceID)
     auto ret = rpc.call("getLatestDweetFor",
         (void*)deviceID.c_str(), deviceID.length(), // arguments
         buffer, bufferLen,                          // returns
-        true, 1000, 3000);                         // parameters
+        true, 1000, 3000);                          // parameters
 
     if (ret == 0) {
         Serial.println("Error");
