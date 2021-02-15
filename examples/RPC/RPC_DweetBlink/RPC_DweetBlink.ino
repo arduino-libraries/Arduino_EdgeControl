@@ -4,7 +4,8 @@
     This example uses the OpenMV Arduino RPC Interface Library
     https://github.com/openmv/openmv-arduino-rpc to control an
     Arduino MKR WiFi 1010 board stacked on the MKR connector
-    to send REST requests to the Dweet.io.
+    to send REST requests to the Dweet.io. Please, install the library
+    from the repo as a zip library before compile the sketch.
 
     The code checks for a "led" key in the content payload of the Dweet
     response and sets the on-board LED accordingly.
@@ -12,6 +13,7 @@
     Requirements:
     * Arduino Edge Control powered via 12V power adapter or 12V lead-acid battery
     * Arduino MKR WiFi1010 stacked on connector MKR2 (the one next to the CR2032 battery holder)
+    * OpenMV Arduino RPC Interface Library
     
     Steps:
     * Upload this sketch to Edge Control
@@ -49,13 +51,22 @@ String serialNumber;
 
 void setup()
 {
+    Serial.begin(115200);
+    const uint32_t startNow = millis() + 2500;
+    while (!Serial && millis() < startNow)
+        ;
+
     EdgeControl.begin();
 
     Power.on(PWR_3V3);
+
+    // Enable the 5V power rail
     Power.on(PWR_VBAT);
 
+    // Power on the MKR on connector 2
     Power.on(PWR_MKR2);
-    delay(5000); // Wait for MKR2 to power-on
+    // Wait for MKR2 to power-on
+    delay(5000); 
 
     serialNumber = EdgeControl.serialNumber();
     Serial.print("Serial Number: ");
@@ -78,10 +89,6 @@ void setup()
     Expander.pinMode(EXP_LED1, OUTPUT);
     // LED1 is active low
     Expander.digitalWrite(EXP_LED1, HIGH);
-
-    Serial.begin(115200);
-    while (!Serial)
-        ;
 
     // Start the RPC controller
     rpc.begin();
@@ -114,7 +121,7 @@ void rpcPostDweetFor(String deviceID)
     Serial.print(deviceID);
     Serial.print(" via RPC: ");
 
-    // Pass data to remote RPC client in JSON format
+    // Pass data to remote RPC client in JSON format. YMMV.
     JSONVar data;
     data["deviceID"] = deviceID;
     // Pin LED is active low
@@ -125,6 +132,9 @@ void rpcPostDweetFor(String deviceID)
 
     // Call the "postDweetFor" callback on the MKR WiFi 1010
     // Remember to set large RPC timeouts: the Network is SLOW!
+    //
+    // Please, refer to openmv-rpc-arduino documentation for more
+    // call() examples.
     auto ret = rpc.call("postDweetFor",
         (void*)dataString.c_str(), dataString.length(), // arguments
         NULL, 0,                                        // no returns

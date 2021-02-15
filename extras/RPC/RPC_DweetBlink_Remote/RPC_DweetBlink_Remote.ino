@@ -68,7 +68,7 @@ void postDweetFor(void* in_data, size_t in_data_len)
     auto contentType { "application/json" };
 
     // Parse data from RPC controller
-    JSONVar data = JSON.parse(reinterpret_cast<char *>(in_data));
+    JSONVar data = JSON.parse((char *)in_data);
     String device = (const char *)data["deviceID"];
 
     // Create new data for Dweet
