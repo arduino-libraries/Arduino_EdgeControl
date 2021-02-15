@@ -5,7 +5,7 @@
  */
 std::list<AlarmTask> loadTasks()
 {
-    if (!SD.begin(SD_CS)) {
+    if (!SD.begin(PIN_SD_CS)) {
         Serial.println("SD initialization failed");
         while (true)
             ;

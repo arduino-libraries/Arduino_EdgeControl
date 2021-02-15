@@ -26,7 +26,7 @@ int saveSensorsData()
 
     unsigned int count { 0 };
 
-    if (!SD.begin(SD_CS))
+    if (!SD.begin(PIN_SD_CS))
         return -2;
 
     auto dataLog = SD.open("datalog.csv", FILE_WRITE);
