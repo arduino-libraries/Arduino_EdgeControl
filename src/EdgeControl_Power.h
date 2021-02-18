@@ -21,6 +21,8 @@
 
 #include <Arduino.h>
 
+#include "EdgeControl_Expander.h"
+
 enum PowerRail: pin_size_t {
   PWR_VBAT = 0,
   PWR_3V3 = 1,
@@ -49,6 +51,9 @@ public:
     
     float getVBat(const int adcResolution) const ;
     float getVBat() const { return getVBat(10); };
+
+    bool getSolarChargerStatus();
+    bool get5VoltStatus();
 
     [[deprecated]] inline void enableVBat() { on(PWR_VBAT); };
     [[deprecated]] inline bool statusVBat() { return status(PWR_VBAT); };

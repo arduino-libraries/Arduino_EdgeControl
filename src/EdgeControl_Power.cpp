@@ -26,7 +26,7 @@ void EdgeControl_PowerClass::begin()
     pinMode(GATED_19V_ENABLE, OUTPUT);
     pinMode(ON_MKR1, OUTPUT);
     pinMode(ON_MKR2, OUTPUT);
-    
+
     digitalWrite(GATED_VBAT_ENABLE, LOW);
     digitalWrite(GATED_3V3_ENABLE_N, HIGH);
     digitalWrite(GATED_19V_ENABLE, LOW);
@@ -53,7 +53,7 @@ void EdgeControl_PowerClass::set(const PowerRail rail, const bool status)
         break;
     }
     case PWR_19V: {
-        if(!_statuses[PWR_VBAT] && status)
+        if (!_statuses[PWR_VBAT] && status)
             digitalWrite(GATED_VBAT_ENABLE, HIGH);
         digitalWrite(GATED_19V_ENABLE, status ? HIGH : LOW);
         _statuses[PWR_19V] = status;
@@ -78,18 +78,38 @@ float EdgeControl_PowerClass::getVBat(const int adcResolution) const
 {
     constexpr float vbatVD { 100.0f / (100.0f + 475.0f) }; // Voltage Divider on VBAT_PROBE
     float valToV { 3.3f / float { (1 << adcResolution) - 1 } };
-    constexpr unsigned int count { 100 };
+    constexpr unsigned int count { 10 };
 
-    int val { 0 };
+    analogReference(V_REF);
+    analogReadResolution(adcResolution);
+
+    unsigned int val { 0 };
     for (auto i = 0; i < count; i++) {
         val += analogRead(VBAT_PROBE);
-        delay(10);
+        delay(1);
     }
 
-    // float vbat = val * valToV / count / 1.2f / vbatVD;
-    auto vbat = (float { val / count } * valToV) / vbatVD;
+    float vbat = ((val / count) * valToV) / vbatVD;
 
     return vbat;
+}
+
+bool EdgeControl_PowerClass::getSolarChargerStatus()
+{
+    if (!Expander)
+        return false;
+        
+    Expander.pinMode(EXP_FAULT_SOLAR_PANEL, INPUT);
+    return Expander.digitalRead(EXP_FAULT_SOLAR_PANEL);
+}
+
+bool EdgeControl_PowerClass::get5VoltStatus()
+{
+    if (!Expander)
+        return false;
+
+    Expander.pinMode(EXP_FAULT_5V, INPUT);
+    return Expander.digitalRead(EXP_FAULT_5V);
 }
 
 EdgeControl_PowerClass Power {};
