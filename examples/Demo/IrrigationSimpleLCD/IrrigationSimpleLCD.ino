@@ -5,7 +5,6 @@
  * - Arduino EdgeControl
  * - MicroSD card
  * - CR2032 Battery and/or 12V Lead Battery
- * - Button connectd to POWER_ON pin on the LCD breakout header
  * 
  * Usage:
  * - Define your callback functions in CustomTasks.{h,cpp}
@@ -104,12 +103,16 @@ void setup()
     delay(5000);
     Relays.off(RELAYS_CH01);
 
+    // Init the LCD display
+    LCD.begin(16, 2);
+    LCD.leftToRight();
+
     // Load alarm tasks list from file on SD.
     // See example alarmtab.txt for example and
     // AlarmTasks.{h, cpp} source files for documentation.
     loadAndSetTasks(alarmTabIDs);
 
-    // Use the a button for houskeeping stuff:
+    // Use the LCD button for houskeeping stuff:
     // Single Tap: Show status
     // Double Tap: Reload alarm tasks from SD
     // Triple Tap: Force saving data to SD
@@ -134,7 +137,7 @@ void loop()
         break;
     case SINGLE_TAP:
         Serial.println("Single Tap");
-        statusPrint();
+        statusLCD();
         buttonStatus = ZERO_TAP;
         break;
     case DOUBLE_TAP:

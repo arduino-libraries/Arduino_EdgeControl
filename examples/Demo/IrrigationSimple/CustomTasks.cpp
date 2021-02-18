@@ -4,92 +4,66 @@ void openLatchingValve()
 {
     Serial.println("Alarm: Opening Latching Valve");
 
-    LCD.home();
-    LCD.backlight();
-    LCD.print(getLocaltime());
-    LCD.setCursor(0, 1);
-    LCD.print("Opening Valve   ");
+    Serial.print("[");
+    Serial.print(getLocaltime());
+    Serial.print("] Opening Valve: ");
 
     // Polarize the opening pin of the 3-wires valve
     Latching.channelDirection(LATCHING_OUT_1, POSITIVE);
     Latching.strobe(5000);
 
-    LCD.setCursor(0, 1);
-    LCD.print("Valve Open      ");
-
-    // Power off the backlight after 5 seconds
-    Alarm.timerOnce(5, [] { backlightOff(false); });
+    Serial.println("Valve Open");
 }
 
 void closeLatchingValve()
 {
     Serial.println("Alarm: Closing Latching Valve");
 
-    LCD.home();
-    LCD.backlight();
-    LCD.print(getLocaltime());
-    LCD.setCursor(0, 1);
-    LCD.print("Closing Valve   ");
+    Serial.print("[");
+    Serial.print(getLocaltime());
+    Serial.print("] Closing Valve: ");
 
     // Polarize the closing pin of the 3-wires valve
     Latching.channelDirection(LATCHING_OUT_1, NEGATIVE);
     Latching.strobe(5000);
 
-    LCD.setCursor(0, 1);
-    LCD.print("Valve Closed    ");
-
-    // Power off the backlight after 5 seconds
-    // and power off everything else
-    Alarm.timerOnce(5, [] { backlightOff(true); });
+    Serial.println("Valve Closed");
 }
 
 void openSolenoidValve()
 {
     Serial.println("Alarm: Opening Solenoid Valve");
 
-    LCD.home();
-    LCD.backlight();
-    LCD.print(getLocaltime());
-    LCD.setCursor(0, 1);
-    LCD.print("Opening Valve   ");
+    Serial.print("[");
+    Serial.print(getLocaltime());
+    Serial.print("] Opening Valve: ");
 
     // Open the Solid State Relay on Channel 1
     Relays.on(RELAYS_CH01);
 
-    LCD.setCursor(0, 1);
-    LCD.print("Valve Open      ");
-
-    // Power off the backlight after 5 seconds
-    Alarm.timerOnce(5, [] { backlightOff(false); });
+    Serial.println("Valve Open");
 }
 
 void closeSolenoidValve()
 {
     Serial.println("Alarm: Closing Solenoid Valve");
 
-    LCD.home();
-    LCD.backlight();
-    LCD.print(getLocaltime());
-    LCD.setCursor(0, 1);
-    LCD.print("Closing Valve   ");
+    Serial.print("[");
+    Serial.print(getLocaltime());
+    Serial.print("] Closing Valve: ");
 
     // Close the Solid State Relay on Channel 1
     Relays.off(RELAYS_CH01);
 
-    LCD.setCursor(0, 1);
-    LCD.print("Valve Closed    ");
-
-    // Power off the backlight after 5 seconds
-    // and power off everything else
-    Alarm.timerOnce(5, [] { backlightOff(true); });
+    Serial.println("Valve Closed");
 }
 
 void displayClock()
 {
     String date = getLocaltime("%Y-%m-%d", true, 0);
     String time = getLocaltime("%k:%M:%S", true, 0);
-    displayMsg(date, 0, 0, true, false);
-    displayMsg(time, 5000, 1, false, true);
+    Serial.println(date);
+    Serial.println(time);
 }
 
 void blinkLed()
@@ -107,8 +81,7 @@ void getSensors()
 {
     extern std::list<DataPoint> dataPoints;
 
-    String msg = "Moisture: ";
-    Serial.print(msg);
+    Serial.print("Moisture: ");
 
     auto value = getAverageInputsRead(INPUTS_05V_CH01);
     auto perc = getMoisturePerc(INPUTS_05V_CH01);
@@ -117,40 +90,27 @@ void getSensors()
 
     Serial.println(d);
     dataPoints.push_back(d);
-
-    Alarm.timerOnce(5, [] { backlightOff(true); });
 }
 
 void saveData()
 {
-    String msg = "Saving Data";
-    Serial.println(msg);
-    LCD.clear();
-    LCD.backlight();
-    LCD.home();
-    LCD.print(msg);
-    for (auto rem = 16 - msg.length(); rem > 0; rem--)
-        LCD.write(' ');
+    Serial.println("Saving Data...");
 
-    LCD.home();
-    LCD.setCursor(0, 1);
     auto ret = saveSensorsData();
     if (ret <= 0)
-        LCD.print("ERROR:");
+        Serial.print("Error:");
     else
-        LCD.print("Saved:");
+        Serial.print("Saved:");
 
-    LCD.print(ret);
-
-    Alarm.timerOnce(5, [] { backlightOff(true); });
+    Serial.println(ret);
 }
 
 void helloWorld()
 {
-    displayMsg("Hello, World!");
+    Serial.println("Hello, World!");
 }
 
 void hiThere()
 {
-    displayMsg("Hi, There!");
+    Serial.println("Hi, There!");
 }

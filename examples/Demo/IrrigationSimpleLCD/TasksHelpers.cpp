@@ -82,19 +82,30 @@ void freeTasks(std::list<AlarmID_t>& alarmIDs)
  */
 void loadAndSetTasks(std::list<AlarmID_t>& alarmIDs, bool reload)
 {
+    LCD.clear();
+    LCD.backlight();
+
+    LCD.setCursor(0, 0);
     if (reload) {
         Serial.println("Reloading Tasks: ");
+        LCD.print("Reloading Tasks:");
         freeTasks(alarmIDs);
     } else {
         Serial.println("Loading Tasks: ");
+        LCD.print("Loading Tasks:");
     }
     
     auto taskList = loadTasks();
     alarmIDs = setTasks(taskList);
     printTasks(taskList);
 
-    Serial.print(alarmIDs.size());
-    Serial.println(" loaded"); 
+    LCD.setCursor(0, 1);
+    LCD.print(alarmIDs.size());
+    LCD.print(" loaded");
+
+    // Power off the backlight after 5 seconds
+    // and power off everything else
+    Alarm.timerOnce(5, [] { backlightOff(true); });    
 }
 
 void printTasks(const std::list<AlarmTask> taskList)

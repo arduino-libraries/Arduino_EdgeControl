@@ -26,32 +26,75 @@ void setSystemClock(String compileDate, String compileTime)
     Serial.println(getLocaltime());
 }
 
-void statusPrint()
+void statusLCD()
 {
+    // Small helper for waiting without delay()
+    auto wait = [](size_t timeout) {
+        for (auto go = millis() + timeout; millis() < go; yield())
+            ;
+    };
+
     String msg;
 
-    Serial.println("Measures...");
+    LCD.clear();
+    LCD.backlight();
 
+    LCD.home();
+    LCD.print("Measures...");
+
+    wait(500);
+
+    LCD.setCursor(16, 0);
     msg = "Moisture [";
     msg += dataPoints.size();
     msg += "]";
-    Serial.println(msg);
-
+    LCD.print(msg);
+    LCD.autoscroll();
+    LCD.setCursor(16, 1);
     msg = "Latest: ";
     auto d = dataPoints.back();
     msg += d.moistureP;
     msg += "%";
-    Serial.println(msg);
 
-    Serial.println("Loaded Tasks...");
+    while (msg.length() < 16)
+        msg += ' ';
 
+    LCD.print(msg);
+    LCD.noAutoscroll();
+    wait(1000);
+
+    LCD.clear();
+    LCD.home();
+    LCD.print("Loaded Tasks...");
+
+    wait(500);
+
+    LCD.setCursor(16, 0);
     msg = "Custom: ";
     msg += alarmTabIDs.size();
-    Serial.println(msg);
-
+    LCD.print(msg);
+    LCD.autoscroll();
+    LCD.setCursor(16, 1);
     msg = "Sketch: ";
     msg += alarmSketchIDs.size();
-    Serial.println(msg);
+
+    while (msg.length() < 16)
+        msg += ' ';
+
+    LCD.print(msg);
+    LCD.noAutoscroll();
+    wait(1000);
+
+    // Power off the backlight after 5 seconds
+    // and power off everything else
+    Alarm.timerOnce(5, [] { backlightOff(true); });
+}
+
+void backlightOff(bool powerDown)
+{
+    LCD.noBacklight();
+    if (powerDown)
+        LCD.clear();
 }
 
 float getAverage05VRead(int pin)
@@ -107,4 +150,31 @@ int getMoisturePerc(int pin)
     auto perc = map(val, dryValue, wetValue, 0, 100);
 
     return perc;
+}
+
+void displayMsg(const String msg, const unsigned timeout, const unsigned line, const bool clear, const bool off)
+{
+    if (clear)
+        LCD.clear();
+        
+    LCD.home();
+    LCD.backlight();
+
+    if (line == 1)
+        LCD.setCursor(0, 1);
+
+    if (msg.length() > 16)
+        LCD.autoscroll();
+
+    LCD.print(msg);
+
+    for (auto go = millis() + timeout; millis() < go; yield())
+        ;
+
+    LCD.noAutoscroll();
+
+    if (off) {
+        LCD.clear();
+        LCD.noBacklight();
+    }
 }
