@@ -98,9 +98,9 @@ void saveData()
 
     auto ret = saveSensorsData();
     if (ret <= 0)
-        Serial.print("Error:");
+        Serial.print("Error: ");
     else
-        Serial.print("Saved:");
+        Serial.print("Saved: ");
 
     Serial.println(ret);
 }
