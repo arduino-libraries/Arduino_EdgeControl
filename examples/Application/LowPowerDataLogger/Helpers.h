@@ -3,6 +3,8 @@
 #include <Arduino.h>
 #include <mbed_mktime.h>
 
+#include "DebugMode.h"
+
 // Convert compile time to system time
 time_t compileDateTimeToSystemTime(const String date, const String time, bool local_time = true, int tz = 0)
 {
@@ -72,10 +74,10 @@ void setSystemClock(String compileDate, String compileTime)
     // Set both system time and the alarms one
     set_time(actualTime);
 
-    Serial.print("Compile Date and Time: ");
-    Serial.println(getLocaltime(buildTime));
-    Serial.print("RTC Date and Time:     ");
-    Serial.println(getLocaltime(rtcTime));
-    Serial.print("System Clock:          ");
-    Serial.println(getLocaltime());
+    if constexpr (debugMode) Serial.print("Compile Date and Time: ");
+    if constexpr (debugMode) Serial.println(getLocaltime(buildTime));
+    if constexpr (debugMode) Serial.print("RTC Date and Time:     ");
+    if constexpr (debugMode) Serial.println(getLocaltime(rtcTime));
+    if constexpr (debugMode) Serial.print("System Clock:          ");
+    if constexpr (debugMode) Serial.println(getLocaltime());
 }
