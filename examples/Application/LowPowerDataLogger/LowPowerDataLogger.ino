@@ -14,7 +14,7 @@
       https://os.mbed.com/docs/mbed-os/v6.7/apis/lowpowerticker.html
     * EventQueue for managing scheduled tasks in IRQ-friendly contexts
       https://os.mbed.com/docs/mbed-os/v6.7/apis/eventqueue.html
-    * Mutex for coordinating R/W access to SPIF
+    * Mutex for coordinating R/W access to SPIF and Power management
       https://os.mbed.com/docs/mbed-os/v6.7/apis/mutex.html
     * TDBStore for keyvalue datastore
       https://os.mbed.com/docs/mbed-os/v6.7/apis/kvstore.html
@@ -233,6 +233,7 @@ void printStats()
     }
 
     char key[128] { 0 };
+    unsigned int counter { 0 };
     while (tdb_store.iterator_next(it, key, sizeof(key)) != MBED_ERROR_ITEM_NOT_FOUND) {
         // Get info about the key and its contents
         tdb_store.get_info(key, &info);
@@ -259,7 +260,10 @@ void printStats()
         msg += " }";
         DebugSerial.print(msg);
         DebugSerial.println();
+        counter++;
     }
+    DebugSerial.print(counter);
+    DebugSerial.println(" keys stored");
     // Close the iterator at the end of the cycle
     tdb_store.iterator_close(it);
     spifMutex.unlock();
@@ -308,7 +312,6 @@ void readSensors()
 
     powerOff();
 }
-
 
 // Move data from SPIF to SD
 void storeData()

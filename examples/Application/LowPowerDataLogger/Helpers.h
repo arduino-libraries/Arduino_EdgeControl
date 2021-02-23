@@ -5,8 +5,18 @@
 
 #include "DebugMode.h"
 
+rtos::Mutex pwrMutex;
+
 void powerOn()
 {
+    DebugSerial.print("Powering On");
+    auto locked = pwrMutex.trylock();
+    if (!locked) {
+        DebugSerial.println(": Already Powered On!");
+        return;
+    }
+    DebugSerial.println();
+
     Power.on(PWR_VBAT);
     Power.on(PWR_3V3);
     Wire.begin();
@@ -17,11 +27,20 @@ void powerOn()
 
 void powerOff()
 {
+    DebugSerial.print("Powering Off");
+    auto owner = rtos::ThisThread::get_id() == pwrMutex.get_owner();
+    if (!owner) {
+        DebugSerial.println(": Someone still needs power!");
+        return;
+    }
+    DebugSerial.println();
+
     Inputs.end();
     Expander.end();
     Wire.end();
     Power.off(PWR_3V3);
     Power.off(PWR_VBAT);
+    pwrMutex.unlock();
 }
 
 int getAverageInputsRead(int pin, const size_t loops)
