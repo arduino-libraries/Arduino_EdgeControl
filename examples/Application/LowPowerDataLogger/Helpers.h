@@ -5,6 +5,39 @@
 
 #include "DebugMode.h"
 
+void powerOn()
+{
+    Power.on(PWR_VBAT);
+    Power.on(PWR_3V3);
+    Wire.begin();
+    delay(500);
+    Expander.begin();
+    Inputs.begin();
+}
+
+void powerOff()
+{
+    Inputs.end();
+    Expander.end();
+    Wire.end();    
+    Power.off(PWR_3V3);
+    Power.off(PWR_VBAT);
+}
+
+int getAverageInputsRead(int pin, const size_t loops)
+{
+    unsigned int tot { 0 };
+
+    analogReadResolution(ADC_RESOLUTION);
+
+    Inputs.enable();
+    for (auto i = 0; i < loops; i++)
+        tot += Inputs.analogRead(pin);
+    Inputs.disable();
+
+    return tot / loops;
+}
+
 // Convert compile time to system time
 time_t compileDateTimeToSystemTime(const String date, const String time, bool local_time = true, int tz = 0)
 {

@@ -1,3 +1,37 @@
+/*
+    A Low Power Data Logger for the Arduino Edge Control
+
+    This example demonstrates how to use a few advanced features of the MbedOS
+    APIs to build a low power data logger.
+
+    The sketch periodically reads data from one of the analog INPUTS and stores
+    it on the SPIF memory using a KeyValue datastore. When the user press a
+    button connected to the POWER_ON, the data is moved from the SPIF to a
+    FAT-formatted SD Card.
+
+    Features:
+    * Low Power Ticker for managing recurring task
+      https://os.mbed.com/docs/mbed-os/v6.7/apis/lowpowerticker.html
+    * EventQueue for managing scheduled tasks in IRQ-friendly contexts
+      https://os.mbed.com/docs/mbed-os/v6.7/apis/eventqueue.html
+    * Mutex for coordinating R/W access to SPIF
+      https://os.mbed.com/docs/mbed-os/v6.7/apis/mutex.html
+    * TDBStore for keyvalue datastore
+      https://os.mbed.com/docs/mbed-os/v6.7/apis/kvstore.html
+    
+    Requirements:
+    * Arduino Edge Control
+    * SD Card
+    * Momentary button
+    
+    Circuit:
+    * Insert the SD Card
+    * Connect the button pins to GND and POWER_ON on the LCD header
+    * Connect a 12V Power Supply to GND/S pins
+    
+
+    Created by Giampaolo Mancini
+*/
 #include <Arduino_EdgeControl.h>
 #include <FATFilesystem.h>
 #include <SDBlockDevice.h>
@@ -77,8 +111,8 @@ void setup()
     auto err = tdb_store.init();
     DebugSerial.println("TDB Init " + String(err == 0 ? "OK" : "KO") + " (" + String(err) + ")");
 
-    // Initilizing the SD Card and the FAT filsystem function-wide
-    // helps managing SD Card extraction and insertion at run-time
+    // Initialize the SD Card and the FAT filesystem function-wide
+    // to manage SD Card extraction and insertion at run-time
     SDBlockDevice sd(SD_MOSI, SD_MISO, SD_CLK, SD_CS);
     FATFileSystem fat("fat");
     DebugSerial.print("Checking the SD Card");
@@ -129,17 +163,42 @@ void loop()
     }
 }
 
+void buttonPress()
+{
+    const auto now = millis();
+    // Poor-man debouncing
+    if (now - previousPress > 100)
+        taps++;
+
+    previousPress = now;
+}
+
+void detectTaps()
+{
+    // Timeout to validate the button taps counter
+    constexpr unsigned int buttonTapsTimeout { 300 };
+
+    // Set the button status and reset the taps counter when button has been
+    // pressed at least once and button taps validation timeout has been reached.
+    if (taps > 0 && millis() - previousPress >= buttonTapsTimeout) {
+        buttonStatus = static_cast<ButtonStatus>(taps);
+        taps = 0;
+    }
+}
+
 void printStatsISR()
 {
-    // Do something IRQ safe
+    // Do something IRQ-safe here...
+    // irqSafeCall();
+
     // ... and distpatch IRQ-unsafe execution to Event Queue
     queue.call(printStats);
 }
 
+// Print current stored measures
 void printStats()
 {
     powerOn();
-    DebugSerial.begin(115200);
 
     Expander.pinMode(EXP_LED1, OUTPUT);
     Expander.digitalWrite(EXP_LED1, LOW);
@@ -150,8 +209,10 @@ void printStats()
     delay(100);
     Expander.digitalWrite(EXP_LED1, HIGH);
 
+    // If not in debug mode just blink the LED and exit
     if constexpr (!debugMode)
         return;
+    DebugSerial.begin(115200);
 
     spifMutex.lock();
 
@@ -198,23 +259,27 @@ void printStats()
     tdb_store.iterator_close(it);
     spifMutex.unlock();
 
-    Serial.end();
+    DebugSerial.end();
     powerOff();
 }
 
 void readSensorsISR()
 {
-    // Do something IRQ safe
+    // Do something IRQ-safe here...
+    // irqSafeCall();
+
     // ... and distpatch IRQ-unsafe execution to Event Queue
     queue.call(readSensors);
 }
 
+
+// Read measures from sensors and store on SPIF
 void readSensors()
 {
     powerOn();
 
     DebugSerial.begin(115200);
-    DebugSerial.println("User Context");
+    DebugSerial.println("Reading Sensors");
 
     Expander.pinMode(EXP_LED1, OUTPUT);
     Expander.digitalWrite(EXP_LED1, LOW);
@@ -234,70 +299,17 @@ void readSensors()
     if (res == MBED_SUCCESS)
         DebugSerial.println(key + ": " + String(value));
 
-    Serial.end();
+    DebugSerial.end();
 
     powerOff();
 }
 
-void powerOn()
-{
-    Power.on(PWR_VBAT);
-    Power.on(PWR_3V3);
-    Wire.begin();
-    delay(500);
-    Expander.begin();
-    Inputs.begin();
-}
 
-void powerOff()
-{
-    Inputs.end();
-    Expander.end();
-    Wire.end();
-    Power.off(PWR_3V3);
-    Power.off(PWR_VBAT);
-}
-
-int getAverageInputsRead(int pin, const size_t loops)
-{
-    unsigned int tot { 0 };
-
-    analogReadResolution(ADC_RESOLUTION);
-
-    Inputs.enable();
-    for (auto i = 0; i < loops; i++)
-        tot += Inputs.analogRead(pin);
-    Inputs.disable();
-
-    return tot / loops;
-}
-
-void buttonPress()
-{
-    const auto now = millis();
-    // Poor-man debouncing
-    if (now - previousPress > 100)
-        taps++;
-
-    previousPress = now;
-}
-
-void detectTaps()
-{
-    // Timeout to validate the button taps counter
-    constexpr unsigned int buttonTapsTimeout { 300 };
-
-    // Set the button status and reset the taps counter when button has been
-    // pressed at least once and button taps validation timeout has been reached.
-    if (taps > 0 && millis() - previousPress >= buttonTapsTimeout) {
-        buttonStatus = static_cast<ButtonStatus>(taps);
-        taps = 0;
-    }
-}
-
+// Move data from SPIF to SD
 void storeData()
 {
     powerOn();
+
     DebugSerial.begin(115200);
     DebugSerial.println("Saving Data on SD Card");
 
@@ -336,6 +348,7 @@ void storeData()
     while (tdb_store.iterator_next(it, key, sizeof(key)) != MBED_ERROR_ITEM_NOT_FOUND) {
         DebugSerial.print("Saving ");
         DebugSerial.print(key);
+
         ret = tdb_store.get_info(key, &info);
         if (ret != MBED_SUCCESS) {
             DebugSerial.println(": error getting the info");
@@ -368,6 +381,7 @@ void storeData()
             DebugSerial.println(-errno);
             continue;
         }
+
         ret = fflush(f);
         if (ret != 0) {
             DebugSerial.print(": flushing error: ");
@@ -381,8 +395,10 @@ void storeData()
         if (ret != MBED_SUCCESS) {
             DebugSerial.println(": error removing.");
         }
-        DebugSerial.println(" Removed.");
+        DebugSerial.println(": removed.");
+
         counter++;
+
         Expander.digitalWrite(EXP_LED1, LOW);
         delay(25);
         Expander.digitalWrite(EXP_LED1, HIGH);
@@ -400,7 +416,6 @@ void storeData()
     Expander.digitalWrite(EXP_LED1, LOW);
     delay(500);
     Expander.digitalWrite(EXP_LED1, HIGH);
-    // delay(50);
 
     powerOff();
 }
