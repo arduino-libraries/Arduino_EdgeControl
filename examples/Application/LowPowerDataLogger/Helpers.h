@@ -1,4 +1,4 @@
-#pragma one
+#pragma once
 
 #include <Arduino.h>
 #include <mbed_mktime.h>
@@ -19,7 +19,7 @@ void powerOff()
 {
     Inputs.end();
     Expander.end();
-    Wire.end();    
+    Wire.end();
     Power.off(PWR_3V3);
     Power.off(PWR_VBAT);
 }
@@ -56,15 +56,11 @@ time_t compileDateTimeToSystemTime(const String date, const String time, bool lo
     t.tm_year = year - 1900;
     _rtc_maketime(&t, &seconds, RTC_FULL_LEAP_YEAR_SUPPORT);
 
-    if (!local_time)
-    {
-        if (tz > 200)
-        {
+    if (!local_time) {
+        if (tz > 200) {
             tz = 0x100 - tz; // Handle negative values
             seconds += (3600UL) * tz;
-        }
-        else
-        {
+        } else {
             seconds -= (3600UL) * tz;
         }
     }
@@ -81,7 +77,7 @@ String getLocaltime()
     return String(buffer);
 }
 
-String getLocaltime(const time_t &build_time)
+String getLocaltime(const time_t& build_time)
 {
     char buffer[32];
     tm t;
@@ -91,7 +87,7 @@ String getLocaltime(const time_t &build_time)
 }
 
 /**
- * Set system and TimeAlarm clock from compile datetime or RTC
+ * Set system clock from compile datetime or RTC
  */
 void setSystemClock(String compileDate, String compileTime)
 {
@@ -104,13 +100,13 @@ void setSystemClock(String compileDate, String compileTime)
     // to keep the RTC running.
     auto actualTime = rtcTime > buildTime ? rtcTime : buildTime;
 
-    // Set both system time and the alarms one
+    // Set both system time
     set_time(actualTime);
 
-    if constexpr (debugMode) Serial.print("Compile Date and Time: ");
-    if constexpr (debugMode) Serial.println(getLocaltime(buildTime));
-    if constexpr (debugMode) Serial.print("RTC Date and Time:     ");
-    if constexpr (debugMode) Serial.println(getLocaltime(rtcTime));
-    if constexpr (debugMode) Serial.print("System Clock:          ");
-    if constexpr (debugMode) Serial.println(getLocaltime());
+    DebugSerial.print("Compile Date and Time: ");
+    DebugSerial.println(getLocaltime(buildTime));
+    DebugSerial.print("RTC Date and Time:     ");
+    DebugSerial.println(getLocaltime(rtcTime));
+    DebugSerial.print("System Clock:          ");
+    DebugSerial.println(getLocaltime());
 }

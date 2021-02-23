@@ -39,7 +39,12 @@
 #include <TDBStore.h>
 #include <chrono>
 
-// arduino-cli compile -b arduino-git:mbed:edge_control --build-property 'compiler.cpp.extra_flags="-DDEBUG=1"'
+/*
+    To enable debugging print on Serial Monitor define DEBUG on "DebugMode.h" or
+    compile the sketch with the CLI using the '--build-property' parameter, eg.
+    
+    arduino-cli compile -b arduino:mbed:edge_control --build-property 'compiler.cpp.extra_flags="-DDEBUG=1"'
+*/
 #include "DebugMode.h"
 #include "Helpers.h"
 
