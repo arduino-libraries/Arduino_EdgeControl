@@ -1,5 +1,5 @@
 # Arduino_EdgeControl
-Board support package for Arduino Outdoor Carrier
+Board support package for Arduino Edge Control
 
 ## License 
 

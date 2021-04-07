@@ -166,6 +166,9 @@ void loop()
         break;
     }
     }
+
+    // Schedule for low-power operations.
+    delay(100);
 }
 
 void buttonPress()

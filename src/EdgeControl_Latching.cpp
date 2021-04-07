@@ -1,5 +1,5 @@
 /*
-  This file is part of the Arduino Outdoor Carrier library.
+  This file is part of the Arduino Edge Control library.
   Copyright (C) 2017  Arduino AG (http://www.arduino.cc/)
 
   This library is free software; you can redistribute it and/or

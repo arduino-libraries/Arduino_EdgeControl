@@ -1,6 +1,6 @@
 #include "Arduino_EdgeControl.h"
 
-#define SSR_POLL
+// #define SSR_POLL
 
 constexpr unsigned long onInterval = { 5000 };
 constexpr unsigned long offInterval = { 5000 };
@@ -10,7 +10,7 @@ unsigned long onTime;
 unsigned long pollTime;
 bool on = false;
 
-int relayChannel { RELAYS_CH04 };
+int relayChannel { RELAYS_CH01 };
 
 void setup()
 {
@@ -22,8 +22,8 @@ void setup()
 
     Serial.println("Hello, SolidStateRelay!");
     
-    Power.enable3V3();
-    Power.enable5V();
+    Power.on(PWR_3V3);
+    Power.on(PWR_VBAT);
 
     Wire.begin();
     Serial.print("Waiting for IO Expander Initialisation...");
