@@ -1,61 +1,9 @@
 #pragma once
 
 #include <Arduino.h>
+#include <mbed.h>
 #include <mbed_mktime.h>
 
-#include "DebugMode.h"
-
-rtos::Mutex pwrMutex;
-
-void powerOn()
-{
-    DebugSerial.print("Powering On");
-    auto locked = pwrMutex.trylock();
-    if (!locked) {
-        DebugSerial.println(": Already Powered On!");
-        return;
-    }
-    DebugSerial.println();
-
-    Power.on(PWR_VBAT);
-    Power.on(PWR_3V3);
-    Wire.begin();
-    delay(500);
-    Expander.begin();
-    Input.begin();
-}
-
-void powerOff()
-{
-    DebugSerial.print("Powering Off");
-    auto owner = rtos::ThisThread::get_id() == pwrMutex.get_owner();
-    if (!owner) {
-        DebugSerial.println(": Someone still needs power!");
-        return;
-    }
-    DebugSerial.println();
-
-    Input.end();
-    Expander.end();
-    Wire.end();
-    Power.off(PWR_3V3);
-    Power.off(PWR_VBAT);
-    pwrMutex.unlock();
-}
-
-int getAverageInputRead(int pin, const size_t loops)
-{
-    unsigned int tot { 0 };
-
-    analogReadResolution(ADC_RESOLUTION);
-
-    Input.enable();
-    for (auto i = 0; i < loops; i++)
-        tot += Input.analogRead(pin);
-    Input.disable();
-
-    return tot / loops;
-}
 
 // Convert compile time to system time
 time_t compileDateTimeToSystemTime(const String date, const String time, bool local_time = true, int tz = 0)
@@ -122,10 +70,10 @@ void setSystemClock(String compileDate, String compileTime)
     // Set both system time
     set_time(actualTime);
 
-    DebugSerial.print("Compile Date and Time: ");
-    DebugSerial.println(getLocaltime(buildTime));
-    DebugSerial.print("RTC Date and Time:     ");
-    DebugSerial.println(getLocaltime(rtcTime));
-    DebugSerial.print("System Clock:          ");
-    DebugSerial.println(getLocaltime());
+    Serial.print("Compile Date and Time: ");
+    Serial.println(getLocaltime(buildTime));
+    Serial.print("RTC Date and Time:     ");
+    Serial.println(getLocaltime(rtcTime));
+    Serial.print("System Clock:          ");
+    Serial.println(getLocaltime());
 }

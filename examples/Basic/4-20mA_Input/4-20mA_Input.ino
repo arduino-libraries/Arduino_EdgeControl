@@ -10,10 +10,10 @@
 constexpr unsigned int adcResolution { 12 };
 
 constexpr pin_size_t inputChannels [] {
-    INPUTS_420mA_CH01,
-    INPUTS_420mA_CH02,
-    INPUTS_420mA_CH03,
-    INPUTS_420mA_CH04
+    INPUT_420mA_CH01,
+    INPUT_420mA_CH02,
+    INPUT_420mA_CH03,
+    INPUT_420mA_CH04
 };
 constexpr size_t inputChannelsLen { sizeof(inputChannels) / sizeof(inputChannels[0]) };
 int inputChannelIndex { 0 };
@@ -48,8 +48,8 @@ void setup()
     }
     Serial.println(" done.");
 
-    Inputs.begin();
-    Inputs.enable();
+    Input.begin();
+    Input.enable();
 
     analogReadResolution(adcResolution);
 }
@@ -58,10 +58,10 @@ void loop()
 {
     Serial.print("4-20mA Input Channel ");
     switch (inputChannels[inputChannelIndex]) {
-        case INPUTS_420mA_CH01: Serial.print("01"); break;
-        case INPUTS_420mA_CH02: Serial.print("02"); break;
-        case INPUTS_420mA_CH03: Serial.print("03"); break;
-        case INPUTS_420mA_CH04: Serial.print("04"); break;
+        case INPUT_420mA_CH01: Serial.print("01"); break;
+        case INPUT_420mA_CH02: Serial.print("02"); break;
+        case INPUT_420mA_CH03: Serial.print("03"); break;
+        case INPUT_420mA_CH04: Serial.print("04"); break;
         default: break;
     }
     Serial.print(": ");
@@ -86,7 +86,7 @@ Voltages getAverageAnalogRead(int pin)
     int tot { 0 };
 
     for (auto i = 0; i < loops; i++)
-        tot += Inputs.analogRead(pin);
+        tot += Input.analogRead(pin);
     const auto avg = float { tot } * toV / float { loops };
 
     return { avg, avg / rDiv };

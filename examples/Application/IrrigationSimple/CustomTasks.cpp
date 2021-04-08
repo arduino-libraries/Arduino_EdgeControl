@@ -39,7 +39,7 @@ void openSolenoidValve()
     Serial.print("] Opening Valve: ");
 
     // Open the Solid State Relay on Channel 1
-    Relays.on(RELAYS_CH01);
+    Relay.on(RELAY_CH01);
 
     Serial.println("Valve Open");
 }
@@ -53,7 +53,7 @@ void closeSolenoidValve()
     Serial.print("] Closing Valve: ");
 
     // Close the Solid State Relay on Channel 1
-    Relays.off(RELAYS_CH01);
+    Relay.off(RELAY_CH01);
 
     Serial.println("Valve Closed");
 }
@@ -83,8 +83,8 @@ void getSensors()
 
     Serial.print("Moisture: ");
 
-    auto value = getAverageInputsRead(INPUTS_05V_CH01);
-    auto perc = getMoisturePerc(INPUTS_05V_CH01);
+    auto value = getAverageInputRead(INPUT_05V_CH01);
+    auto perc = getMoisturePerc(INPUT_05V_CH01);
 
     DataPoint d{value, perc};
 

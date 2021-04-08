@@ -89,7 +89,7 @@ void setup()
     // Init the sensors inputs.
     // If needed, will also take care of enabling the
     // 3V3 and 12V power rails and to initialize the IO Expander.
-    Inputs.begin();
+    Input.begin();
 
     Latching.begin();
     Latching.channelDirection(LATCHING_OUT_1, POSITIVE);
@@ -97,11 +97,11 @@ void setup()
     Latching.channelDirection(LATCHING_OUT_1, NEGATIVE);
     Latching.strobe(5000);
 
-    Relays.begin();
+    Relay.begin();
     delay(1000);
-    Relays.on(RELAYS_CH01);
+    Relay.on(RELAY_CH01);
     delay(5000);
-    Relays.off(RELAYS_CH01);
+    Relay.off(RELAY_CH01);
 
     // Init the LCD display
     LCD.begin(16, 2);

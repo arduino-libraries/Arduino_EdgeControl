@@ -32,8 +32,8 @@ void setup()
     }
     Serial.println(" done.");
 
-    Inputs.begin();
-    Inputs.enable();
+    Input.begin();
+    Input.enable();
 
     analogReadResolution(adcResolution);
 }
@@ -43,7 +43,7 @@ void loop()
     Serial.print("19V Input Channel ");
     Serial.print(": ");
 
-    auto [ voltsMuxer, voltsReference ] = getAverageAnalogRead(INPUTS_19V_REF);
+    auto [ voltsMuxer, voltsReference ] = getAverageAnalogRead(INPUT_19V_REF);
 
     Serial.print(voltsReference);
     Serial.print(" (");
@@ -61,7 +61,7 @@ Voltages getAverageAnalogRead(int pin)
     int tot { 0 };
 
     for (auto i = 0; i < loops; i++)
-        tot += Inputs.analogRead(pin);
+        tot += Input.analogRead(pin);
     const auto avg = float { tot } * toV / float { loops };
 
     return { avg, avg / rDiv };

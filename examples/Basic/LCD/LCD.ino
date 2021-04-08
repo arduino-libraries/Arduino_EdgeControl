@@ -2,8 +2,8 @@
  LCD Display (HD44780) via LiquidCrystal for TCA6224A 
 
   The circuit:
- * Arduino Outdoor Carrier
- * Arduino Outdoor Carrier LCD brekout board
+ * Arduino Edge Control
+ * Arduino Edge Control LCD brekout board
 
 */
 
@@ -52,7 +52,7 @@ void setup()
         ;
 
     delay(1000);
-    Serial.println("Testing LCD for Arduino Outdoor Carrier");
+    Serial.println("Testing LCD for Arduino Edge Control");
 
     Power.enable3V3();
     Power.enable5V();

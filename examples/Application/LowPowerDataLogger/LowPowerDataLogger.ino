@@ -38,6 +38,7 @@
 #include <SPIFBlockDevice.h>
 #include <TDBStore.h>
 #include <chrono>
+#include <mbed.h>
 
 /*
     To enable debugging print on Serial Monitor define DEBUG on "DebugMode.h" or
@@ -298,7 +299,7 @@ void readSensors()
     delay(50);
     Expander.digitalWrite(EXP_LED1, HIGH);
 
-    auto value = getAverageInputsRead(INPUTS_05V_CH01, 10);
+    auto value = getAverageInputRead(INPUT_05V_CH01, 10);
 
     String key = "key_";
     auto ts = time(nullptr);

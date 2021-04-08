@@ -17,9 +17,9 @@
   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#include <EdgeControl_Watermarks.h>
+#include <EdgeControl_Watermark.h>
 
-void EdgeControl_WatermarksClass::begin()
+void EdgeControl_WatermarkClass::begin()
 {
     highPrecisionMode(OUTPUT);
     highPrecisionWrite(LOW);
@@ -44,76 +44,76 @@ void EdgeControl_WatermarksClass::begin()
     _channel = 16;
 }
 
-void EdgeControl_WatermarksClass::end()
+void EdgeControl_WatermarkClass::end()
 {
     _channel = 16;
 }
 
-void EdgeControl_WatermarksClass::enable()
+void EdgeControl_WatermarkClass::enable()
 {
     Expander.digitalWrite(EXP_05V_INPUT_EN, HIGH);
     Expander.digitalWrite(EXP_WATERMARK_EN, LOW);
 }
 
-void EdgeControl_WatermarksClass::disable()
+void EdgeControl_WatermarkClass::disable()
 {
     Expander.digitalWrite(EXP_WATERMARK_EN, HIGH);
 }
 
-void EdgeControl_WatermarksClass::commonWrite(PinStatus status)
+void EdgeControl_WatermarkClass::commonWrite(PinStatus status)
 {
     ::digitalWrite(SENSOR_COMMON, status);
 }
 
-void EdgeControl_WatermarksClass::commonMode(PinMode mode)
+void EdgeControl_WatermarkClass::commonMode(PinMode mode)
 {
     ::pinMode(SENSOR_COMMON, mode);
 }
 
-void EdgeControl_WatermarksClass::calibrationWrite(PinStatus status)
+void EdgeControl_WatermarkClass::calibrationWrite(PinStatus status)
 {
     ::digitalWrite(SENSOR_CALIB, status);
 }
 
-void EdgeControl_WatermarksClass::calibrationMode(PinMode mode)
+void EdgeControl_WatermarkClass::calibrationMode(PinMode mode)
 {
     ::pinMode(SENSOR_CALIB, mode);
 }
 
-void EdgeControl_WatermarksClass::highPrecisionWrite(PinStatus status)
+void EdgeControl_WatermarkClass::highPrecisionWrite(PinStatus status)
 {
     Expander.digitalWrite(EXP_SENSOR_HIGH_P, status);
 }
 
-void EdgeControl_WatermarksClass::highPrecisionMode(PinMode mode)
+void EdgeControl_WatermarkClass::highPrecisionMode(PinMode mode)
 {
     Expander.pinMode(EXP_SENSOR_HIGH_P, mode);
 }
 
-void EdgeControl_WatermarksClass::fastDischargeWrite(PinStatus status)
+void EdgeControl_WatermarkClass::fastDischargeWrite(PinStatus status)
 {
     Expander.digitalWrite(EXP_SENSOR_DISCHARGE, status);
 }
 
-void EdgeControl_WatermarksClass::fastDischargeMode(PinMode mode)
+void EdgeControl_WatermarkClass::fastDischargeMode(PinMode mode)
 {
     Expander.pinMode(EXP_SENSOR_DISCHARGE, mode);
 }
 
-void EdgeControl_WatermarksClass::fastDischarge(size_t duration)
+void EdgeControl_WatermarkClass::fastDischarge(size_t duration)
 {
     fastDischargeWrite(HIGH);
     delay(_highPrecision ? duration * 2 : duration);
     fastDischargeWrite(LOW);
 }
 
-void EdgeControl_WatermarksClass::setHighPrecision(bool precision)
+void EdgeControl_WatermarkClass::setHighPrecision(bool precision)
 {
     highPrecisionWrite(precision ? HIGH : LOW);
     _highPrecision = precision;
 }
 
-bool EdgeControl_WatermarksClass::selectSensor(pin_size_t channel)
+bool EdgeControl_WatermarkClass::selectSensor(pin_size_t channel)
 {
     if (0 > channel > 15)
         return false;
@@ -131,21 +131,21 @@ bool EdgeControl_WatermarksClass::selectSensor(pin_size_t channel)
     return true;
 }
 
-PinStatus EdgeControl_WatermarksClass::digitalRead(pin_size_t pin)
+PinStatus EdgeControl_WatermarkClass::digitalRead(pin_size_t pin)
 {
     selectSensor(pin);
 
     return ::digitalRead(SENSOR_CAPTURE);
 }
 
-int EdgeControl_WatermarksClass::analogRead(pin_size_t pin)
+int EdgeControl_WatermarkClass::analogRead(pin_size_t pin)
 {
     selectSensor(pin);
 
     return ::analogRead(SENSOR_CAPTURE_A);
 }
 
-void EdgeControl_WatermarksClass::digitalWrite(pin_size_t pin, PinStatus status)
+void EdgeControl_WatermarkClass::digitalWrite(pin_size_t pin, PinStatus status)
 {
     ::pinMode(SENSOR_CAPTURE, OUTPUT);
 
@@ -155,7 +155,7 @@ void EdgeControl_WatermarksClass::digitalWrite(pin_size_t pin, PinStatus status)
     ::pinMode(SENSOR_CAPTURE, INPUT);
 }
 
-void EdgeControl_WatermarksClass::analogWrite(pin_size_t pin, int val)
+void EdgeControl_WatermarkClass::analogWrite(pin_size_t pin, int val)
 {
     ::pinMode(SENSOR_CAPTURE_A, OUTPUT);
 
@@ -165,4 +165,4 @@ void EdgeControl_WatermarksClass::analogWrite(pin_size_t pin, int val)
     ::pinMode(SENSOR_CAPTURE_A, INPUT);
 }
 
-EdgeControl_WatermarksClass Watermarks {};
+EdgeControl_WatermarkClass Watermark {};

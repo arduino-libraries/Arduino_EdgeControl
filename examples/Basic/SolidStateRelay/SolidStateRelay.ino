@@ -10,7 +10,7 @@ unsigned long onTime;
 unsigned long pollTime;
 bool on = false;
 
-int relayChannel { RELAYS_CH01 };
+int relayChannel { RELAY_CH01 };
 
 void setup()
 {
@@ -41,7 +41,7 @@ void setup()
         delay(100);
     }
 
-    Relays.begin();
+    Relay.begin();
 }
 
 void loop()
@@ -49,7 +49,7 @@ void loop()
     if (millis() > onTime && !on) {
         Serial.println("RELAY ON");
 
-        Relays.on(relayChannel);
+        Relay.on(relayChannel);
 
         Expander.digitalWrite(EXP_LED1, LOW);
 
@@ -60,7 +60,7 @@ void loop()
     if (millis() > offTime && on) {
         Serial.println("RELAY OFF");
 
-        Relays.off(relayChannel);
+        Relay.off(relayChannel);
 
         Expander.digitalWrite(EXP_LED1, HIGH);
 
@@ -72,7 +72,7 @@ void loop()
     if (millis() > pollTime && on) {
         Serial.println("POLLING");
 
-        Relays.poll(relayChannel);
+        Relay.poll(relayChannel);
 
         pollTime = millis() + pollInterval;
     }

@@ -27,21 +27,21 @@ void setup()
     }
     Serial.println(" done.");
 
-    Watermarks.begin();
-    Serial.println("Watermarks OK");
+    Watermark.begin();
+    Serial.println("Watermark OK");
 
-    Watermarks.calibrationMode(OUTPUT);
-    Watermarks.calibrationWrite(LOW);
+    Watermark.calibrationMode(OUTPUT);
+    Watermark.calibrationWrite(LOW);
 
-    Watermarks.commonMode(OUTPUT);
-    Watermarks.commonWrite(HIGH);
+    Watermark.commonMode(OUTPUT);
+    Watermark.commonWrite(HIGH);
 
-    Watermarks.enable();
+    Watermark.enable();
 }
 
 void loop()
 {
-    auto val = wmkAvgAnalogRead(WATERMARKS_CH01);
+    auto val = wmkAvgAnalogRead(WATERMARK_CH01);
     Serial.print("Watermark Channel 01");
     Serial.print(" - average analogRead value: ");
     Serial.print(val);
@@ -57,7 +57,7 @@ int wmkAvgAnalogRead(pin_size_t pin)
     unsigned int sum;
 
     for (auto i = 0; i < count; i ++)
-        sum += Watermarks.analogRead(pin);
+        sum += Watermark.analogRead(pin);
 
     return sum / count;
 }

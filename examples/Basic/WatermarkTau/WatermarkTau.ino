@@ -42,7 +42,7 @@ void setup()
     }
     Serial.println(" done.");
 
-    Watermarks.begin();
+    Watermark.begin();
 
     analogReadResolution(adcResolution);
 }
@@ -50,34 +50,34 @@ void setup()
 void loop()
 {
     static bool highPrec { false };
-    Watermarks.setHighPrecision(highPrec);
+    Watermark.setHighPrecision(highPrec);
     highPrec = !highPrec;
 
     // Init commands and reset devices
-    Watermarks.calibrationMode(OUTPUT);
-    Watermarks.calibrationWrite(LOW);
-    Watermarks.commonMode(OUTPUT);
-    Watermarks.commonWrite(LOW);
+    Watermark.calibrationMode(OUTPUT);
+    Watermark.calibrationWrite(LOW);
+    Watermark.commonMode(OUTPUT);
+    Watermark.commonWrite(LOW);
 
-    Watermarks.fastDischarge(sensorDischargeDelay);
+    Watermark.fastDischarge(sensorDischargeDelay);
 
     // Calibration cycle:
     // disable Watermark demuxer
-    Watermarks.disable();
+    Watermark.disable();
 
-    Watermarks.commonMode(INPUT);
-    Watermarks.calibrationMode(OUTPUT);
+    Watermark.commonMode(INPUT);
+    Watermark.calibrationMode(OUTPUT);
     for (auto i = 0; i < measuresCount; i++) {
-        Watermarks.calibrationWrite(HIGH);
+        Watermark.calibrationWrite(HIGH);
 
         auto start = micros();
-        while (Watermarks.analogRead(watermarkChannel) < tauRatioSamples)
+        while (Watermark.analogRead(watermarkChannel) < tauRatioSamples)
             ;
         auto stop = micros();
 
-        Watermarks.calibrationWrite(LOW);
+        Watermark.calibrationWrite(LOW);
 
-        Watermarks.fastDischarge(sensorDischargeDelay);
+        Watermark.fastDischarge(sensorDischargeDelay);
 
         calibs.add(stop - start);
     }
@@ -96,25 +96,25 @@ void loop()
 
     calibs.clear();
 
-    Watermarks.fastDischarge(sensorDischargeDelay);
+    Watermark.fastDischarge(sensorDischargeDelay);
 
     // Measures cycle:
     // enable Watermark demuxer
-    Watermarks.enable();
+    Watermark.enable();
 
-    Watermarks.commonMode(OUTPUT);
-    Watermarks.calibrationMode(INPUT);
+    Watermark.commonMode(OUTPUT);
+    Watermark.calibrationMode(INPUT);
     for (auto i = 0; i < measuresCount; i++) {
-        Watermarks.commonWrite(HIGH);
+        Watermark.commonWrite(HIGH);
 
         auto start = micros();
-        while (Watermarks.analogRead(watermarkChannel) < tauRatioSamples)
+        while (Watermark.analogRead(watermarkChannel) < tauRatioSamples)
             ;
         auto stop = micros();
 
-        Watermarks.commonWrite(LOW);
+        Watermark.commonWrite(LOW);
 
-        Watermarks.fastDischarge(sensorDischargeDelay);
+        Watermark.fastDischarge(sensorDischargeDelay);
 
         measures.add(stop - start);
     }

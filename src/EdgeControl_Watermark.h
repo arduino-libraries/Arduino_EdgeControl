@@ -23,27 +23,28 @@
 #include "EdgeControl_Expander.h"
 
 enum : pin_size_t {
-    INPUTS_05V_CH01 = 0,
-    INPUTS_05V_CH02,
-    INPUTS_05V_CH03,
-    INPUTS_05V_CH04,
-    INPUTS_05V_CH05,
-    INPUTS_05V_CH06,
-    INPUTS_05V_CH07,
-    INPUTS_05V_CH08,
-
-    INPUTS_420mA_CH01 = 8,
-    INPUTS_420mA_CH02,
-    INPUTS_420mA_CH03,
-    INPUTS_420mA_CH04,
-
-    INPUTS_19V_REF = 15,
+    WATERMARK_CH01 = 0,
+    WATERMARK_CH02,
+    WATERMARK_CH03,
+    WATERMARK_CH04,
+    WATERMARK_CH05,
+    WATERMARK_CH06,
+    WATERMARK_CH07,
+    WATERMARK_CH08,
+    WATERMARK_CH09,
+    WATERMARK_CH10,
+    WATERMARK_CH11,
+    WATERMARK_CH12,
+    WATERMARK_CH13,
+    WATERMARK_CH14,
+    WATERMARK_CH15,
+    WATERMARK_CH16,
 };
 
-class EdgeControl_InputsClass {
+class EdgeControl_WatermarkClass {
 public:
-    EdgeControl_InputsClass() = default;
-    ~EdgeControl_InputsClass() = default;
+    EdgeControl_WatermarkClass() = default;
+    ~EdgeControl_WatermarkClass() = default;
 
     void begin();
     void end();
@@ -51,13 +52,32 @@ public:
     void enable();
     void disable();
 
+    void commonWrite(PinStatus status);
+    void commonMode(PinMode mode);
+
+    void calibrationWrite(PinStatus status);
+    void calibrationMode(PinMode mode);
+
+    void fastDischarge(size_t duration);
+    void setHighPrecision(bool precision);
+
     PinStatus digitalRead(pin_size_t sensor);
     int analogRead(pin_size_t sensor);
 
-private:
+    void digitalWrite(pin_size_t sensor, PinStatus status);
+    void analogWrite(pin_size_t sensor, int val);
+
+private:    
     bool selectSensor(pin_size_t channel);
 
+    void highPrecisionWrite(PinStatus status);
+    void highPrecisionMode(PinMode mode);
+
+    void fastDischargeWrite(PinStatus status);
+    void fastDischargeMode(PinMode mode);
+
+    bool _highPrecision { false } ;
     pin_size_t _channel;
 };
 
-extern EdgeControl_InputsClass Inputs;
+extern EdgeControl_WatermarkClass Watermark;

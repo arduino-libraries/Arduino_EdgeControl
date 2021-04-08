@@ -102,33 +102,33 @@ float getAverage05VRead(int pin)
     constexpr size_t loops { 10 };
     constexpr float toV { 3.3f / float { (1 << ADC_RESOLUTION) - 1 } };
 
-    // Resistor divider on Inputs ports
+    // Resistor divider on Input ports
     constexpr float rDiv { 17.4f / (10.0f + 17.4f) };
 
     int tot { 0 };
 
     analogReadResolution(ADC_RESOLUTION);
 
-    Inputs.enable();
+    Input.enable();
     for (auto i = 0; i < loops; i++)
-        tot += Inputs.analogRead(pin);
-    Inputs.disable();
+        tot += Input.analogRead(pin);
+    Input.disable();
 
     const auto avg = float { tot } * toV / float { loops };
 
     return avg / rDiv;
 }
 
-int getAverageInputsRead(int pin, const size_t loops)
+int getAverageInputRead(int pin, const size_t loops)
 {
     unsigned int tot { 0 };
 
     analogReadResolution(ADC_RESOLUTION);
 
-    Inputs.enable();
+    Input.enable();
     for (auto i = 0; i < loops; i++)
-        tot += Inputs.analogRead(pin);
-    Inputs.disable();
+        tot += Input.analogRead(pin);
+    Input.disable();
 
     return tot / loops;
 }
@@ -139,7 +139,7 @@ int getMoisturePerc(int pin)
     static long dryValue { 2160 };
     static long wetValue { 975 };
 
-    auto val = getAverageInputsRead(pin);
+    auto val = getAverageInputRead(pin);
 
     // Self-update dry/wet values range.
     if (val > dryValue)

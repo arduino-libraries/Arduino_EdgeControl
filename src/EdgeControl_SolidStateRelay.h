@@ -25,15 +25,15 @@
 #include <SPI.h>
 
 enum : pin_size_t {
-    RELAYS_CH01 = 0,
-    RELAYS_CH02 = 4,
-    RELAYS_CH03 = 1,
-    RELAYS_CH04 = 5,
+    RELAY_CH01 = 0,
+    RELAY_CH02 = 4,
+    RELAY_CH03 = 1,
+    RELAY_CH04 = 5,
 };
 
-class EdgeControl_SolidStateRelaysClass {
+class EdgeControl_SolidStateRelayClass {
 public:
-    EdgeControl_SolidStateRelaysClass();
+    EdgeControl_SolidStateRelayClass();
 
     void begin();
     void end();
@@ -53,4 +53,4 @@ private:
     void doSPITransfer();
 };
 
-extern EdgeControl_SolidStateRelaysClass Relays;
+extern EdgeControl_SolidStateRelayClass Relay;
