@@ -1,9 +1,10 @@
 # Arduino_EdgeControl
-Board support package for Arduino Edge Control
+Arduino Library for Arduino Edge Control
 
 ## License 
 
 Copyright (C) 2021 Arduino AG (http://www.arduino.cc/)
+
 SPDX-License-Identifier: MPL-2.0
 
 
