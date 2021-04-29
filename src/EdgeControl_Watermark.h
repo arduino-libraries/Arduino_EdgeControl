@@ -1,7 +1,8 @@
 /*
   This file is part of the Arduino Edge Control library.
   Copyright (C) 2021 Arduino AG (http://www.arduino.cc/)
-  
+  SPDX-License-Identifier: MPL-2.0
+
   This Source Code Form is subject to the terms of the Mozilla Public
   License, v. 2.0. If a copy of the MPL was not distributed with this
   file, You can obtain one at https://mozilla.org/MPL/2.0/.
@@ -57,7 +58,7 @@ public:
     void digitalWrite(pin_size_t sensor, PinStatus status);
     void analogWrite(pin_size_t sensor, int val);
 
-private:    
+private:
     bool selectSensor(pin_size_t channel);
 
     void highPrecisionWrite(PinStatus status);

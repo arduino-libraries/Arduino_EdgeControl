@@ -1,7 +1,8 @@
 /*
   This file is part of the Arduino Edge Control library.
   Copyright (C) 2021 Arduino AG (http://www.arduino.cc/)
-  
+  SPDX-License-Identifier: MPL-2.0
+
   This Source Code Form is subject to the terms of the Mozilla Public
   License, v. 2.0. If a copy of the MPL was not distributed with this
   file, You can obtain one at https://mozilla.org/MPL/2.0/.
@@ -18,7 +19,7 @@ enum {
     EXP_LED1 =              TCA6424A_P00,
     EXP_FAULT_SOLAR_PANEL = TCA6424A_P01,
     EXP_FAULT_5V =          TCA6424A_P02,
-    EXP_ON_LCD =            TCA6424A_P03,    
+    EXP_ON_LCD =            TCA6424A_P03,
     EXP_DEMUX_SEL0 =        TCA6424A_P04,
     EXP_DEMUX_SEL1 =        TCA6424A_P05,
     EXP_DEMUX_SEL2 =        TCA6424A_P06,
@@ -27,7 +28,7 @@ enum {
     EXP_WATERMARK_EN =      TCA6424A_P10,
     EXP_05V_INPUT_EN =      TCA6424A_P11,
     EXP_SENSOR_DISCHARGE =  TCA6424A_P12,
-    EXP_SENSOR_HIGH_P =     TCA6424A_P13,    
+    EXP_SENSOR_HIGH_P =     TCA6424A_P13,
     EXP_PULSE_CNTL0 =       TCA6424A_P14,
     EXP_PULSE_CNTL1 =       TCA6424A_P15,
     EXP_PULSE_CNTL2 =       TCA6424A_P16,
@@ -55,7 +56,7 @@ public:
     operator bool();
 
     bool pinMode(pin_size_t pin, PinMode direction);
-    
+
     bool digitalWrite(pin_size_t pin, PinStatus status);
     bool digitalWrite(pin_size_t pin, int status) { return digitalWrite(pin, (PinStatus)status); };
 
