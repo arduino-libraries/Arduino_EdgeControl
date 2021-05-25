@@ -60,6 +60,7 @@ jobs:
             - name: TimeAlarms
             - name: Time
             - name: RunningMedian
+            - name: Arduino_JSON
             - source-url: https://github.com/openmv/openmv-arduino-rpc.git
           sketch-paths: |
             - examples
