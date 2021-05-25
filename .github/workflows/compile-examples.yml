@@ -59,6 +59,7 @@ jobs:
             - name: SD
             - name: TimeAlarms
             - name: Time
+            - name: RunningMedian
             - source-url: https://github.com/openmv/openmv-arduino-rpc.git
           sketch-paths: |
             - examples
