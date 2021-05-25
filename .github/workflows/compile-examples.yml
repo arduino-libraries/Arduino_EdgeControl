@@ -35,11 +35,11 @@ jobs:
       matrix:
         board:
           # TODO: Add list of boards to compile for here:
-          - fqbn: arduino:mbed_portenta:envie_m7
+          - fqbn: arduino:mbed_edge:edge_control
             # TODO: Define the board's platform dependencies here.
             # See: https://github.com/arduino/compile-sketches#platforms
             platforms: |
-              - name: arduino:mbed_portenta
+              - name: arduino:mbed_edge
 
     steps:
       - name: Checkout repository
