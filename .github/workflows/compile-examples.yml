@@ -58,7 +58,8 @@ jobs:
             # See: https://github.com/arduino/compile-sketches#libraries
             - name: SD
             - name: TimeAlarms
-            - name: TimeLib
+            - name: Time
+            - source-url: https://github.com/openmv/openmv-arduino-rpc.git
           sketch-paths: |
             - examples
           enable-deltas-report: true
