@@ -1,4 +1,7 @@
+![Compile Examples](https://github.com/arduino-libraries/Arduino_EdgeControl/actions/workflows/compile-examples.yml/badge.svg)
+
 # Arduino_EdgeControl
+
 Arduino Library for Arduino Edge Control
 
 ## License 
