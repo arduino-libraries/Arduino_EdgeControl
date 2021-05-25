@@ -33,7 +33,7 @@
     Created by Giampaolo Mancini
 */
 #include <Arduino_EdgeControl.h>
-#include <FATFilesystem.h>
+#include <FATFileSystem.h>
 #include <SDBlockDevice.h>
 #include <SPIFBlockDevice.h>
 #include <TDBStore.h>
