@@ -289,7 +289,7 @@ inline void EdgeControl_LiquidCrystalClass::command(uint8_t value)
 inline size_t EdgeControl_LiquidCrystalClass::write(uint8_t value)
 {
     send(value, HIGH);
-    return 1; // assume sucess
+    return 1; // assume success
 }
 
 /************ low level data pushing commands **********/

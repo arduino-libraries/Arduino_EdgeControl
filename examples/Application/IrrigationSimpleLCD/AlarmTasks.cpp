@@ -11,7 +11,7 @@
 * In case of TR, TO and RO alarm types, the day of week, hour
 * and minute parameters are ignored.
 * In case of RO alarm type, the second parameters must bean UNIX
-* specied as UNIX timestamp (seconds since EPOCH).
+* specified as UNIX timestamp (seconds since EPOCH).
 *
 * See the TimeAlarms (https://github.com/PaulStoffregen/TimeAlarms)
 * docs for further specs.

@@ -115,7 +115,7 @@ void setSystemClock(String compileDate, String compileTime)
     // ... ore use the one from integrated RTC.
     auto rtcTime = time(NULL);
 
-    // Remeber to connect at least the CR2032 battery
+    // Remember to connect at least the CR2032 battery
     // to keep the RTC running.
     auto actualTime = rtcTime > buildTime ? rtcTime : buildTime;
 

@@ -25,7 +25,7 @@ void setup()
     Wire.begin();
     Expander.begin();
 
-    Serial.print("Waiting for IO Expander Initialisation...");
+    Serial.print("Waiting for IO Expander Initialization...");
     while (!Expander) {
         Serial.print(".");
         delay(100);
