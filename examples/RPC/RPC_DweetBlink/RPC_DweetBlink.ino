@@ -19,7 +19,7 @@
     * Upload this sketch to Edge Control
     * Upload the "extras/RPC/RPC_DweetBlink_Remote" sketch to the MKR 1010
       (don't forget to configure your WiFi credentials)
-    * Connect your favourite serial monitor or terminal emulator to both the boards
+    * Connect your favorite serial monitor or terminal emulator to both the boards
     * Retrieve the Serial Number (<SERIALNUMBER>) of the Edge Control by running the sketch
     * Send a Dweet to the Serial Number of the Edge Control board setting the value
       of the "led" key to "on" or "off" to blink the on-board LED. Eg.

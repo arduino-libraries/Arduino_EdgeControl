@@ -5,7 +5,7 @@
  * - Arduino EdgeControl
  * - MicroSD card
  * - CR2032 Battery and/or 12V Lead Battery
- * - Button connectd to POWER_ON pin on the LCD breakout header
+ * - Button connected to POWER_ON pin on the LCD breakout header
  * 
  * Usage:
  * - Define your callback functions in CustomTasks.{h,cpp}
@@ -76,7 +76,7 @@ void setup()
 
     // Set System and Alarm clock
     // Use compile datetime as proxy clock synch
-    // Use a CR2032 battery for persisten RTC.
+    // Use a CR2032 battery for persistent RTC.
     setSystemClock();
 
     // Init board-related objects
@@ -109,7 +109,7 @@ void setup()
     // AlarmTasks.{h, cpp} source files for documentation.
     loadAndSetTasks(alarmTabIDs);
 
-    // Use the a button for houskeeping stuff:
+    // Use the a button for housekeeping stuff:
     // Single Tap: Show status
     // Double Tap: Reload alarm tasks from SD
     // Triple Tap: Force saving data to SD

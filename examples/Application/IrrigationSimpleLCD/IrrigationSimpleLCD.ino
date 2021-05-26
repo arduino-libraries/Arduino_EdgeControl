@@ -75,7 +75,7 @@ void setup()
 
     // Set System and Alarm clock
     // Use compile datetime as proxy clock synch
-    // Use a CR2032 battery for persisten RTC.
+    // Use a CR2032 battery for persistent RTC.
     setSystemClock();
 
     // Init board-related objects
@@ -112,7 +112,7 @@ void setup()
     // AlarmTasks.{h, cpp} source files for documentation.
     loadAndSetTasks(alarmTabIDs);
 
-    // Use the LCD button for houskeeping stuff:
+    // Use the LCD button for housekeeping stuff:
     // Single Tap: Show status
     // Double Tap: Reload alarm tasks from SD
     // Triple Tap: Force saving data to SD
