@@ -51,15 +51,15 @@ public:
     [[deprecated]] inline void disableVBat() { off(PWR_VBAT); };
     [[deprecated]] inline bool setVBat(bool st) { set(PWR_VBAT, st); return status(PWR_VBAT); };
 
-    [[deprecated]] inline void enable5V() { enableVBat(); };
-    [[deprecated]] inline bool status5V() { return statusVBat(); };
-    [[deprecated]] inline void disable5V() { disableVBat();  };
-    [[deprecated]] inline bool set5V(bool st) { return setVBat(st); };
+    [[deprecated]] inline void enable5V() { on(PWR_VBAT); };
+    [[deprecated]] inline bool status5V() { return status(PWR_VBAT); };
+    [[deprecated]] inline void disable5V() { off(PWR_VBAT);  };
+    [[deprecated]] inline bool set5V(bool st) { set(PWR_VBAT, st); return status(PWR_VBAT); };
 
-    [[deprecated]] inline void enable12V() { enableVBat(); };
-    [[deprecated]] inline bool status12V() { return statusVBat(); };
-    [[deprecated]] inline void disable12V() { disableVBat(); };
-    [[deprecated]] inline bool set12V(bool st) { return setVBat(st); };
+    [[deprecated]] inline void enable12V() { on(PWR_VBAT); };
+    [[deprecated]] inline bool status12V() { return status(PWR_VBAT); };
+    [[deprecated]] inline void disable12V() { off(PWR_VBAT);; };
+    [[deprecated]] inline bool set12V(bool st) { set(PWR_VBAT, st); return status(PWR_VBAT); };
 
     [[deprecated]] inline void enable3V3() { on(PWR_3V3); };
     [[deprecated]] inline bool status3V3() { return status(PWR_3V3); };

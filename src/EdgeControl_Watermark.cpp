@@ -106,7 +106,7 @@ void EdgeControl_WatermarkClass::setHighPrecision(bool precision)
 
 bool EdgeControl_WatermarkClass::selectSensor(pin_size_t channel)
 {
-    if (0 > channel > 15)
+    if (channel > 15)
         return false;
 
     if (_channel == channel)

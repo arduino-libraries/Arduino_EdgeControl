@@ -110,30 +110,30 @@ float getAverage05VRead(int pin)
     analogReadResolution(ADC_RESOLUTION);
 
     Input.enable();
-    for (auto i = 0; i < loops; i++)
+    for (auto i = 0u; i < loops; i++)
         tot += Input.analogRead(pin);
     Input.disable();
 
-    const auto avg = float { tot } * toV / float { loops };
+    const auto avg = static_cast<float>(tot) * toV / static_cast<float>(loops);
 
     return avg / rDiv;
 }
 
-int getAverageInputRead(int pin, const size_t loops)
+uint16_t getAverageInputRead(int pin, const size_t loops)
 {
     unsigned int tot { 0 };
 
     analogReadResolution(ADC_RESOLUTION);
 
     Input.enable();
-    for (auto i = 0; i < loops; i++)
+    for (auto i = 0u; i < loops; i++)
         tot += Input.analogRead(pin);
     Input.disable();
 
     return tot / loops;
 }
 
-int getMoisturePerc(int pin)
+uint8_t getMoisturePerc(int pin)
 {
     // Keep track ok dry/wet values. YMMV.
     static long dryValue { 2160 };

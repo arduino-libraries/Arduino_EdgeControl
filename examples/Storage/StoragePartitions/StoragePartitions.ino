@@ -6,6 +6,9 @@
 #include <Ticker.h>
 #include <Timer.h>
 
+#include <chrono>
+using namespace std::chrono_literals;
+
 #include "edge_control_storage_limits.h"
 
 using namespace mbed;
@@ -95,10 +98,10 @@ void setup()
     Serial.println("TDB Init " + String(err == 0 ? "OK" : "KO") + " (" + String(err) + ")");
 
     // Store data every 1 second
-    writer.attach([] { doWrite = true; }, 1.0);
+    writer.attach([] { doWrite = true; }, 1s);
 
     // Display data every 5 seconds
-    lister.attach([] { doList = true; }, 5.0);
+    lister.attach([] { doList = true; }, 5s);
 
     // Init the RNG
     srand(t.elapsed_time().count());

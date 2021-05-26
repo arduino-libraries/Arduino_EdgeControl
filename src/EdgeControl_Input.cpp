@@ -47,7 +47,7 @@ void EdgeControl_InputClass::disable()
 
 bool EdgeControl_InputClass::selectSensor(pin_size_t channel)
 {
-    if (0 > channel > 15)
+    if (channel > 15)
         return false;
 
     if (_channel == channel)

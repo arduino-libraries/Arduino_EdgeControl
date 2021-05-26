@@ -11,8 +11,9 @@
 #include "EdgeControl_SolidStateRelay.h"
 
 EdgeControl_SolidStateRelayClass::EdgeControl_SolidStateRelayClass()
-    : _relaySPI(digitalPinToPinName(CMD_TRIAC_DATA), digitalPinToPinName(CMD_TRIAC_CLK), P1_5)
-    , _relayPkt()
+    : _relayPkt()
+    , _relaySPI(digitalPinToPinName(CMD_TRIAC_DATA), digitalPinToPinName(CMD_TRIAC_CLK), P1_5)
+
 {
 }
 

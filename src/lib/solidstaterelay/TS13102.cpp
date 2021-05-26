@@ -55,10 +55,12 @@ bool TS13102Packet::setCommand(const uint8_t command)
 
 void TS13102Packet::toTSBits(const uint8_t n, uint16_t* out, const size_t len) const
 {
+    // TODO: convert to a for-loop
     int i = len;
 
     while (i > 0) {
-        out[len - i--] = (n >> (i - 1)) & 1 ? TS13102_ONE : TS13102_ZERO;
+        out[len - i] = (n >> (i - 1)) & 1 ? TS13102_ONE : TS13102_ZERO;
+        i--;
     }
 }
 

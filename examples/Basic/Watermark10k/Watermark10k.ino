@@ -14,8 +14,8 @@ void setup()
 
     Serial.println("Hello, 10k");
 
-    Power.enable3V3();
-    Power.enable5V();
+    Power.on(PWR_3V3);
+    Power.on(PWR_VBAT);
 
     Wire.begin();
     Expander.begin();
@@ -54,9 +54,9 @@ void loop()
 int wmkAvgAnalogRead(pin_size_t pin)
 {
     constexpr size_t count { 10 };
-    unsigned int sum;
+    unsigned int sum { 0 };
 
-    for (auto i = 0; i < count; i ++)
+    for (auto i = 0u; i < count; i ++)
         sum += Watermark.analogRead(pin);
 
     return sum / count;
