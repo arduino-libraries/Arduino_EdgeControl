@@ -50,7 +50,7 @@ int getAverageInputRead(int pin, const size_t loops)
     analogReadResolution(ADC_RESOLUTION);
 
     Input.enable();
-    for (auto i = 0; i < loops; i++)
+    for (auto i = 0u; i < loops; i++)
         tot += Input.analogRead(pin);
     Input.disable();
 

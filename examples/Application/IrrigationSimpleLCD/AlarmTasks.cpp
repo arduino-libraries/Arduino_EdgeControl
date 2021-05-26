@@ -48,7 +48,7 @@ AlarmTask parseAlarmTask(const String line)
     AlarmTask task;
 
     line.toCharArray(buf, len);
-    auto n = sscanf(buf, "%s %d %d %d %d %s", &method, &task.day, &task.hour, &task.min, &task.sec, cmd);
+    auto n = sscanf(buf, "%s %d %d %d %d %s", method, &task.day, &task.hour, &task.min, &task.sec, cmd);
     if (n != 6)
         return task;
 

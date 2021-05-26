@@ -20,8 +20,8 @@ void setup()
     delay(1000);
     Serial.println("Hello, Challenge!");
 
-    Power.enable3V3();
-    Power.enable5V();
+    Power.on(PWR_3V3);
+    Power.on(PWR_VBAT);
 
     Wire.begin();
 
@@ -31,7 +31,7 @@ void setup()
     if (!Expander.begin()) {
         Serial.println("failed.");
         Serial.println("Please, be sure to enable gated 3V3 and 5V power rails");
-        Serial.println("via Power.enable3V3() and Power.enable5V().");
+        Serial.println("via Power.on(PWR_3V3) and Power.on(PWR_VBAT).");
     }
     Serial.println("succeeded.");
 

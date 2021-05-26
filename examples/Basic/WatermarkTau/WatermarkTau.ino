@@ -29,8 +29,8 @@ void setup()
         ;
     delay(2000);
 
-    Power.enable3V3();
-    Power.enable5V();
+    Power.on(PWR_3V3);
+    Power.on(PWR_VBAT);
 
     Wire.begin();
     Expander.begin();
@@ -67,7 +67,7 @@ void loop()
 
     Watermark.commonMode(INPUT);
     Watermark.calibrationMode(OUTPUT);
-    for (auto i = 0; i < measuresCount; i++) {
+    for (auto i = 0u; i < measuresCount; i++) {
         Watermark.calibrationWrite(HIGH);
 
         auto start = micros();
@@ -104,7 +104,7 @@ void loop()
 
     Watermark.commonMode(OUTPUT);
     Watermark.calibrationMode(INPUT);
-    for (auto i = 0; i < measuresCount; i++) {
+    for (auto i = 0u; i < measuresCount; i++) {
         Watermark.commonWrite(HIGH);
 
         auto start = micros();

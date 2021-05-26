@@ -26,7 +26,7 @@ void EdgeControl_PowerClass::begin()
 
     pinMode(VBAT_PROBE, INPUT);
 
-    for (auto status : _statuses)
+    for (auto& status : _statuses)
         status = false;
 }
 
@@ -67,15 +67,16 @@ void EdgeControl_PowerClass::set(const PowerRail rail, const bool status)
 
 float EdgeControl_PowerClass::getVBat(const int adcResolution) const
 {
-    constexpr float vbatVD { 100.0f / (100.0f + 475.0f) }; // Voltage Divider on VBAT_PROBE
-    float valToV { 3.3f / float { (1 << adcResolution) - 1 } };
+    constexpr auto vbatVD { 100.0f / (100.0f + 475.0f) }; // Voltage Divider on VBAT_PROBE
+    const auto maxVAL { (1 << adcResolution) - 1 };
+    float valToV { 3.3f / static_cast<float>(maxVAL) };
     constexpr unsigned int count { 10 };
 
     analogReference(V_REF);
     analogReadResolution(adcResolution);
 
     unsigned int val { 0 };
-    for (auto i = 0; i < count; i++) {
+    for (auto i = 0u; i < count; i++) {
         val += analogRead(VBAT_PROBE);
         delay(1);
     }

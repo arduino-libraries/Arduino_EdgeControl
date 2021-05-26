@@ -42,7 +42,8 @@ void rpc_retrieve_LoRa_data()
 
   if (rpc.call_no_copy_no_args(F("retrieve_msg"), &message, &result_data_len) ) {
 
-    char buff[result_data_len + 1]; memset(buff, 0, result_data_len + 1);
+    char buff[result_data_len + 1];
+    memset(buff, 0, result_data_len + 1);
     // Copy what we received into our data type container.
     memcpy(buff, message, result_data_len);
     // Use it now.

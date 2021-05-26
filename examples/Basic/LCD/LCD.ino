@@ -54,8 +54,8 @@ void setup()
     delay(1000);
     Serial.println("Testing LCD for Arduino Edge Control");
 
-    Power.enable3V3();
-    Power.enable5V();
+    Power.on(PWR_3V3);
+    Power.on(PWR_VBAT);
 
     Wire.begin();
     Expander.begin();

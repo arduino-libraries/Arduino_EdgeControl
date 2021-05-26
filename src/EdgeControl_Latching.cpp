@@ -51,7 +51,7 @@ void EdgeControl_LatchingClass::strobe(unsigned int duration)
 
 bool EdgeControl_LatchingClass::selectSensor(pin_size_t channel)
 {
-    if (0 > channel > 15)
+    if (channel > 15)
         return false;
 
     if (_channel == channel)
@@ -76,7 +76,7 @@ void EdgeControl_LatchingClass::digitalWrite(pin_size_t pin, PinStatus val)
 
 void EdgeControl_LatchingClass::channelDirection(pin_size_t channel, PulseDirection direction)
 {
-    PinStatus status;
+    PinStatus status { LOW };
 
     switch (direction) {
     case POSITIVE: {

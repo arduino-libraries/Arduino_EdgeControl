@@ -13,14 +13,14 @@
 
 bool EdgeControl_IOExpanderClass::begin()
 {
-    _status3V3 = Power.status3V3();
-    _statusVBAT = Power.statusVBat();
+    _status3V3 = Power.status(PWR_3V3);
+    _statusVBAT = Power.status(PWR_VBAT);
 
     if(!_status3V3)
-        Power.enable3V3();
+        Power.on(PWR_3V3);
 
     if(!_statusVBAT)
-        Power.enableVBat();
+        Power.on(PWR_VBAT);
 
     Wire.begin();
 

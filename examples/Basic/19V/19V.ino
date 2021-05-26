@@ -18,9 +18,9 @@ void setup()
     delay(1000);
     Serial.println("Hello, Challenge!");
 
-    Power.enable3V3();
-    Power.enable5V();
-    Power.enable19V();
+    Power.on(PWR_3V3);
+    Power.on(PWR_VBAT);
+    Power.on(PWR_19V);
 
     Wire.begin();
     Expander.begin();
@@ -60,9 +60,9 @@ Voltages getAverageAnalogRead(int pin)
 
     int tot { 0 };
 
-    for (auto i = 0; i < loops; i++)
+    for (auto i = 0u; i < loops; i++)
         tot += Input.analogRead(pin);
-    const auto avg = float { tot } * toV / float { loops };
+    const auto avg = static_cast<float>(tot) * toV / static_cast<float>(loops);
 
     return { avg, avg / rDiv };
 }
