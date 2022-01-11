@@ -10,6 +10,7 @@ void setup()
     while (!Serial && millis() < startNow)
         ;
 
+    EdgeControl.begin();
     delay(2000);
 
     Serial.println("Hello, 10k");
@@ -18,12 +19,12 @@ void setup()
     Power.on(PWR_VBAT);
 
     Wire.begin();
-    Expander.begin();
+    delay(500);
 
     Serial.print("Waiting for IO Expander Initialization...");
-    while (!Expander) {
+    while (!Expander.begin()) {
         Serial.print(".");
-        delay(100);
+        delay(250);
     }
     Serial.println(" done.");
 
@@ -36,7 +37,6 @@ void setup()
     Watermark.commonMode(OUTPUT);
     Watermark.commonWrite(HIGH);
 
-    Watermark.enable();
 }
 
 void loop()
@@ -56,8 +56,10 @@ int wmkAvgAnalogRead(pin_size_t pin)
     constexpr size_t count { 10 };
     unsigned int sum { 0 };
 
+    Watermark.enable();
     for (auto i = 0u; i < count; i ++)
         sum += Watermark.analogRead(pin);
+    Watermark.disable();
 
     return sum / count;
 }
