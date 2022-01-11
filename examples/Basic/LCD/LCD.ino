@@ -45,6 +45,8 @@ byte frownie[8] = {
 
 void setup()
 {
+    EdgeControl.begin();
+    
     Serial.begin(9600);
 
     auto startNow = millis() + 2500;
@@ -58,7 +60,16 @@ void setup()
     Power.on(PWR_VBAT);
 
     Wire.begin();
-    Expander.begin();
+
+    delay(500);
+
+    Serial.print("IO Expander initializazion ");
+    if (!Expander.begin()) {
+        Serial.println("failed.");
+        Serial.println("Please, be sure to enable gated 3V3 and 5V power rails");
+        Serial.println("via Power.on(PWR_3V3) and Power.on(PWR_VBAT).");
+    }
+    Serial.println("succeeded.");
 
     // set up the LCD's number of columns and rows:
     LCD.begin(16, 2);
@@ -69,7 +80,7 @@ void setup()
 
     // Print a message to the LCD.
     LCD.home(); // go home
-    LCD.print("Hi, Outdoor!");
+    LCD.print("Edge Control");
     LCD.setCursor(15, 0);
     LCD.print(char(1));
 }

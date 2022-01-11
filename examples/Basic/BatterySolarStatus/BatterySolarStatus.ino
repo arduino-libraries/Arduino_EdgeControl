@@ -20,11 +20,13 @@ void setup()
 
     Wire.begin();
     delay(500);
+
     Serial.print("I/O Expander initializazion ");
-    if (!Expander.begin()) {
+    while (!Expander.begin()) {
         Serial.println("failed.");
         Serial.println("Please, be sure to enable gated 3V3 and 5V power rails");
         Serial.println("via Power.on(PWR_3V3) and Power.on(PWR_VBAT).");
+        delay(500);
     }
     Serial.println("succeeded.");
 
