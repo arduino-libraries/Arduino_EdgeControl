@@ -18,3 +18,4 @@
 #include "EdgeControl_Watermark.h"
 #include "EdgeControl_Latching.h"
 #include "EdgeControl_SolidStateRelay.h"
+#include "EdgeControl_RealTimeClock.h"
