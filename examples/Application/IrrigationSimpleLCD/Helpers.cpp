@@ -3,23 +3,23 @@
 /**
  * Set system and TimeAlarm clock from compile datetime or RTC
  */
-void setSystemClock(String compileDate, String compileTime)
+void setSystemClock(String buildDate, String buildTime)
 {
     // Retrieve clock time from compile date...
-    auto buildTime = compileDateTimeToSystemTime(compileDate, compileTime, true, 2);
+    auto buildDateTime = buildDateTimeToSystemTime(buildDate, buildTime, true, 2);
     // ... ore use the one from integrated RTC.
     auto rtcTime = time(NULL);
 
     // Remember to connect at least the CR2032 battery
     // to keep the RTC running.
-    auto actualTime = rtcTime > buildTime ? rtcTime : buildTime;
+    auto actualTime = rtcTime > buildDateTime ? rtcTime : buildDateTime;
 
     // Set both system time and the alarms one
     set_time(actualTime);
     setTime(actualTime);
 
     Serial.print("Compile Date and Time: ");
-    Serial.println(getLocaltime(buildTime));
+    Serial.println(getLocaltime(buildDateTime));
     Serial.print("RTC Date and Time:     ");
     Serial.println(getLocaltime(rtcTime));
     Serial.print("System Clock:          ");

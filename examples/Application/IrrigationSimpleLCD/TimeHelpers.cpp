@@ -1,7 +1,7 @@
 #include "TimeHelpers.h"
 
 // Convert compile time to system time
-time_t compileDateTimeToSystemTime(const String date, const String time, bool local_time = true, int tz = 0)
+time_t buildDateTimeToSystemTime(const String date, const String time, bool local_time = true, int tz = 0)
 {
     char s_month[5];
     int year;

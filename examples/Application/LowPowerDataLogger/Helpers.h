@@ -58,7 +58,7 @@ int getAverageInputRead(int pin, const size_t loops)
 }
 
 // Convert compile time to system time
-time_t compileDateTimeToSystemTime(const String date, const String time, bool local_time = true, int tz = 0)
+time_t buildDateTimeToSystemTime(const String date, const String time, bool local_time = true, int tz = 0)
 {
     char s_month[5];
     int year;
@@ -108,22 +108,22 @@ String getLocaltime(const time_t& build_time)
 /**
  * Set system clock from compile datetime or RTC
  */
-void setSystemClock(String compileDate, String compileTime)
+void setSystemClock(String buildDate, String buildTime)
 {
     // Retrieve clock time from compile date...
-    auto buildTime = compileDateTimeToSystemTime(compileDate, compileTime, true, 2);
+    auto buildDateTime = buildDateTimeToSystemTime(buildDate, buildTime, true, 2);
     // ... ore use the one from integrated RTC.
     auto rtcTime = time(NULL);
 
     // Remember to connect at least the CR2032 battery
     // to keep the RTC running.
-    auto actualTime = rtcTime > buildTime ? rtcTime : buildTime;
+    auto actualTime = rtcTime > buildDateTime ? rtcTime : buildDateTime;
 
     // Set both system time
     set_time(actualTime);
 
     DebugSerial.print("Compile Date and Time: ");
-    DebugSerial.println(getLocaltime(buildTime));
+    DebugSerial.println(getLocaltime(buildDateTime));
     DebugSerial.print("RTC Date and Time:     ");
     DebugSerial.println(getLocaltime(rtcTime));
     DebugSerial.print("System Clock:          ");
