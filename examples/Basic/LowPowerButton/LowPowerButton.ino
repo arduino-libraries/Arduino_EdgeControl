@@ -5,7 +5,7 @@
 *   Pressing a momentary button connected to POWER_ON pin
 *   will wake up the board for 5 seconds.
 *
-*   Requirments:
+*   Requirements:
 *   - Connect a momentary button between POWER_ON (J1-2) and GND (J1-9)
 *   - Connect the PC/Mac to USB and open the Arduino Serial Monitor
 *     or any serial communication application.

@@ -1,6 +1,6 @@
 /*
     Testing strategy: alternatively create a short-time connection between
-    WAKEUP 1-6 and any of the +BAT_ext pins (the row above the WAKUP ones).
+    WAKEUP 1-6 and any of the +BAT_ext pins (the row above the WAKEUP ones).
 
     Check IRQChannel for a simpler implementation.
 */
