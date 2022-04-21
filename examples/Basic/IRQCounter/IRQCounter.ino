@@ -46,7 +46,7 @@ void loop()
 {
     // Check for received IRQ every second.
     Serial.println("--------");
-    for (auto i = irqChannel1; i <= irqChannel6; i++) { 
+    for (unsigned int i = irqChannel1; i <= irqChannel6; i++) { 
         Serial.print("IRQ Channel: ");
         Serial.print(i + 1);
         Serial.print(" - ");
