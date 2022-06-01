@@ -170,7 +170,7 @@ uint8_t EdgeControl_RealTimeClockClass::getMonths()
  */
 uint8_t EdgeControl_RealTimeClockClass::getDays()
 {
-    uint8_t days = readByte(PCF8563T_DAYS_REG);
+    uint8_t days = readByte(PCF8563T_DAYS_REG) & 0x3F;
     return ((days & 0x0F) + (((days >> 4) & 0x03) * 10));
 }
 
