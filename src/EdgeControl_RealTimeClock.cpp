@@ -357,7 +357,7 @@ void EdgeControl_RealTimeClockClass::setHourAlarm(uint8_t hours)
 {
     uint8_t dec = hours / 10;
     uint8_t unit = hours - (dec * 10);
-    uint8_t hour_alarm = PCF8563T_HOUR_ALARM_AE_H_MASK & ((dec << 4) + unit);
+    uint8_t hour_alarm = PCF8563T_HOUR_ALARM_ON & ((dec << 4) + unit);
     writeByte(PCF8563T_HOUR_ALARM_REG, hour_alarm); // check formula on datasheet val + 6 * (val / 10)
 }
 
