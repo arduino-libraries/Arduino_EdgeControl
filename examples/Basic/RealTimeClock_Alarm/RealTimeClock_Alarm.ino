@@ -34,7 +34,7 @@ void setup()
     Wire.begin();
     delay(500);
 
-    Serial.print("Initializating the Real Time Clock...");
+    Serial.print("Initializing the Real Time Clock...");
     while (!RealTimeClock.begin()) {
         Serial.println(" failed! Retrying...");
         delay(250);
