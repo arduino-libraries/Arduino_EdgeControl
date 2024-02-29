@@ -34,12 +34,10 @@ jobs:
 
       matrix:
         board:
-          # TODO: Add list of boards to compile for here:
           - fqbn: arduino:mbed_edge:edge_control
-            # TODO: Define the board's platform dependencies here.
-            # See: https://github.com/arduino/compile-sketches#platforms
             platforms: |
               - name: arduino:mbed_edge
+            artifact-name-suffix: arduino-mbed_edge-edge_control
 
     steps:
       - name: Checkout repository
@@ -72,4 +70,4 @@ jobs:
         with:
           if-no-files-found: error
           path: ${{ env.SKETCHES_REPORTS_PATH }}
-          name: ${{ env.SKETCHES_REPORTS_PATH }}
+          name: sketches-report-${{ matrix.board.artifact-name-suffix }}
