@@ -1,4 +1,5 @@
 ![Compile Examples](https://github.com/arduino-libraries/Arduino_EdgeControl/actions/workflows/compile-examples.yml/badge.svg)
+[![Sync Labels status](https://github.com/arduino-libraries/Arduino_EdgeControl/actions/workflows/sync-labels.yml/badge.svg)](https://github.com/arduino-libraries/Arduino_EdgeControl/actions/workflows/sync-labels.yml)
 
 # Arduino_EdgeControl
 
