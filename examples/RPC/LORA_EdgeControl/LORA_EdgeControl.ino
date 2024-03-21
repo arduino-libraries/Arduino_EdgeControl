@@ -40,7 +40,7 @@ void rpc_retrieve_LoRa_data()
   void *message;
   size_t result_data_len;
 
-  if (rpc.call_no_copy_no_args(F("retrieve_msg"), &message, &result_data_len) ) {
+  if (rpc.call_no_copy_no_args(F("retrieve_msg"), &message, &result_data_len) ) { //We think this condition fails causing message not to be print
 
     char buff[result_data_len + 1];
     memset(buff, 0, result_data_len + 1);
